@@ -44,16 +44,13 @@ player dorothy;
 
 int main()
 {
-    root_dir = getcwd((char *)NULL, 0);
-    game_dir = concat(root_dir, "/config/.gamedir/village/");
     char *args[200];
     char *player_name;
 
-    pid_t child_pid;
+    root_dir = getcwd((char *)NULL, 0);
+    game_dir = concat(root_dir, "/config/.gamedir/village/");
 
     state = MENU;
-
-    args[0] = concat(root_dir, "/gsh");
 
     while (1)
     {
@@ -67,7 +64,7 @@ int main()
         case MENU:
             clear_screen();
             print_menu();
-            write(0, "Press ENTER to START...", 24);
+            println("Press ENTER to START...");
             wait_until_enter();
             clear_screen();
 
@@ -77,14 +74,19 @@ int main()
             break;
 
         case VILLAGE:
+            cd(game_dir);
+
             clear_screen();
             println(concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<VILLAGE>>")));
             write(0, "Press enter to continue...\n", 28);
             wait_until_enter();
 
-            cd(game_dir);
-            read_doc("village");
+            read_doc("village.txt");
 
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            
             if (execute(1, args))
             {
                 dorothy.fails++;

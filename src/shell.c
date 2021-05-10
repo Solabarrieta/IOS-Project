@@ -192,6 +192,8 @@ int main()
       {
          exit(0);
       }
+
+      free(prompt_name);
    }
 
    return 0;
