@@ -7,7 +7,6 @@
 #include "headers/characters/character.h"
 
 #include "headers/recognizer.h"
-
 #include "headers/executor.h"
 
 #include <stdio.h>
@@ -15,10 +14,8 @@
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-
 #include <sys/types.h>
 #include <sys/wait.h>
-
 #include <fcntl.h>
 
 #define VILLAGE 0
@@ -41,9 +38,11 @@
     };
 
 int state;
-int fails;
+
 char *root_dir;
 char *game_dir;
+
+player dorothy;
 
 int main()
 {
@@ -53,8 +52,8 @@ int main()
 
     root_dir = getcwd((char *)NULL, 0);
     game_dir = concat(root_dir, "/config/.gamedir/village/");
-    char *current_dir;
     char *args[200];
+    char *player_name;
 
     pid_t child_pid;
 
@@ -67,7 +66,7 @@ int main()
         switch (state)
         {
         case RESTART:
-            fails = 0;
+            create_player(&dorothy, "Dorothy");
             state = VILLAGE;
             break;
 
@@ -78,7 +77,7 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            fails = 0;
+            create_player(&dorothy, "Dorothy");
             state = VILLAGE;
 
             break;
@@ -97,13 +96,10 @@ int main()
             speak_character(glinda, "Remember the command <<exit>> in order to exit this game, honey :) Have FUN!");
 
             cd(root_dir);
-            fails += execute(1, args);
-            cd(game_dir);
-
-            if (fails == 1)
+            if (execute(1, args))
             {
-                // TODO: read Ofelia's phrases from a file...
                 speak_character(ofelia, "As I suspect you are not good enough for this world. This is the first warning, be careful because Your little lovely Dog would die if you make another mistake.");
+                dorothy.fails++;
             }
             else
             {
@@ -117,7 +113,6 @@ int main()
             wait_until_enter();
 
             state = GROVE;
-
             break;
 
         case GROVE:
@@ -133,7 +128,12 @@ int main()
             speak_character(scarecrown, "I think you could use <<pwd>>. The Good Witch told me.");
 
             cd(root_dir);
-            fails += execute(1, args);
+
+            if (execute(1, args))
+            {
+                dorothy.fails++;
+            }
+            
             cd(game_dir);
 
             break;
@@ -167,10 +167,11 @@ int main()
             break;
 
         case GAME_OVER:
-
-            break;
-
-        default:
+            if (dorothy.is_dead) {
+                // TODO: something when dorothy dies...
+            } else {
+                // Exit properly. If Ctrl+c, exit sin respesto. Else, con respeto por ganar el juego.
+            }
             break;
         }
     }

@@ -1,49 +1,26 @@
 /* SYSTEM definition, for error messages inside the game (for the player) */
-#define THE_SYSTEM underlined(reversed(concat(ANSI_COLOR_RED, "THE SYSTEM")));
-
+#define THE_SYSTEM "\x1b[4m\x1b[7m\x1b[31mTHE SYSTEM\x1b[0m"
 // The player
-#define PLAYER underlined(concat(ANSI_COLOR_WHITE, bold("The Player")));
+#define PLAYER "\x1b[4m\x1b[37m\x1b[1mPLAYER\x1b[0m"
 
 // Definition of THE WITCHES
-// The four witches' titles
-#define GLINDA_NAME "Glinda"
-#define GLINDA_TITLE ", <<The Good Witch of the NORTH>>"
-#define GLINDA_COMPLETE concat(BOLD, underlined(concat(ANSI_COLOR_CYAN, concat(GLINDA_NAME, GLINDA_TITLE))))
-#define GLINDA GLINDA_COMPLETE
-#define SHORT_GLINDA concat(BOLD, underlined(concat(ANSI_COLOR_CYAN, GLINDA_NAME)))
-
-#define OFELIA_NAME "Ofelia"
-#define OFELIA_TITLE ", <<The Most Evil Bad Witch, The Witch of the WEST>>"
-#define OFELIA_COMPLETE concat(BOLD, underlined(concat(ANSI_COLOR_RED, concat(OFELIA_NAME, OFELIA_TITLE))))
-#define OFELIA OFELIA_COMPLETE
-#define SHORT_OFELIA concat(BOLD, underlined(concat(ANSI_COLOR_RED, concat(OFELIA_NAME, ", <<The Most Evil Bad Witch>>"))))
-
-#define GERTRUDIS_NAME "Gertrudis"
-#define GERTRUDIS_TITLE ", <<The Evil Witch of the EAST>>"
-#define GERTRUDIS_COMPLETE concat(BOLD, underlined(concat(ANSI_COLOR_YELLOW, concat(GERTRUDIS_NAME, GERTRUDIS_TITLE))))
-#define GERTRUDIS GERTRUDIS_COMPLETE
-#define SHORT_GERTRUDIS concat(BOLD, underlined(concat(ANSI_COLOR_YELLOW, GERTRUDIS_NAME)))
-
-#define JASMINE_NAME "Jasmine"
-#define JASMINE_TITLE ", <<The Good Witch of the SOUTH>>"
-#define JASMINE_COMPLETE concat(BOLD, underlined(concat(ANSI_COLOR_GREEN, concat(JASMINE_NAME, JASMINE_TITLE))))
-#define JASMINE JASMINE_COMPLETE
-#define SHORT_JASMINE concat(BOLD, underlined(concat(ANSI_COLOR_GREEN, GERTRUDIS_NAME)))
+#define GLINDA concat(concat(ANSI_COLOR_CYAN, "\x1b[4m\x1b[1mGlinda, <<The Good Witch of the NORTH>>"), ANSI_RESET)
+#define OFELIA concat(concat(ANSI_COLOR_RED, "\x1b[4m\x1b[1mOfelia, <<The Most Evil Bad Witch, The Witch of the WEST>>"), ANSI_RESET)
+#define GERTRUDIS "\x1b[4m\x1b[1m\x1b[33mGertrudis, <<The Evil Witch of the EAST>>\x1b[0m"
+#define JASMINE "\x1b[4m\x1b[1m\x1b[32mJasmine, <<The Good Witch of the SOUTH>>\x1b[0m"
 
 /* Definition of the COMPANIONS */
 // The Three Knights of the Player + DOG
-#define SCARECROWN underlined(bold("The Brainless Scarecrown"))
-#define TINMAN underlined(bold("The Heartless Tinman"))
-#define LION underlined(bold("The Coward Lion"))
-
+#define SCARECROWN "\x1b[4m\x1b[1mThe Brainless Scarecrown\x1b[0m"
+#define TINMAN "\x1b[4m\x1b[1mThe Heartless Tinman\x1b[0m"
+#define LION "\x1b[4m\x1b[1mThe Coward Lion\x1b[0m"
 // This is Toto, you fellow dog :DD
-#define DOG concat(BOLD, underlined("TOTO <<My doge>>"))
-
+#define DOG "\x1b[4m\x1b[1mTOTO <<My doge>>\x1b[0m"
 /* Definition of EXTRAS */
-#define TREES concat(BOLD, underlined("Forest trees"))
-#define GUARDIAN concat(BOLD, underlined("Guardian"))
-#define GHOST concat(BOLD, underlined("CASPER <<The Friendly Ghost>>"))
-#define ADMIN concat(BOLD, underlined("THE ADMIN"))
+#define TREES "\x1b[4m\x1b[1mForest trees\x1b[0m"
+#define GUARDIAN "\x1b[4m\x1b[1mGuardian\x1b[0m"
+#define GHOST "\x1b[4m\x1b[1mCASPER <<The Friendly Ghost>>\x1b[0m"
+#define ADMIN "\x1b[4m\x1b[1mTHE ADMIN\x1b[0m"
 
 #define speak_character(character, text)                \
     {                                                   \

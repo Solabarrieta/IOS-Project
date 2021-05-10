@@ -72,7 +72,7 @@ extern char *bold(char *str);
  * @param str The text to underline.
  * @return char* The text underlined.
  */
-extern char *underlined(char *str);
+extern char *underline(char *str);
 
 /**
  * @brief Set a text reversed.
@@ -80,4 +80,4 @@ extern char *underlined(char *str);
  * @param str The text, to reverse in color.
  * @return char* The text, reversed in color.
  */
-extern char *reversed(char *str);
+extern char *reverse(char *str);

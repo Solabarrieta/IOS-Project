@@ -81,7 +81,7 @@ void _ls(const char *dir, int op_a, int op_l)
 			if (!strcmp(d->d_name, "emerald_city"))
 			{
 				// If we are in Emerald City, print in Green color and bold (Emerald City)
-				println(concat(concat(BOLD, concat(ANSI_COLOR_GREEN, d->d_name)), NO_BOLD));
+				println(bold(concat(ANSI_COLOR_GREEN, d->d_name)));
 			}
 			else
 			{
