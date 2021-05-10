@@ -9,6 +9,7 @@
  */
 
 #include "libstring.h"
+
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -20,18 +21,10 @@ char *concat(char *str1, char *str2)
     return r_string;
 }
 
-int strcomp(char *str1, char *str2)
-{
-    return !strcmp(str1, str2);
-}
-
 void print(char *str)
 {
-    char *result;
     ssize_t buff;
-
-    result = concat(str, ANSI_COLOR_RESET);
-    buff = write(1, result, strlen(result));
+    buff = write(1, str, strlen(str));
 }
 
 void println(char *str)
@@ -47,15 +40,15 @@ void printerr(char *str, char *err_title)
 
 char *bold(char *str)
 {
-    return concat(concat(BOLD, str), NO_BOLD);
+    return concat(concat(BOLD, str), ANSI_RESET);
 }
 
 char *underlined(char *str)
 {
-    return concat(concat(UNDERLINE, str), NO_UNDERLINE);
+    return concat(concat(UNDERLINE, str), ANSI_RESET);
 }
 
 char *reversed(char *str)
 {
-    return concat(concat(REVERSE, str), NO_REVERSE);
+    return concat(concat(REVERSE, str), ANSI_RESET);
 }

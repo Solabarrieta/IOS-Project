@@ -115,12 +115,12 @@ fi
 # COMPILE SHELL.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s gsh) || -n "$(git diff src/shell.c)" ]]; then
     echo "COMPILING SHELL"
-    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/headers/characters/character.c -o gsh -lstring
+    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/executor.c src/headers/characters/character.c -o gsh -lstring
 fi
 
 if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/game.c)" ]]; then
     echo "COMPILING GAME FILE"
-    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/cd.c src/headers/characters/character.c -o TWOS_Game -lstring
+    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -lstring
 fi
 
 if [[ $last_vers != $vers ]]; then

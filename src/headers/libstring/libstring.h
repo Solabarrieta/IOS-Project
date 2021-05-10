@@ -18,19 +18,14 @@
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN "\x1b[36m"
 #define ANSI_COLOR_WHITE "\x1b[37m"
-#define ANSI_COLOR_RESET "\x1b[0m"
-
 // BOLD text
 #define BOLD "\x1b[1m"
-#define NO_BOLD "\x1b[0m"
-
 // UNDERLINE text
 #define UNDERLINE "\x1b[4m"
-#define NO_UNDERLINE "\x1b[0m"
-
 // REVERSE background, text color
 #define REVERSE "\x1b[7m"
-#define NO_REVERSE "\x1b[0m"
+// RESET
+#define ANSI_RESET "\x1b[0m"
 
 /**
  * @brief Concat two string.
@@ -40,15 +35,6 @@
  * @return char str1 + str2.
  */
 extern char *concat(char *str1, char *str2);
-
-/**
- * @brief Compare two string, naturally.
- * 
- * @param str1 
- * @param str2 
- * @return int 
- */
-extern int strcomp(char *str1, char *str2);
 
 /**
  * @brief Print a string, without an ending char implicit.

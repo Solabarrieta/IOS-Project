@@ -6,6 +6,10 @@
 #include "headers/libstring/libstring.h"
 #include "headers/characters/character.h"
 
+#include "headers/recognizer.h"
+
+#include "headers/executor.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -40,68 +44,6 @@ int state;
 int fails;
 char *root_dir;
 char *game_dir;
-
-void wait_until_enter()
-{
-    do
-    {
-
-    } while (getchar() != 10);
-}
-
-int read_doc(char *filename)
-{
-    int fd = open(filename, O_RDONLY);
-    char *buff;
-
-    while (read(fd, buff, 1) == 1)
-    {
-        if (*buff == '_')
-        {
-            write(1, "PLAYER", 7);
-        }
-        else
-        {
-            write(1, buff, 1);
-
-            if (*buff == '.' || *buff == '!' || *buff == '?')
-            {
-                write(1, "\n", 1);
-                wait_until_enter();
-            }
-        }
-    }
-
-    close(fd);
-
-    println("");
-
-    return 0;
-}
-
-int execute(char *argv[])
-{
-    int status;
-    pid_t child_pid = fork();
-
-    switch (child_pid)
-    {
-    case -1:
-        return 1;
-
-    case 0:
-        // Child process
-        execvp(argv[0], argv);
-        break;
-
-    default:
-        // Parent process.
-        wait(&status);
-        return WIFEXITED(status) > 0 ? 1 : 0;
-    }
-
-    return 0;
-}
 
 int main()
 {
@@ -155,7 +97,7 @@ int main()
             speak_character(glinda, "Remember the command <<exit>> in order to exit this game, honey :) Have FUN!");
 
             cd(root_dir);
-            fails += execute(args);
+            fails += execute(1, args);
             cd(game_dir);
 
             if (fails == 1)
@@ -191,7 +133,7 @@ int main()
             speak_character(scarecrown, "I think you could use <<pwd>>. The Good Witch told me.");
 
             cd(root_dir);
-            fails += execute(args);
+            fails += execute(1, args);
             cd(game_dir);
 
             break;
