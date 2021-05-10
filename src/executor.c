@@ -21,7 +21,7 @@ int execute(int argc, char *argv[])
    default:
       // Parent process.
       wait(&status);
-      return WIFEXITED(status) != 0 ? WEXITSTATUS(status) : 1;
+      return WIFEXITED(status);
    }
 
    return 0;

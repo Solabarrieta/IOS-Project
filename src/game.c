@@ -66,7 +66,7 @@ int main()
         switch (state)
         {
         case RESTART:
-            create_player(&dorothy, "Dorothy");
+            create_player(&dorothy);
             state = VILLAGE;
             break;
 
@@ -77,7 +77,7 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            create_player(&dorothy, "Dorothy");
+            create_player(&dorothy);
             state = VILLAGE;
 
             break;

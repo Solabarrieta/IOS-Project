@@ -22,32 +22,34 @@
 int main(int argc, char *argv[])
 {
     char *buffer[1024];
-    char *err_title = THE_SYSTEM;
     char *err;
     int origin, end, oread, owrite;
 
     if (argc != 3)
     {
-        printerr("Revise your notes. Usage: cp file new_file.", err_title);
+        printerr("Revise your notes. Usage: cp file new_file.", THE_SYSTEM);
+        
         return 1;
     }
 
     origin = open(argv[1], O_RDONLY);
 
-    if (origin < 0)
+    if (origin == -1)
     {
-        printerr("Error opening the file.", err_title);
-        exit(EXIT_FAILURE);
+        printerr("Error opening the file.", THE_SYSTEM);
+        
+        return 1;
     }
 
     end = open(argv[2], O_RDWR | O_CREAT, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
 
-    if (end < 0)
+    if (end == -1)
     {
         err = (char *)malloc(strlen("Error opening file %s errno = %d") + strlen(argv[2]) + sizeof(errno));
         sprintf(err, "Error opening file %s errno = %d", argv[2], errno);
-        printerr(err, err_title);
-        _exit(EXIT_FAILURE);
+        printerr(err, THE_SYSTEM);
+        
+        return 1;
     }
 
     oread = read(origin, buffer, sizeof(buffer));
@@ -58,8 +60,9 @@ int main(int argc, char *argv[])
         {
             err = (char *)malloc(strlen("Error in writing data to %s") + strlen(argv[2]));
             sprintf(err, "Error in writing data to %s", argv[2]);
-            printerr(err, err_title);
-            _exit(EXIT_FAILURE);
+            printerr(err, THE_SYSTEM);
+
+            return 1;
         }
 
         oread = read(origin, buffer, sizeof(buffer));

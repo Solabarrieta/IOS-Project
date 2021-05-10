@@ -14,7 +14,9 @@
 
 void clear_screen()
 {
-    for (int rows = 0; rows < MAXLINE; rows++)
+    int rows;
+
+    for (rows = 0; rows < MAXLINE; rows++)
     {
         write(1, "\n", 1);
     }

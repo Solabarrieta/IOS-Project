@@ -7,8 +7,8 @@
  * @copyright Copyright (c) 2021
  */
 
-#include "headers/characters/character.h"
 #include "headers/libstring/libstring.h"
+#include "headers/characters/character.h"
 
 // Syscalls && util
 #include <unistd.h>
@@ -20,43 +20,40 @@
 
 int main(int argc, char *argv[])
 {
-   char *glinda = GLINDA;
+   if (argc != 2)
+   {
+      // If the command is used incorrectly, it will teach the player how to use it.
+      printerr("No, no, no. Usage: cat file_name. Revise your notes, please.", THE_SYSTEM);
+      speak_character(GLINDA, "Please, remember to go to class, player. It is good for you, sweety.");
+
+      return 1;
+   }
+
+   char *ch;
 
    int file_descriptor;
    ssize_t bytes_read;
 
-   char *err_sys = THE_SYSTEM;
-   char *ch;
+   // Open the file in read-only mode.
+   file_descriptor = open(argv[1], O_RDONLY);
 
-   if (argc == 2)
+   // If there is any error when trying to open the file.
+   if (file_descriptor == -1)
    {
-      // Open the file in read-only mode.
-      file_descriptor = open(argv[1], O_RDONLY);
+      printerr("Error while opening the file.", THE_SYSTEM);
+      printerr("YOU DON'T EVEN KNOW TO READ!!!", THE_SYSTEM);
 
-      // If there is any error when trying to open the file.
-      if (file_descriptor == -1)
-      {
-         printerr("Error while opening the file.", err_sys);
-         printerr("YOU DON'T EVEN KNOW TO READ!!!", err_sys);
-
-         return 1;
-      }
-
-      // Read while it has more lines, else, stop and close the file.
-      do
-      {
-         bytes_read = read(file_descriptor, ch, 1);
-         print(ch);
-      } while (bytes_read > 0);
-
-      close(file_descriptor);
-
-      return 0;
+      return 1;
    }
 
-   // If the command is used incorrectly, it will teach the player how to use it.
-   printerr("No, no, no. Usage: cat file_name. Revise your notes, please.", err_sys);
-   speak_character(glinda, "Please, remember to go to class, player. It is good for you, sweety.");
-   
-   return 1;
+   // Read while it has more lines, else, stop and close the file.
+   do
+   {
+      bytes_read = read(file_descriptor, ch, 1);
+      print(ch);
+   } while (bytes_read > 0);
+
+   close(file_descriptor);
+
+   return 0;
 }
