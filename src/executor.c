@@ -11,7 +11,6 @@ int execute(int argc, char *argv[])
    {
    case -1:
       return 1;
-      break;
 
    case 0:
       // Child process

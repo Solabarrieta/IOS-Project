@@ -10,8 +10,10 @@
 
 #include "libstring.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 char *concat(char *str1, char *str2)
 {
@@ -44,10 +46,10 @@ void println(char *str)
     buff = write(1, "\n", 1);
 }
 
-void printerr(char *str, char *err_title)
+void printerr(char *err_title, char *str)
 {
     char *result = concat(concat(concat(err_title, ": "), str), "\n");
-    ssize_t buff = write(2, result, strlen(result));
+    perror(result);
 }
 
 char *bold(char *str)

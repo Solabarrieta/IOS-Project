@@ -5,10 +5,8 @@
 #include "headers/signal_handler.h"
 #include "headers/libstring/libstring.h"
 #include "headers/characters/character.h"
-
 #include "headers/recognizer.h"
 #include "headers/executor.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

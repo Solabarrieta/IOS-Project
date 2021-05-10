@@ -5,17 +5,13 @@
  * @version 3
  * @date 2021-05-04
  * @copyright Copyright (c) 2021
+ *
  */
-
 #include "headers/libstring/libstring.h"
 #include "headers/characters/character.h"
-
-// Syscalls && util
 #include <unistd.h>
-// Std library
 #include <stdlib.h>
 #include <stdio.h>
-// System flags.
 #include <fcntl.h>
 
 int main(int argc, char *argv[])
@@ -29,8 +25,7 @@ int main(int argc, char *argv[])
       return 1;
    }
 
-   char *ch;
-
+   char *character;
    int file_descriptor;
    ssize_t bytes_read;
 
@@ -40,18 +35,17 @@ int main(int argc, char *argv[])
    // If there is any error when trying to open the file.
    if (file_descriptor == -1)
    {
-      printerr("Error while opening the file.", THE_SYSTEM);
-      printerr("YOU DON'T EVEN KNOW TO READ!!!", THE_SYSTEM);
-
+      printerr(THE_SYSTEM, "Error while opening the file.");
+      printerr(THE_SYSTEM, "YOU DON'T EVEN KNOW TO READ!!!");
       return 1;
    }
 
-   // Read while it has more lines, else, stop and close the file.
+   // Read the file, while read 1 byte (char) at a time.
    do
    {
-      bytes_read = read(file_descriptor, ch, 1);
-      print(ch);
-   } while (bytes_read > 0);
+      bytes_read = read(file_descriptor, character, 1);
+      print(character);
+   } while (bytes_read == 1);
 
    close(file_descriptor);
 

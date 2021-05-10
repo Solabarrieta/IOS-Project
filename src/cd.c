@@ -16,21 +16,11 @@
 
 int cd(char *path)
 {
-    if (chdir((const char *)path) == -1)
-    {
-        // If the directory is not found.
-        if (errno = ENOENT)
-        {
-            printerr("No DIR found. %ERROR!", THE_SYSTEM);
-            speak_character(GLINDA, "It look like that place you mean doesn't exist, my dear sweet child.");
-            speak_character(GLINDA, "You'd better apply in you Geography lectures, if you don't want to loose yourself.");
-        }
-        else
-        {
-            // If the directory is not readable, then throw error and exit.
-            printerr("No DIR found. %ERROR!\n Revise your internal configuration, player.", THE_SYSTEM);
-        }
+    int ch_result = chdir((const char *)path);
 
+    if (ch_result == -1)
+    {
+        printerr(THE_SYSTEM, "No such directory!");
         return 1;
     }
 

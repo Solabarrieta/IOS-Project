@@ -11,7 +11,6 @@
 
 #include "headers/characters/character.h"
 #include "headers/libstring/libstring.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -21,52 +20,40 @@
 
 int main(int argc, char *argv[])
 {
-    char *buffer[1024];
-    char *err;
-    int origin, end, oread, owrite;
-
     if (argc != 3)
     {
-        printerr("Revise your notes. Usage: cp file new_file.", THE_SYSTEM);
-        
+        printerr(THE_SYSTEM, "Please, usage: <<cp file new_file>>");
         return 1;
     }
+
+    int origin, end, oread, owrite;
+    char *buffer;
 
     origin = open(argv[1], O_RDONLY);
 
     if (origin == -1)
     {
-        printerr("Error opening the file.", THE_SYSTEM);
-        
+        printerr(THE_SYSTEM, "Error opening the origin file.");
         return 1;
     }
 
     end = open(argv[2], O_RDWR | O_CREAT, S_IWUSR | S_IRUSR | S_IRGRP | S_IROTH);
-
     if (end == -1)
     {
-        err = (char *)malloc(strlen("Error opening file %s errno = %d") + strlen(argv[2]) + sizeof(errno));
-        sprintf(err, "Error opening file %s errno = %d", argv[2], errno);
-        printerr(err, THE_SYSTEM);
-        
+        printerr(THE_SYSTEM, "Error creating copy! No such permissions.");
         return 1;
     }
 
-    oread = read(origin, buffer, sizeof(buffer));
-
-    while (oread > 0)
+    do
     {
-        if (write(end, buffer, oread) != oread)
-        {
-            err = (char *)malloc(strlen("Error in writing data to %s") + strlen(argv[2]));
-            sprintf(err, "Error in writing data to %s", argv[2]);
-            printerr(err, THE_SYSTEM);
+        oread = read(origin, buffer, 1);
 
+        if (write(end, buffer, 1) != oread)
+        {
+            printerr(THE_SYSTEM, "Error writing in destination!");
             return 1;
         }
-
-        oread = read(origin, buffer, sizeof(buffer));
-    }
+    } while (oread == 1);
 
     return 0;
 }

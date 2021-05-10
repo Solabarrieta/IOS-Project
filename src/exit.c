@@ -11,31 +11,27 @@
 #include "headers/characters/character.h"
 #include "headers/libstring/libstring.h"
 #include "headers/exit.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 
 int exit_game()
 {
-    char ans[10];
+    char ans;
+    scanf(concat(GLINDA, ": Do you really want to exit the game? [Y]es / [N]o, of course %c\n"), &ans);
 
-    speak_character(GLINDA, "Oh, my dear player, \nDo you really want to exit the game? [Y]es / [N]o, of course.");
-    scanf("%s", ans);
-
-    if (!(strncmp(ans, "y", 1) && strncmp(ans, "Y", 1)))
+    if (ans == 'y' || ans == 'Y')
     {
         speak_character(GLINDA, "Ok darling, have a nice day. See ya', dada!");
         return 0;
     }
-    else if (!(strncmp(ans, "n", 1) && strncmp(ans, "N", 1)))
+    else if (ans == 'n' || ans == 'N')
     {
         speak_character(GLINDA, "Well, let's play together! Let's go to hell!");
+        return 0;
     }
     else
     {
-        speak_character(OFELIA, "HAHAHAHAHA, useless ape!");
-        printerr("Say something useful, you fool!", THE_SYSTEM);
+        printerr(THE_SYSTEM, "Say something useful, you fool!");
+        return 1;
     }
-
-    return 1;
 }
