@@ -46,10 +46,6 @@ player dorothy;
 
 int main()
 {
-    char *glinda = GLINDA;
-    char *ofelia = OFELIA;
-    char *scarecrown = SCARECROWN;
-
     root_dir = getcwd((char *)NULL, 0);
     game_dir = concat(root_dir, "/config/.gamedir/village/");
     char *args[200];
@@ -91,25 +87,18 @@ int main()
             cd(game_dir);
             read_doc("village");
 
-            speak_character(glinda, "I recommend you to ask for HELP in this new utility to my sisters!");
-            speak_character(glinda, "We'll see in the grove, near someone who's speacial for me.");
-            speak_character(glinda, "Remember the command <<exit>> in order to exit this game, honey :) Have FUN!");
-
-            cd(root_dir);
             if (execute(1, args))
             {
-                speak_character(ofelia, "As I suspect you are not good enough for this world. This is the first warning, be careful because Your little lovely Dog would die if you make another mistake.");
                 dorothy.fails++;
             }
             else
             {
-                speak_character(glinda, "Oh! Good, did you have fun with those commands? I guess you had, my dear.");
-                speak_character(glinda, "But now its time to save OS from my sis.");
-                speak_character(glinda, "Quick! We don't so much time!");
+                speak_character(GLINDA, "Oh! Good, did you have fun with those commands? I guess you had, my dear.");
+                speak_character(GLINDA, "But now its time to save OS from my sis.");
+                speak_character(GLINDA, "Quick! We don't so much time!");
             }
 
-            println("");
-            write(0, "Press enter to continue...\n", 28);
+            write(1, "Press enter to continue...\n", 28);
             wait_until_enter();
 
             state = GROVE;
@@ -121,55 +110,50 @@ int main()
             write(0, "Press enter to continue...\n", 28);
             wait_until_enter();
 
-            cd(concat(game_dir, "/grove/"));
-            read_doc("grove");
-
-            speak_character(scarecrown, "I don't know where are we. Can you help us?");
-            speak_character(scarecrown, "I think you could use <<pwd>>. The Good Witch told me.");
-
-            cd(root_dir);
+            read_doc("grove/grove");
 
             if (execute(1, args))
             {
                 dorothy.fails++;
             }
-            
-            cd(game_dir);
 
             break;
 
         case HAUNTED_HOUSE:
-            cd(concat(game_dir, "/grove/.haunted_house/"));
+            cd(concat(game_dir, "grove/.haunted_house/"));
             break;
 
         case FOREST_ENTRANCE:
-            cd(concat(game_dir, "/grove/forest_entrance/"));
+            cd(concat(game_dir, "grove/forest_entrance/"));
             break;
 
         case TREES_P:
-            cd(concat(game_dir, "/grove/forest_entrance/.trees/"));
+            cd(concat(game_dir, "grove/forest_entrance/.trees/"));
             break;
 
         case FOREST:
-            cd(concat(game_dir, "/grove/forest_entrance/forest/"));
+            cd(concat(game_dir, "grove/forest_entrance/forest/"));
             break;
 
         case EMERALD_CITY:
-            cd(concat(game_dir, "/grove/forest_entrance/forest/emerald_city/"));
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/"));
             break;
 
         case PRAIRIE:
-            cd(concat(game_dir, "/grove/forest_entrance/forest/emerald_city/prairie/"));
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/"));
             break;
 
         case CASTLE:
-            cd(concat(game_dir, "/grove/forest_entrance/forest/emerald_city/prairie/castle"));
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/castle"));
             break;
 
         case GAME_OVER:
-            if (dorothy.is_dead) {
+            if (dorothy.is_dead)
+            {
                 // TODO: something when dorothy dies...
-            } else {
+            }
+            else
+            {
                 // Exit properly. If Ctrl+c, exit sin respesto. Else, con respeto por ganar el juego.
             }
             break;

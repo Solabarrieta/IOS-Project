@@ -1,4 +1,4 @@
-Scarecrow: Hi! Who are you? What 's your name? You can use the command <<stee>> to edit the file that will learn your name.
-Scarecrow: Hello _, I’m Scarecrow. I suppose that you are trying to get to the ADMIN as you are in the YELLOW path. My dream is to get a  brain, I know that ADMIN could get me one, so I will help you. But first we will have to know where we are, I don’t have any idea, because of my little problem called no brain, could you help me? The good witch one day told me something about pwd I'm not sure what it is about [Use command PWD].
-Scarecrow: Where are we now? 
-Scarecrow: If we are in the grove now, the next place to go could be the haunted house or the Forest entrance.
+$: Hi! Who are you? What 's your name? You can use the command <<stee>> to edit the file that will learn your name.
+$: Hello, I’m $. I suppose that you are trying to get to the _ as you are in the YELLOW path. My dream is to get a  brain, I know that _ could get me one, so I will help you. But first we will have to know where we are, I don’t have any idea, because of my little problem called no brain, could you help me? The good witch one day told me something about pwd I'm not sure what it is about.
+$: Where are we now? 
+$: If we are in the grove now, the next place to go could be the haunted house or the Forest entrance.

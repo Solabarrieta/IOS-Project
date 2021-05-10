@@ -19,22 +19,25 @@ int read_doc(char *filename)
 {
     int fd = open(filename, O_RDONLY);
     char *buff;
+    char *word;
 
     while (read(fd, buff, 1) == 1)
     {
         if (*buff == '_')
         {
-            write(1, "PLAYER", 7);
+            write(1, ADMIN, 7);
         }
-        else if (!strncmp("Badwitch", buff, 9))
+        else if (*buff == '*')
         {
             write(1, OFELIA, strlen(OFELIA));
-            // lseek(1, strlen(OFELIA), SEEK_CUR);
         }
-        else if (!strncmp("Goodwitch", buff, 10))
+        else if (*buff == '%')
         {
             write(1, GLINDA, strlen(GLINDA));
-            // lseek(1, strlen(GLINDA), SEEK_CUR);
+        }
+        else if (*buff == '$')
+        {
+            write(1, SCARECROWN, strlen(SCARECROWN));
         }
         else
         {
