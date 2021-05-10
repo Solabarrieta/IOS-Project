@@ -7,21 +7,18 @@
  * 
  * @copyright Copyright (c) 2021
  */
-
 #include "headers/libstring/libstring.h"
+#include "headers/characters/character.h"
 #include "headers/cd.h"
 #include "headers/exit.h"
 #include "headers/clear.h"
 #include "headers/signal_handler.h"
-
 #include "headers/executor.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
-
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -104,25 +101,22 @@ int read_args(int *argcp, char *args[], int max, int *eofp)
 int main()
 {
    char *Prompt = "GlindOS";
-   int eof = 0;
-   int argc;
-   char *args[MAXARGS];
+   char *prompt_name;
 
    char *path[10] = {"cat", "cp", "grep", "help", "ls", "man", "mv", "pwd", "touch", "stee"};
    int index;
 
-   char *root_dir = getcwd((char *)NULL, 0);
+   int eof = 0;
+   int argc;
+   char *args[MAXARGS];
 
+   char *root_dir = getcwd((char *)NULL, 0);
    char *cmd_dir = concat(root_dir, "/bin/");
    char *game_dir = concat(root_dir, "/config/.gamedir/village/");
    char *current_dir;
 
-   char *prompt_name;
-
    // Set game_dir
    cd(game_dir);
-
-   int failed = 0;
 
    while (1)
    {
@@ -140,7 +134,7 @@ int main()
       {
          if (!strcmp(args[0], "exit"))
          {
-            if (!exit_game())
+            if (exit_game() == 0)
             {
                exit(127);
             }
@@ -153,12 +147,20 @@ int main()
             }
             else if (argc == 2)
             {
-               cd(args[1]);
+               if (!strcmp(concat(current_dir, "/"), game_dir) && !strncmp(args[1], "..", 2))
+               {
+                  printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                  return 1;
+               }
+               else
+               {
+                  cd(args[1]);
+               }
             }
             else
             {
-               perror("That is not a valid cd instruction, player.");
-               _exit(1);
+               printerr(THE_SYSTEM, "That is not a valid command, player.");
+               return 1;
             }
          }
          else if (!strcmp(args[0], "clear"))
@@ -171,17 +173,15 @@ int main()
          }
          else
          {
+            // Check path for the new commands.
             for (index = 0; index < 10; index++)
             {
                if (!strcmp(args[0], path[index]))
                {
                   args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
-                  
                   strcpy(args[0], cmd_dir);
                   strcat(args[0], path[index]);
-
                   execute(argc, args);
-
                   break;
                }
             }

@@ -1,6 +1,6 @@
 /**
  * @file touch.c
- * @author Mikel Aristu
+ * @author Mikel Aristu, David Cuenca, The Wizard of OS Team.
  *
  * @brief The command used to create items.
  *

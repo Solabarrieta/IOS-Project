@@ -27,11 +27,11 @@ int exit_game()
     else if (ans == 'n' || ans == 'N')
     {
         speak_character(GLINDA, "Well, let's play together! Let's go to hell!");
-        return 0;
+        return 1;
     }
     else
     {
         printerr(THE_SYSTEM, "Say something useful, you fool!");
-        return 1;
+        return -1;
     }
 }
