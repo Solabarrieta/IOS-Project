@@ -98,7 +98,7 @@ int read_args(int *argcp, char *args[], int max, int *eofp)
    return 1;
 }
 
-int main()
+int main(int argcv, char *argv[])
 {
    char *Prompt = "GlindOS";
    char *prompt_name;
@@ -112,7 +112,7 @@ int main()
 
    char *root_dir = getcwd((char *)NULL, 0);
    char *cmd_dir = concat(root_dir, "/bin/");
-   char *game_dir = concat(root_dir, "/config/.gamedir/village/");
+   char *game_dir = argv[1];
    char *current_dir;
 
    cd(game_dir);

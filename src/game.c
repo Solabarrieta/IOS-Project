@@ -242,9 +242,11 @@ int main()
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
 
+            args[1] = current_dir;
+
             cd(root_dir);
 
-            if (execute(1, args))
+            if (execute(2, args))
             {
                 println("");
 
@@ -293,12 +295,14 @@ int main()
             wait_until_enter();
 
             cd("grove/");
+            current_dir = concat(current_dir, "grove/");
+            args[1] = current_dir;
 
             // And the Scarecrow appears!
             read_doc("grove.txt");
 
             cd(root_dir);
-            if (execute(1, args))
+            if (execute(2, args))
             {
                 println("");
 
