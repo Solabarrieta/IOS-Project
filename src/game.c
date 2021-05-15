@@ -25,6 +25,7 @@
 // Standard libraries and syscall managing.
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <unistd.h>
 #include <string.h>
@@ -61,6 +62,20 @@
 
 /* STATES of the GAME */
 
+/* CHAPTERS TITLE */
+
+#define VILLAGE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<THE VILLAGE>>"))
+#define GROVE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 2: <<THE GROVE>>"))
+#define HAUNTED_HOUSE_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 2b: <<THE HAUNTED HOUSE>>"))
+#define FOREST_ENTRANCE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 3: <<THE FOREST ENTRANCE>>"))
+#define TREES_P_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 3b: <<THE TREES>>"))
+#define FOREST_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 4: <<THE FOREST>>"))
+#define EMERALD_CITY_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 5: <<EMERALD CITY>>"))
+#define PRAIRIE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 6: <<THE PRAIRIE>>"))
+#define CASTLE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 7: <<THE CASTLE>>"))
+
+/* CHAPTERS TITLE */
+
 // The number of seconds to sleep on loading screens.
 static float loading_screen = 0.2;
 
@@ -93,7 +108,7 @@ void loading(int wt_val)
             break;
         }
 
-        perct = (int) ceil(((float)100 * i) / wt_val);
+        perct = (int)ceil(((float)100 * i) / wt_val);
 
         sprintf(snum, "%d%%", perct);
         print(snum);
@@ -103,6 +118,9 @@ void loading(int wt_val)
 
 int main()
 {
+    // Random seed, for random number obtention. SET to computer time.
+    srand(time(NULL));
+
     // State of the game
     static int state = MENU;
 
@@ -181,15 +199,16 @@ int main()
             println("Saving, please wait... ");
             loading(16);
             println("\nDONE!");
+
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
             // Go to VILLAGE
-            println(concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<VILLAGE>>")));
+            println(VILLAGE_TIT);
             println("\rPress ENTER key to continue...");
             wait_until_enter();
-            
+
             cd(game_dir);
             read_doc("village.txt");
 
@@ -230,9 +249,11 @@ int main()
 
         case GROVE:
             clear_screen();
-            println(concat(ANSI_COLOR_YELLOW, bold("CHAPTER 2: <<THE GROVE>>")));
-            write(0, "Press enter to continue...\n", 28);
+            println(GROVE_TIT);
+
+            println("Press ENTER key to continue...");
             wait_until_enter();
+            clear_screen();
 
             read_doc("grove/grove");
 
@@ -241,45 +262,156 @@ int main()
                 dorothy.fails++;
             }
 
+            state = HAUNTED_HOUSE;
+
             break;
 
         case HAUNTED_HOUSE:
-            cd(concat(game_dir, "grove/.haunted_house/"));
+            // cd(concat(game_dir, "grove/.haunted_house/"));
+
+            clear_screen();
+            println(HAUNTED_HOUSE_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = FOREST_ENTRANCE;
             break;
 
         case FOREST_ENTRANCE:
-            cd(concat(game_dir, "grove/forest_entrance/"));
+            // cd(concat(game_dir, "grove/forest_entrance/"));
+
+            clear_screen();
+            println(FOREST_ENTRANCE_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = TREES_P;
             break;
 
         case TREES_P:
-            cd(concat(game_dir, "grove/forest_entrance/.trees/"));
+            // cd(concat(game_dir, "grove/forest_entrance/.trees/"));
+
+            clear_screen();
+            println(TREES_P_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = FOREST;
             break;
 
         case FOREST:
-            cd(concat(game_dir, "grove/forest_entrance/forest/"));
+            // cd(concat(game_dir, "grove/forest_entrance/forest/"));
+
+            clear_screen();
+            println(FOREST_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = EMERALD_CITY;
             break;
 
         case EMERALD_CITY:
-            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/"));
+            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/"));
+
+            clear_screen();
+            println(EMERALD_CITY_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = PRAIRIE;
             break;
 
         case PRAIRIE:
-            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/"));
+            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/"));
+
+            clear_screen();
+            println(PRAIRIE_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = CASTLE;
             break;
 
         case CASTLE:
-            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/castle"));
+            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/castle"));
+
+            clear_screen();
+            println(CASTLE_TIT);
+
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            state = GAME_OVER;
             break;
 
         case GAME_OVER:
+            clear_screen();
+
+            println("THE END!");
+
             if (dorothy.is_dead)
             {
-                // TODO: something when dorothy dies...
+                speak_character(GLINDA, "Oh, no... Here we go again.");
+
+                switch (rand() % 5)
+                {
+                case 1:
+                    println("Why?! Why did you have to fail so many times?!");
+                    break;
+
+                case 2:
+                    println("Oh my godness! Are you serious? How could anyone fail so many time with such simple spells?");
+                    break;
+
+                case 3:
+                    println("You, hideous ape...");
+                    break;
+
+                case 4:
+                    println("I'm bored of players.");
+                    println("I think I should play with androids, like others...");
+                    println("They are more interesting than apes pushing buttons...");
+                    break;
+
+                default:
+                    println("Could you please be kinder with the computer?");
+                    println("Some day, you will break it if you fail so many time.");
+                    println("So I will.");
+                    break;
+                }
+
+                state = MENU;
+                // state = RESTART;
             }
             else
             {
-                // Exit properly. If Ctrl+c, exit sin respesto. Else, con respeto por ganar el juego.
+                speak_character(GLINDA, "Thank you, dear, for playing this wonderful game!");
+                println("I think the world is now a better place.");
+                state = MENU;
             }
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             break;
         }
     }
