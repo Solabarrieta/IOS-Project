@@ -43,30 +43,43 @@
 
 /* STATES of the GAME */
 
-#define RESTART 0
-#define MENU 1
+#define RESTART -1
+#define MENU -2
+#define GAME_OVER -3
 
-#define VILLAGE 2
-#define GROVE 3
+#define VILLAGE 1
+#define GROVE 2
 
-#define HAUNTED_HOUSE 4
+#define HAUNTED_HOUSE 21
+#define BASEMENT 211
+#define BATHROOM 212
+#define BEDROOM 213
+#define KITCHEN 214
+#define LIVINGROOM 215
 
-#define FOREST_ENTRANCE 5
-#define TREES_P 6
-#define FOREST 7
-#define EMERALD_CITY 8
-#define PRAIRIE 9
-#define CASTLE 10
+#define FOREST_ENTRANCE 3
 
-#define GAME_OVER 11
+#define TREES_P 31
+
+#define FOREST 4
+#define EMERALD_CITY 5
+#define PRAIRIE 6
+#define CASTLE 7
 
 /* STATES of the GAME */
 
-/* CHAPTERS TITLE */
+/* CHAPTERS, SECTIONS TITLE */
 
 #define VILLAGE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<THE VILLAGE>>"))
 #define GROVE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 2: <<THE GROVE>>"))
+
 #define HAUNTED_HOUSE_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 2b: <<THE HAUNTED HOUSE>>"))
+#define BASEMENT_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The basement")
+#define BATHROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The bathroom")
+#define BEDROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The bedroom")
+#define KITCHEN_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The kitchen")
+#define LIVINGROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The livingroom")
+
 #define FOREST_ENTRANCE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 3: <<THE FOREST ENTRANCE>>"))
 #define TREES_P_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 3b: <<THE TREES>>"))
 #define FOREST_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 4: <<THE FOREST>>"))
@@ -74,7 +87,7 @@
 #define PRAIRIE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 6: <<THE PRAIRIE>>"))
 #define CASTLE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 7: <<THE CASTLE>>"))
 
-/* CHAPTERS TITLE */
+/* CHAPTERS, SECTIONS TITLE */
 
 // The number of seconds to sleep on loading screens.
 static float loading_screen = 0.2;
@@ -87,7 +100,7 @@ void loading(int wt_val)
     int perct;
     char snum[5];
 
-    for (int i = 0; i < wt_val; i++)
+    for (int i = 0; i <= wt_val; i++)
     {
         switch (i % 4)
         {
@@ -131,6 +144,7 @@ int main()
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
+    char *current_dir;
 
     // Ofelia's phrases. Witch descriptor in action!
     int offlia = open(concat(root_dir, "/config/.mob/badwitch_phrases.txt"), O_RDONLY);
@@ -144,7 +158,7 @@ int main()
             printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
             sleep(5);
 
-            // Begin again...
+            // Reset Ofelia's phrases.
             lseek(offlia, 0, SEEK_SET);
 
             printerr(THE_SYSTEM, "Poor little girl :(");
@@ -175,12 +189,13 @@ int main()
             break;
 
         case MENU:
+            // Print the menu screen and wait until enter is pressed.
             clear_screen();
-
-            // Print the menu screen and wait until enter is pressed
             print_menu();
             print("Press ENTER to START... ");
             wait_until_enter();
+
+            // Then, load the game.
             println("Loading... ");
             // loading(128);
             loading(32);
@@ -188,34 +203,41 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            clear_screen();
-
             create_player(&dorothy);
             state = VILLAGE;
 
             break;
 
         case VILLAGE:
-            // Save player name
+            clear_screen();
+
+            // Save player's name
             speak_character(GLINDA, "Whats you name, dear?");
             scanf("%s", player_name);
             set_name(&dorothy, player_name);
             println("Saving, please wait... ");
             loading(16);
             println("\nDONE!");
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            // Go to VILLAGE
+            // HERE begins the true game!
             println(VILLAGE_TIT);
             println("\rPress ENTER key to continue...");
             wait_until_enter();
 
+            // GOTO The Village, and set the text to be read.
+            // There, GLIDA will explain the game to THE PLAYER,
+            // and OFELIA, The Most Evil Witch Ever, will warn Dorothy about
+            // introducing commands wrong.
             cd(game_dir);
+            current_dir = concat("", game_dir);
+
             read_doc("village.txt");
 
+            // Once the text is read, the user is encouraged to look for help 
+            // in the terminal.
             args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
@@ -245,7 +267,7 @@ int main()
                 print("\r");
                 speak_character(GLINDA, "But now its time to save OS from my sis.");
                 print("\r");
-                speak_character(GLINDA, "Quick! We don't so much time!");
+                speak_character(GLINDA, "Quick! We don't can't lose time!");
             }
 
             cd(game_dir);
@@ -264,17 +286,18 @@ int main()
             break;
 
         case GROVE:
+            // The player arrives to the GROVE
             clear_screen();
             println(GROVE_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
-            read_doc("grove/grove.txt");
+            cd("grove/");
+
+            // And the Scarecrow appears!
+            read_doc("grove.txt");
 
             cd(root_dir);
-
             if (execute(1, args))
             {
                 println("");
