@@ -32,52 +32,53 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-#define VILLAGE 0
-#define GROVE 1
-
-#define HAUNTED_HOUSE 2
-
-
-#define FOREST_ENTRANCE 3
-#define TREES_P 4
-#define FOREST 5
-#define EMERALD_CITY 6
-#define PRAIRIE 7
-#define CASTLE 8
-#define GAME_OVER 9
-#define RESTART 10
-#define MENU 11
-
 #define error(a)   \
     {              \
         perror(a); \
         exit(1);   \
     };
 
-// Player struct, for statistics.
-player dorothy;
+/* STATES of the GAME */
 
-// State of the game
-static int state;
+#define RESTART 0
+#define MENU 1
 
-char *root_dir;
-char *game_dir;
+#define VILLAGE 2
+#define GROVE 3
+
+#define HAUNTED_HOUSE 4
+
+#define FOREST_ENTRANCE 5
+#define TREES_P 6
+#define FOREST 7
+#define EMERALD_CITY 8
+#define PRAIRIE 9
+#define CASTLE 10
+
+#define GAME_OVER 11
+
+/* STATES of the GAME */
 
 int main()
 {
-    // The number of seconds to sleep on loading screens.   
+    // The number of seconds to sleep on loading screens.
     static int loading_screen = 0.5;
 
     // The number of seconds to sleep before changing the character's line.
     static int loading_line = 2;
 
+    // State of the game
+    static int state = MENU;
+
+    // Player struct, for statistics and name saving.
+    player dorothy;
+
+    // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
+    char *root_dir = getcwd((char *)NULL, 0);
+    char *game_dir = concat(root_dir, "/config/.gamedir/village/");
+
+    // ARGS for commands.
     char *args[200];
-    char *player_name;
-
-    root_dir = getcwd((char *)NULL, 0);
-    game_dir = concat(root_dir, "/config/.gamedir/village/");
-
-    state = MENU;
 
     while (1)
     {
@@ -87,25 +88,26 @@ int main()
             clear_screen();
             printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
             sleep(5);
-            
+
             printerr(THE_SYSTEM, "Poor little girl :(");
             sleep(loading_line);
-            
+
             println("She looks like if a trail passed over her a hundred times.");
             sleep(loading_line);
-            
+
             println(concat(concat("That ", OFELIA), " must be a monster..."));
             sleep(loading_line);
 
             create_player(&dorothy);
 
-            for (int i = 0; i < 64; i++) {
+            for (int i = 0; i < 64; i++)
+            {
                 switch (i % 4)
                 {
                 case 1:
                     print("/");
                     break;
-                
+
                 case 2:
                     print("-");
                     break;
@@ -134,12 +136,12 @@ int main()
 
             state = VILLAGE;
             wait_until_enter();
-            
+
             break;
 
         case MENU:
             clear_screen();
-            
+
             // Print the menu screen and wait until enter is pressed
             print_menu();
             println("Press ENTER to START...");
@@ -165,7 +167,7 @@ int main()
             args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
-            
+
             if (execute(1, args))
             {
                 dorothy.fails++;
