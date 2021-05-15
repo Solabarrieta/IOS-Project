@@ -197,6 +197,8 @@ int main()
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
 
+            cd(root_dir);
+
             if (execute(1, args))
             {
                 dorothy.fails++;
@@ -211,11 +213,19 @@ int main()
                 speak_character(GLINDA, "Quick! We don't so much time!");
             }
 
+            cd(game_dir);
+
             print("\r");
             println("Press ENTER key to continue...");
             wait_until_enter();
 
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = GROVE;
+
             break;
 
         case GROVE:

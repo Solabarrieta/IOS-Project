@@ -115,7 +115,6 @@ int main()
    char *game_dir = concat(root_dir, "/config/.gamedir/village/");
    char *current_dir;
 
-   // Set game_dir
    cd(game_dir);
 
    while (1)
