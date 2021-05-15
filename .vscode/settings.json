@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.rmd": "markdown",
-        "cstdlib": "cpp",
-        "future": "cpp"
-    }
-}

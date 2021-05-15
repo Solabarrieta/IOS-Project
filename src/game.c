@@ -1,12 +1,28 @@
+/**
+ * @file game.c
+ * @author The Wizard of OS Team - TEAM 2.2
+ * @brief The Wizard of OS GAME !!!
+ * @version 0.1
+ * @date 2021-05-15
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
+// Commands used later, in the game.
 #include "headers/exit.h"
 #include "headers/menu.h"
 #include "headers/cd.h"
 #include "headers/clear.h"
+
+// Headers for signal execution.
 #include "headers/signal_handler.h"
 #include "headers/libstring/libstring.h"
 #include "headers/characters/character.h"
 #include "headers/recognizer.h"
 #include "headers/executor.h"
+
+// Standard libraries and syscall managing.
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,7 +34,10 @@
 
 #define VILLAGE 0
 #define GROVE 1
+
 #define HAUNTED_HOUSE 2
+
+
 #define FOREST_ENTRANCE 3
 #define TREES_P 4
 #define FOREST 5
@@ -35,15 +54,23 @@
         exit(1);   \
     };
 
-int state;
+// Player struct, for statistics.
+player dorothy;
+
+// State of the game
+static int state;
 
 char *root_dir;
 char *game_dir;
 
-player dorothy;
-
 int main()
 {
+    // The number of seconds to sleep on loading screens.   
+    static int loading_screen = 0.5;
+
+    // The number of seconds to sleep before changing the character's line.
+    static int loading_line = 2;
+
     char *args[200];
     char *player_name;
 
@@ -57,15 +84,67 @@ int main()
         switch (state)
         {
         case RESTART:
+            clear_screen();
+            printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
+            sleep(5);
+            
+            printerr(THE_SYSTEM, "Poor little girl :(");
+            sleep(loading_line);
+            
+            println("She looks like if a trail passed over her a hundred times.");
+            sleep(loading_line);
+            
+            println(concat(concat("That ", OFELIA), " must be a monster..."));
+            sleep(loading_line);
+
             create_player(&dorothy);
+
+            for (int i = 0; i < 64; i++) {
+                switch (i % 4)
+                {
+                case 1:
+                    print("/");
+                    break;
+                
+                case 2:
+                    print("-");
+                    break;
+
+                case 3:
+                    print("\\");
+                    break;
+
+                default:
+                    print("-");
+                    break;
+                }
+
+                sleep(loading_screen);
+                lseek(1, 0, SEEK_SET);
+            }
+
+            println("Well, it is done!");
+            sleep(loading_line);
+
+            println("You can now play again against that witch and save OS, if you want.");
+            sleep(loading_line);
+
+            println("Else, you already know which are the ways to exit OS, don't you?");
+            sleep(loading_line);
+
             state = VILLAGE;
+            wait_until_enter();
+            
             break;
 
         case MENU:
             clear_screen();
+            
+            // Print the menu screen and wait until enter is pressed
             print_menu();
             println("Press ENTER to START...");
             wait_until_enter();
+
             clear_screen();
 
             create_player(&dorothy);
