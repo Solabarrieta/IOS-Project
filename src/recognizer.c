@@ -20,10 +20,19 @@ char *to_lowercase(char *word)
     return res;
 }
 
-/**
- * @brief Wait, util enter is pressed.
- * 
- */
+int is_uppercase(char *word)
+{
+    for (int i = 0; i < strlen(word); i++)
+    {
+        if (!isupper(word[i]))
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 void wait_until_enter()
 {
     do
@@ -87,14 +96,11 @@ int read_doc(char *filename)
         }
     }
 
-    char begin;
-
     // Then, process the speech.
     for (j = 0; j < i; j++)
     {
         word = split[j];
         character = split[j][strlen(split[j]) - 1];
-        begin = split[j][0];
 
         if (!strcmp(to_lowercase(word), "badwitch"))
         {
@@ -301,7 +307,14 @@ int read_doc(char *filename)
             }
             else
             {
-                print(split[j]);
+                if (is_uppercase(split[j]))
+                {
+                    print(bold(concat(ANSI_COLOR_YELLOW, split[j])));
+                }
+                else
+                {
+                    print(split[j]);
+                }
             }
         }
 
