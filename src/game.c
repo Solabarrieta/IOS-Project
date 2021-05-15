@@ -126,19 +126,14 @@ int main()
 
     // Player struct, for statistics and name saving.
     player dorothy;
-    char player_name[31];
+    char player_name[31], read_buff, *args[200];
 
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
 
     // Ofelia's phrases. Witch descriptor in action!
-    ssize_t read_buff_size;
-    char *read_buff;
-    int offlia = open(concat(root_dir, "/config/.mob/gameover_text.txt"), O_RDONLY);
-
-    // ARGS for commands.
-    char *args[200];
+    int offlia = open(concat(root_dir, "/config/.mob/badwitch_phrases.txt"), O_RDONLY);
 
     while (1)
     {
@@ -148,6 +143,9 @@ int main()
             clear_screen();
             printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
             sleep(5);
+
+            // Begin again...
+            lseek(offlia, 0, SEEK_SET);
 
             printerr(THE_SYSTEM, "Poor little girl :(");
             sleep(loading_line);
@@ -228,12 +226,11 @@ int main()
             {
                 println("");
 
-                // TODO: make the witch speak from a text!
-                while (read(offlia, read_buff, 1) == 1)
+                while (read(offlia, &read_buff, 1) == 1)
                 {
-                    print(read_buff);
+                    write(1, &read_buff, 1);
 
-                    if (!strcmp(read_buff, "\n"))
+                    if (read_buff == '\n')
                     {
                         break;
                     }
@@ -274,12 +271,37 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            read_doc("grove/grove");
+            read_doc("grove/grove.txt");
+
+            cd(root_dir);
 
             if (execute(1, args))
             {
+                println("");
+
+                while (read(offlia, &read_buff, 1) == 1)
+                {
+                    write(1, &read_buff, 1);
+
+                    if (read_buff == '\n')
+                    {
+                        break;
+                    }
+                }
+
                 dorothy.fails++;
             }
+
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
 
             state = HAUNTED_HOUSE;
 
@@ -295,7 +317,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = FOREST_ENTRANCE;
+
             break;
 
         case FOREST_ENTRANCE:
@@ -308,7 +342,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = TREES_P;
+
             break;
 
         case TREES_P:
@@ -321,7 +367,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = FOREST;
+
             break;
 
         case FOREST:
@@ -334,7 +392,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = EMERALD_CITY;
+
             break;
 
         case EMERALD_CITY:
@@ -347,7 +417,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = PRAIRIE;
+
             break;
 
         case PRAIRIE:
@@ -360,7 +442,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = CASTLE;
+
             break;
 
         case CASTLE:
@@ -373,7 +467,19 @@ int main()
             wait_until_enter();
             clear_screen();
 
+            cd(game_dir);
+
+            print("\r");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+
+            println("Saving, please wait... ");
+            loading(32);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
+
             state = GAME_OVER;
+
             break;
 
         case GAME_OVER:
@@ -412,14 +518,15 @@ int main()
                     break;
                 }
 
-                state = MENU;
-                // state = RESTART;
+                state = RESTART;
             }
             else
             {
                 speak_character(GLINDA, "Thank you, dear, for playing this wonderful game!");
                 println("I think the world is now a better place.");
                 state = MENU;
+
+                // If exit, close offlia
             }
 
             print("\r");
@@ -434,5 +541,7 @@ int main()
             break;
         }
     }
+
+    close(offlia);
     return 0;
 }
