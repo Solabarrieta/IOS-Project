@@ -132,6 +132,11 @@ int main()
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
 
+    // Ofelia's phrases. Witch descriptor in action!
+    ssize_t read_buff_size;
+    char *read_buff;
+    int offlia = open(concat(root_dir, "/config/.mob/gameover_text.txt"), O_RDONLY);
+
     // ARGS for commands.
     char *args[200];
 
@@ -179,7 +184,8 @@ int main()
             print("Press ENTER to START... ");
             wait_until_enter();
             println("Loading... ");
-            loading(128);
+            // loading(128);
+            loading(32);
             println("\n\tDONE!");
             println("Press ENTER key to continue...");
             wait_until_enter();
@@ -220,6 +226,19 @@ int main()
 
             if (execute(1, args))
             {
+                println("");
+
+                // TODO: make the witch speak from a text!
+                while (read(offlia, read_buff, 1) == 1)
+                {
+                    print(read_buff);
+
+                    if (!strcmp(read_buff, "\n"))
+                    {
+                        break;
+                    }
+                }
+
                 dorothy.fails++;
             }
             else

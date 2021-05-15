@@ -1,4 +1,3 @@
-Badwitch: Are you prepared? No more legs for you, no more adventure for you. It 's the end.
 Goodwitch: I’m sorry this happened, Use <<replay>> command and start again, help us defeat this witch.
 Badwitch: Come if you dare, I'm just going to tell you that’s impossible.
 

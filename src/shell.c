@@ -133,9 +133,15 @@ int main()
       {
          if (!strcmp(args[0], "exit"))
          {
-            if (exit_game() == 0)
+            switch (exit_game())
             {
-               exit(127);
+            case 0:
+               _exit(0);
+               break;
+
+            case -1:
+               _exit(1);
+               break;
             }
          }
          else if (!strcmp(args[0], "cd"))
