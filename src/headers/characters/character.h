@@ -20,6 +20,7 @@
 
 typedef struct player
 {
+    char name[31];
     unsigned char is_dead;
     unsigned char fails;
     unsigned int score;
@@ -31,3 +32,11 @@ typedef struct player
  * @param p The player.
  */
 extern void create_player(player *p);
+
+/**
+ * @brief Set the name of the player.
+ * 
+ * @param p The player.
+ * @param name Her name.
+ */
+extern void set_name(player *p, const char *name);

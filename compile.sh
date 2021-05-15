@@ -38,14 +38,15 @@ if [[ $ALL == "true" || $last_vers != $vers || -n "$(git diff src/headers/libstr
     sudo chmod 0755 /usr/lib/libstring.so
 fi
 
-sudo ldconfig
+STRING="/usr/lib/libstring.so"
+sudo ldconfig $STRING
 
 ############### COMMAND COMPILATION PROCESS ###############
 echo "**PRE-COMPILATION**"
 # Precompiling characters
 if [[ $ALL == "true" || $last_vers != $vers || !(-s shell) || -n "$(git diff src/headers/characters/character.c)" || -n "$(git diff src/headers/characters/character.h)" ]]; then
     echo "Precompiling characters..."
-    gcc -c src/headers/characters/character.c -o build/characters.o
+    gcc -c src/headers/characters/character.c -o build/characters.o -L$STRING -lstring
 fi
 
 echo "**COMPILATION**"
@@ -53,61 +54,61 @@ echo "**COMPILATION**"
 # Compile CAT command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/cat) || -n "$(git diff src/cat.c)" ]]; then
     echo "Compile cat."
-    gcc src/cat.c build/characters.o -o bin/cat -lstring
+    gcc src/cat.c build/characters.o -o bin/cat -L$STRING -lstring
 fi
 
 # Compile CP command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/cp) || -n "$(git diff src/cp.c)" ]]; then
     echo "Compile cp."
-    gcc src/cp.c -o bin/cp -lstring
+    gcc src/cp.c -o bin/cp -L$STRING -lstring
 fi
 
 # Compile GREP command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/grep) || -n "$(git diff src/grep.c)" ]]; then
     echo "Compile grep."
-    gcc src/grep.c -o bin/grep -lstring
+    gcc src/grep.c -o bin/grep -L$STRING -lstring
 fi
 
 # Compile HELP command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/help) || -n "$(git diff src/help.c)" ]]; then
     echo "Compile help."
-    gcc src/help.c build/characters.o -o bin/help -lstring
+    gcc src/help.c build/characters.o -o bin/help -L$STRING -lstring
 fi
 
 # Compile LS command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/ls) || -n "$(git diff src/ls.c)" ]]; then
     echo "Compile ls."
-    gcc src/ls.c build/characters.o -o bin/ls -lstring
+    gcc src/ls.c build/characters.o -o bin/ls -L$STRING -lstring
 fi
 
 # Compile MV command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/mv) || -n "$(git diff src/mv.c)" ]]; then
     echo "Compile mv."
-    gcc src/mv.c build/characters.o -o bin/mv -lstring
+    gcc src/mv.c build/characters.o -o bin/mv -L$STRING -lstring
 fi
 
 # Compile PWD command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/pwd) || -n "$(git diff src/pwd.c)" ]]; then
     echo "Compile pwd."
-    gcc src/pwd.c build/characters.o -o bin/pwd -lstring
+    gcc src/pwd.c build/characters.o -o bin/pwd -L$STRING -lstring
 fi
 
 # Compile STEE command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/stee) || -n "$(git diff src/stee.c)" ]]; then
     echo "Compile stee."
-    gcc src/stee.c build/characters.o -o bin/stee -lstring
+    gcc src/stee.c build/characters.o -o bin/stee -L$STRING -lstring
 fi
 
 # Compile TOUCH command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/touch) || -n "$(git diff src/touch.c)" ]]; then
     echo "Compile touch."
-    gcc src/touch.c build/characters.o -o bin/touch -lstring
+    gcc src/touch.c build/characters.o -o bin/touch -L$STRING -lstring
 fi
 
 # Compile MAN command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/man) || -n "$(git diff src/man.c)" ]]; then
     echo "Compile man."
-    gcc src/man.c build/characters.o -o bin/man -lstring
+    gcc src/man.c build/characters.o -o bin/man -L$STRING -lstring
 fi
 
 ############### COMMAND COMPILATION PROCESS ###############
@@ -115,12 +116,12 @@ fi
 # COMPILE SHELL.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s gsh) || -n "$(git diff src/shell.c)" ]]; then
     echo "COMPILING SHELL"
-    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/executor.c src/headers/characters/character.c -o gsh -lstring
+    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/executor.c src/headers/characters/character.c -o gsh -L$STRING -lstring
 fi
 
 if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/game.c)" ]]; then
     echo "COMPILING GAME FILE"
-    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -lstring
+    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm
 fi
 
 if [[ $last_vers != $vers ]]; then

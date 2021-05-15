@@ -25,12 +25,14 @@
 // Standard libraries and syscall managing.
 #include <stdio.h>
 #include <stdlib.h>
+
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <math.h>
 
 #define error(a)   \
     {              \
@@ -59,19 +61,54 @@
 
 /* STATES of the GAME */
 
+// The number of seconds to sleep on loading screens.
+static float loading_screen = 0.2;
+
+// The number of seconds to sleep before changing the character's line.
+static float loading_line = 2;
+
+void loading(int wt_val)
+{
+    int perct;
+    char snum[5];
+
+    for (int i = 0; i < wt_val; i++)
+    {
+        switch (i % 4)
+        {
+        case 1:
+            print("\r/ ");
+            break;
+
+        case 2:
+            print("\r- ");
+            break;
+
+        case 3:
+            print("\r\\ ");
+            break;
+
+        default:
+            print("\r- ");
+            break;
+        }
+
+        perct = (int) ceil(((float)100 * i) / wt_val);
+
+        sprintf(snum, "%d%%", perct);
+        print(snum);
+        usleep(loading_screen * 1000000);
+    }
+}
+
 int main()
 {
-    // The number of seconds to sleep on loading screens.
-    static int loading_screen = 0.5;
-
-    // The number of seconds to sleep before changing the character's line.
-    static int loading_line = 2;
-
     // State of the game
     static int state = MENU;
 
     // Player struct, for statistics and name saving.
     player dorothy;
+    char player_name[31];
 
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
@@ -100,32 +137,9 @@ int main()
 
             create_player(&dorothy);
 
-            for (int i = 0; i < 64; i++)
-            {
-                switch (i % 4)
-                {
-                case 1:
-                    print("/");
-                    break;
+            loading(256);
 
-                case 2:
-                    print("-");
-                    break;
-
-                case 3:
-                    print("\\");
-                    break;
-
-                default:
-                    print("-");
-                    break;
-                }
-
-                sleep(loading_screen);
-                lseek(1, 0, SEEK_SET);
-            }
-
-            println("Well, it is done!");
+            println("\nWell, it is done!");
             sleep(loading_line);
 
             println("You can now play again against that witch and save OS, if you want.");
@@ -144,7 +158,12 @@ int main()
 
             // Print the menu screen and wait until enter is pressed
             print_menu();
-            println("Press ENTER to START...");
+            print("Press ENTER to START... ");
+            wait_until_enter();
+            println("Loading... ");
+            loading(128);
+            println("\n\tDONE!");
+            println("Press ENTER key to continue...");
             wait_until_enter();
 
             clear_screen();
@@ -155,13 +174,23 @@ int main()
             break;
 
         case VILLAGE:
-            cd(game_dir);
-
-            clear_screen();
-            println(concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<VILLAGE>>")));
-            write(0, "Press enter to continue...\n", 28);
+            // Save player name
+            speak_character(GLINDA, "Whats you name, dear?");
+            scanf("%s", player_name);
+            set_name(&dorothy, player_name);
+            println("Saving, please wait... ");
+            loading(16);
+            println("\nDONE!");
+            println("Press ENTER key to continue...");
             wait_until_enter();
+            clear_screen();
 
+            // Go to VILLAGE
+            println(concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<VILLAGE>>")));
+            println("\rPress ENTER key to continue...");
+            wait_until_enter();
+            
+            cd(game_dir);
             read_doc("village.txt");
 
             args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
@@ -174,12 +203,16 @@ int main()
             }
             else
             {
+                print("\r");
                 speak_character(GLINDA, "Oh! Good, did you have fun with those commands? I guess you had, my dear.");
+                print("\r");
                 speak_character(GLINDA, "But now its time to save OS from my sis.");
+                print("\r");
                 speak_character(GLINDA, "Quick! We don't so much time!");
             }
 
-            write(1, "Press enter to continue...\n", 28);
+            print("\r");
+            println("Press ENTER key to continue...");
             wait_until_enter();
 
             state = GROVE;
