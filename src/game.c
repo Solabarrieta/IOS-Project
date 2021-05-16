@@ -195,18 +195,11 @@ int main()
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
 
-    // DOROTHY
-    char player_name[31];
-
     // How many time has Dorothy accessed one place?
-    int times_access;
+    int times_access, argc;
 
     // For choosing.
-    char election[20];
-
-    // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
-    char *args[200];
-    int argc;
+    char std, election[20], player_name[31], *args[200];
 
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
@@ -301,11 +294,14 @@ int main()
             // The introduction
             read_doc("village.txt");
 
+            std = state + '0';
+
             // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -656,12 +652,14 @@ int main()
             cd("castle");
             read_doc("castle.txt");
 
+            std = state + '0';
+
             // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            args[3] = state;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = GAME_OVER;
             save();

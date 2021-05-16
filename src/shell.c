@@ -27,23 +27,23 @@
 #define MAXARGS 20
 
 /* STATES of the GAME */
-#define RESTART -1
-#define MENU -2
-#define GAME_OVER -3
-#define VILLAGE 1
-#define GROVE 2
-#define HAUNTED_HOUSE 21
-#define BASEMENT 211
-#define BATHROOM 212
-#define BEDROOM 213
-#define KITCHEN 214
-#define LIVINGROOM 215
-#define FOREST_ENTRANCE 3
-#define TREES_P 31
-#define FOREST 4
-#define EMERALD_CITY 5
-#define PRAIRIE 6
-#define CASTLE 7
+#define RESTART -1 + '0'
+#define MENU -2 + '0'
+#define GAME_OVER -3 + '0'
+#define VILLAGE 1 + '0'
+#define GROVE 2 + '0'
+#define HAUNTED_HOUSE 21 + '0'
+#define BASEMENT 211 + '0'
+#define BATHROOM 212 + '0'
+#define BEDROOM 213 + '0'
+#define KITCHEN 214 + '0'
+#define LIVINGROOM 215 + '0'
+#define FOREST_ENTRANCE 3 + '0'
+#define TREES_P 31 + '0'
+#define FOREST 4 + '0'
+#define EMERALD_CITY 5 + '0'
+#define PRAIRIE 6 + '0'
+#define CASTLE 7 + '0'
 /* STATES of the GAME */
 
 /**
@@ -116,27 +116,27 @@ int read_args(int *argcp, char *args[], int max, int *eofp)
 
 int main(int argcv, char *argv[])
 {
-   int index, argc, state, eof = 0;
-   char *game_dir, *root_dir, *cmd_dir, *current_dir, *prompt_name, *args[MAXARGS], *Prompt = "GlindOS";
+   int index, argc, eof = 0;
+   char *state, *game_dir, *root_dir, *cmd_dir, *current_dir, *prompt_name, *args[MAXARGS], *Prompt = "GlindOS";
    static char *path[10] = {"cat", "cp", "grep", "help", "ls", "man", "mv", "pwd", "touch", "stee"};
 
    if (argcv == 3)
    {
       root_dir = argv[2];
       game_dir = argv[1];
-      state = 1;
+      state = "0";
    }
    else if (argcv == 4)
    {
       root_dir = argv[2];
       game_dir = argv[1];
-      state = (int) argv[3];
+      state = argv[3];
    }
    else
    {
       root_dir = getcwd((char *)NULL, 0);
       game_dir = concat(root_dir, "/config/.gamedir/village");
-      state = 1;
+      state = "0";
    }
 
    cmd_dir = concat(root_dir, "/bin/");
@@ -157,7 +157,7 @@ int main(int argcv, char *argv[])
 
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0)
       {
-         if (!strcmp(args[0], "exit") && (argcv == 4 && state == CASTLE) || (argcv < 4 && state == 1))
+         if (argcv < 4 && !strcmp(args[0], "exit") || !strcmp(args[0], "exit") && (argcv == 4 && !strcmp(state, (char*) CASTLE)))
          {
             switch (exit_game())
             {
