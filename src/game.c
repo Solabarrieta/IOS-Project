@@ -337,6 +337,9 @@ int main()
             cd(".haunted_house/");
             read_doc("haunted_house_init.txt", player_name);
 
+            // TODO: The game goes in between here...
+
+            read_doc("haunted_house_end.txt", player_name);
 
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -348,6 +351,21 @@ int main()
 
             state = FOREST_ENTRANCE;
 
+            break;
+
+        case BEDROOM:
+            break;
+
+        case KITCHEN:
+            break;
+
+        case LIVINGROOM:
+            break;
+        
+        case BATHROOM:
+            break;
+        
+        case BASEMENT:
             break;
 
         case FOREST_ENTRANCE:
