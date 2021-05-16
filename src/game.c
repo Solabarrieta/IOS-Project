@@ -196,6 +196,22 @@ int main()
             wait_until_enter();
 
             // Then, load the game.
+            println("\n Greetings PLAYER!");
+            print("My name is ");
+            print(GLINDA);
+            println(" and I am the protector of this realm");
+            println("I need you help to save OS from its menaces but, first, ");
+            speak_character(GLINDA, "Whats you name, dear?");
+            print("Please, here my sweet child >> ");
+            scanf("%s", player_name);
+            set_name(&dorothy, player_name);
+            println("Saving, please wait... ");
+            loading(16);
+            println(" DONE!");
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
             println("Loading... ");
             // loading(128);
             loading(32);
@@ -209,20 +225,8 @@ int main()
             break;
 
         case VILLAGE:
-            clear_screen();
-
-            // Save player's name
-            speak_character(GLINDA, "Whats you name, dear?");
-            scanf("%s", player_name);
-            set_name(&dorothy, player_name);
-            println("Saving, please wait... ");
-            loading(16);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
-            wait_until_enter();
-            clear_screen();
-
             // HERE begins the true game!
+            clear_screen();
             println(VILLAGE_TIT);
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -236,7 +240,7 @@ int main()
 
             read_doc("village.txt");
 
-            // Once the text is read, the user is encouraged to look for help 
+            // Once the text is read, the user is encouraged to look for help
             // in the terminal.
             args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
             strcpy(args[0], root_dir);
@@ -261,15 +265,6 @@ int main()
                 }
 
                 dorothy.fails++;
-            }
-            else
-            {
-                print("\r");
-                speak_character(GLINDA, "Oh! Good, did you have fun with those commands? I guess you had, my dear.");
-                print("\r");
-                speak_character(GLINDA, "But now its time to save OS from my sis.");
-                print("\r");
-                speak_character(GLINDA, "Quick! We don't can't lose time!");
             }
 
             cd(game_dir);
