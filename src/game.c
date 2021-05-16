@@ -11,7 +11,6 @@
 
 // Commands used later, in the game.
 #include "headers/exit.h"
-#include "headers/menu.h"
 #include "headers/cd.h"
 #include "headers/clear.h"
 
@@ -123,69 +122,67 @@ void print_fails(int fails, char *root_dir)
 void loading(int wt_val)
 {
     int perct;
-    char snum[5];
+    char ch, snum[22];
 
     for (int i = 0; i <= wt_val; i++)
     {
         switch (i % 4)
         {
         case 1:
-            print("\r/ ");
-            break;
-
-        case 2:
-            print("\r- ");
+            ch = '/';
             break;
 
         case 3:
-            print("\r\\ ");
+            ch = '\\';
             break;
 
         default:
-            print("\r- ");
+            ch = '-';
             break;
         }
 
         perct = (int)ceil(((float)100 * i) / wt_val);
 
-        sprintf(snum, "%d%%", perct);
+        sprintf(snum, "\rLoading... %c%d%%", ch, perct);
         print(snum);
         usleep(loading_screen * 1000000);
     }
+
+    println(" DONE!");
+    println("Press ENTER key to continue...");
+    wait_until_enter();
 }
 
 void save()
 {
-    println("Saving, please wait... ");
+    static int wt_val = 32;
 
     int perct;
-    int wt_val = 32;
-    char snum[5];
+    char ch, snum[42];
+
+    println("Press ENTER key to continue...");
+    wait_until_enter();
 
     for (int i = 0; i <= wt_val; i++)
     {
         switch (i % 4)
         {
         case 1:
-            print("\r/ ");
-            break;
-
-        case 2:
-            print("\r- ");
+            ch = '/';
             break;
 
         case 3:
-            print("\r\\ ");
+            ch = '\\';
             break;
 
         default:
-            print("\r- ");
+            ch = '-';
             break;
         }
 
         perct = (int)ceil(((float)100 * i) / wt_val);
 
-        sprintf(snum, "%d%%", perct);
+        sprintf(snum, "\rSaving progress, please wait... %c%d%%", ch, perct);
         print(snum);
         usleep(saving_time * 1000000);
     }
@@ -199,11 +196,10 @@ int main()
 {
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
-
+    
     // DOROTHY
     char player_name[31];
-    
-    
+
     // How many time has Dorothy accessed one place?
     int times_access;
 
@@ -223,24 +219,17 @@ int main()
         {
         case RESTART:
             clear_screen();
-            printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
-            usleep(5);
+            printerr(THE_SYSTEM, "Resurrecting the player...");
+            loading(32);
 
             printerr(THE_SYSTEM, "Poor little girl :(");
             usleep(loading_line);
-
             println("She looks like if a trail passed over her a hundred times.");
             usleep(loading_line);
-
             println(concat(concat("That ", OFELIA), " must be a monster..."));
             usleep(loading_line);
 
-            fails = 0;
-
             loading(256);
-
-            println("\nWell, it is done!");
-            usleep(loading_line);
 
             println("You can now play again against that witch and save OS, if you want.");
             usleep(loading_line);
@@ -248,15 +237,30 @@ int main()
             println("Else, you already know which are the ways to exit OS, don't you?");
             usleep(loading_line);
 
-            state = VILLAGE;
             wait_until_enter();
+
+            fails = 0;
+            state = VILLAGE;
 
             break;
 
         case MENU:
-            // Print the menu screen and wait until enter is pressed.
             clear_screen();
-            print_menu();
+            println("***************************************************************");
+            println("***************************************************************");
+            println("***************************************************************");
+            println("***************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@****************");
+            println("**************|******* THE WIZARD OF OS *******|***************");
+            println("**************|                                |***************");
+            println("**************|**** \"A wizardry adventure\" ****|***************");
+            println("**************|                                |***************");
+            println("**************|  \"Hurry up! Toto is waiting!\"  |***************");
+            println("**************|                                |***************");
+            println("**************|*** Press enter key to begin ***|***************");
+            println("***************@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@****************");
+            println("***************************************************************");
+            println("***************************************************************");
+            println("***************************************************************");
             print("Press ENTER to START... ");
             wait_until_enter();
 
@@ -267,49 +271,39 @@ int main()
             print(GLINDA);
             println(" and I am the protector of this realm.");
             usleep(loading_line);
-            speak_character(GLINDA, "I need you help to save OS from its threats, because only the player has ability to stop the evil of my sister but, first, ");
+            speak_character(GLINDA, "I need your help to save OS from its threats!");
+            println("because only the player has the ability to stop the evil of my sister but,");
             usleep(loading_line);
 
             // Set the name!
-            println("Whats you name, dear?");
-            print("Please, here my sweet child >> ");
+            print("first, whats you name, dear? ");
             scanf("%s", player_name);
+            print("\n");
 
             // Great the player for registering.
             println(concat("Greetings, ", concat(player_name, ".")));
+            println("I'm glad to meet you... I hope you help is enough to stop my sister...");
             usleep(loading_line);
 
             save();
-
             clear_screen();
 
-            println("Loading... ");
             // loading(128);
             loading(32);
-            println(" DONE!");
-            println("Press ENTER key to continue...");
-            wait_until_enter();
 
             fails = 0;
-
             state = VILLAGE;
-
             break;
 
         case VILLAGE:
-            // HERE begins the true game!
             clear_screen();
             println(VILLAGE_TIT);
             println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            // GOTO The Village, and set the text to be read.
-            // There, GLIDA will explain the game to THE PLAYER,
-            // and OFELIA, The Most Evil Witch Ever, will warn Dorothy about
-            // introducing commands wrong.
             cd(game_dir);
 
-            // The first introduction!
+            // The introduction
             read_doc("village.txt");
 
             // Terminal
@@ -324,13 +318,8 @@ int main()
                 print_fails(++fails, root_dir);
             }
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = GROVE;
-
             break;
 
         case GROVE:
@@ -357,6 +346,7 @@ int main()
                 print_fails(++fails, root_dir);
             }
 
+            // JASMINE's text!
             println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
             usleep(loading_line);
             speak_character(JASMINE, concat(concat("Where do you wanna go, ", player_name), "? The HAUNTED HOUSE or The FOREST ENTRANCE (default) ?"));
@@ -364,8 +354,11 @@ int main()
             speak_character(JASMINE, "The HAUNTED HOUSE is not in the YELLOW path :)), and it is option to choose it. You can come back anytime!");
             usleep(loading_line);
             print("Remember, you choose: ");
+
             fflush(stdin);
+            // This character sequence allows to read whitespaces inside lines
             scanf("%[^\n]%*c", election);
+            fflush(stdin);
 
             if (!strcmp(to_lowercase(election), "haunted house") || !strcmp(to_lowercase(election), "the haunted house"))
             {
@@ -384,19 +377,13 @@ int main()
                 state = FOREST_ENTRANCE;
             }
 
-            fflush(stdin);
-
             times_access = 0;
-
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             break;
 
         case HAUNTED_HOUSE:
-            // If the user chooses it, she can enter the haunted house...
+            /* OPTIONAL */
+
             clear_screen();
             println(HAUNTED_HOUSE_TIT);
             println("Press ENTER key to continue...");
@@ -420,24 +407,20 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            // The game goes in between here...
+            // Access to other places :)
             state = execute(argc, args);
 
+            // Exit the mansion...
             if (state <= 1)
             {
-                // If error, out the house.
-                times_access = 0;
-
                 read_doc("haunted_house_end.txt");
 
-                println("\rPress ENTER key to continue...");
-                wait_until_enter();
-
+                times_access = 0;
                 save();
-
                 state = FOREST_ENTRANCE;
             }
 
+            /* OPTIONAL */
             break;
 
         case BEDROOM:
@@ -450,16 +433,6 @@ int main()
             cd("bedroom/");
 
             read_doc("haunted_house_bedroom.txt");
-
-            // Getpass...
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/bin/getpass"));
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/bin/getpass");
-
-            args[1] = getcwd((char *)NULL, 0);
-            argc = 3;
-
-            execute(argc, args);
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -607,13 +580,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = TREES_P;
-
             break;
 
         case TREES_P:
@@ -632,13 +600,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = FOREST;
-
             break;
 
         case FOREST:
@@ -658,13 +621,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = EMERALD_CITY;
-
             break;
 
         case EMERALD_CITY:
@@ -683,13 +641,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = PRAIRIE;
-
             break;
 
         case PRAIRIE:
@@ -708,13 +661,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = CASTLE;
-
             break;
 
         case CASTLE:
@@ -733,13 +681,8 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             state = GAME_OVER;
-
             break;
 
         case GAME_OVER:

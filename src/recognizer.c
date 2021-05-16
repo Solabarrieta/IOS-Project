@@ -36,10 +36,14 @@ int is_uppercase(char *word)
 
 void wait_until_enter()
 {
+    fflush(stdin);
+
     do
     {
 
     } while (getchar() != 10);
+
+    fflush(stdin);
 }
 
 int is_command(char *cmd)
