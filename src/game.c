@@ -150,9 +150,6 @@ int main()
 
     args[2] = root_dir;
 
-    // Ofelia's phrases. Witch descriptor in action!
-    int offlia = open(concat(root_dir, "/config/.mob/badwitch_phrases.txt"), O_RDONLY);
-
     while (1)
     {
         switch (state)
@@ -161,9 +158,6 @@ int main()
             clear_screen();
             printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
             sleep(5);
-
-            // Reset Ofelia's phrases.
-            lseek(offlia, 0, SEEK_SET);
 
             printerr(THE_SYSTEM, "Poor little girl :(");
             sleep(loading_line);
@@ -262,17 +256,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-
-                while (read(offlia, &read_buff, 1) == 1)
-                {
-                    write(1, &read_buff, 1);
-
-                    if (read_buff == '\n')
-                    {
-                        break;
-                    }
-                }
-
+                read_doc(concat(root_dir, "/config/.mob/badwitch_first.txt"), player_name);
                 dorothy.fails++;
             }
 
@@ -307,17 +291,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-
-                while (read(offlia, &read_buff, 1) == 1)
-                {
-                    write(1, &read_buff, 1);
-
-                    if (read_buff == '\n')
-                    {
-                        break;
-                    }
-                }
-
+                read_doc(concat(root_dir, "/config/.mob/badwitch_second.txt"), player_name);
                 dorothy.fails++;
             }
 
@@ -567,6 +541,5 @@ int main()
         }
     }
 
-    close(offlia);
     return 0;
 }
