@@ -95,6 +95,9 @@ static float loading_screen = 0.2;
 // The number of seconds to sleep before changing the character's line.
 static float loading_line = 2;
 
+// Medium saving rate...
+static float saving_time = 0.6;
+
 void print_fails(int fails, char *root_dir, char *player_name)
 {
     switch (fails)
@@ -149,6 +152,47 @@ void loading(int wt_val)
         print(snum);
         usleep(loading_screen * 1000000);
     }
+}
+
+void save()
+{
+    println("Saving, please wait... ");
+    
+    int perct;
+    int wt_val = 32;
+    char snum[5];
+
+    for (int i = 0; i <= wt_val; i++)
+    {
+        switch (i % 4)
+        {
+        case 1:
+            print("\r/ ");
+            break;
+
+        case 2:
+            print("\r- ");
+            break;
+
+        case 3:
+            print("\r\\ ");
+            break;
+
+        default:
+            print("\r- ");
+            break;
+        }
+
+        perct = (int)ceil(((float)100 * i) / wt_val);
+
+        sprintf(snum, "%d%%", perct);
+        print(snum);
+        usleep(saving_time * 1000000);
+    }
+
+    println(" DONE!");
+    println("Press ENTER key to continue...");
+    wait_until_enter();
 }
 
 int main()
@@ -233,11 +277,9 @@ int main()
             set_name(&dorothy, player_name);
             println(concat("Greetings, ", player_name));
             sleep(loading_line);
-            println("Saving, please wait... ");
-            loading(16);
-            println(" DONE!");
-            println("Press ENTER key to continue...");
-            wait_until_enter();
+
+            save();
+
             clear_screen();
 
             println("Loading... ");
@@ -289,10 +331,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = GROVE;
 
@@ -350,10 +389,7 @@ int main()
             println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             break;
 
@@ -390,10 +426,7 @@ int main()
                 println("\rPress ENTER key to continue...");
                 wait_until_enter();
 
-                println("Saving, please wait... ");
-                loading(32);
-                println("\nDONE!");
-                println("Press ENTER key to continue...");
+                save();
 
                 state = FOREST_ENTRANCE;
             }
@@ -559,27 +592,16 @@ int main()
             wait_until_enter();
             clear_screen();
 
-
             cd("forest_entrance");
-
-            
             read_doc("forest_entrance.txt", player_name);
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
-
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = TREES_P;
 
             break;
 
         case TREES_P:
-            // cd(concat(game_dir, "grove/forest_entrance/.trees/"));
-
             clear_screen();
             println(TREES_P_TIT);
 
@@ -587,24 +609,20 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd(".trees");
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            read_doc("tree.txt", player_name);
+
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = FOREST;
 
             break;
 
         case FOREST:
-            // cd(concat(game_dir, "grove/forest_entrance/forest/"));
-
             clear_screen();
             println(FOREST_TIT);
 
@@ -612,91 +630,71 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd("forest");
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            read_doc("forest.txt", player_name);
+
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = EMERALD_CITY;
 
             break;
 
         case EMERALD_CITY:
-            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/"));
-
             clear_screen();
             println(EMERALD_CITY_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd("emerald_city");
+            read_doc("emerald_city.txt", player_name);
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = PRAIRIE;
 
             break;
 
         case PRAIRIE:
-            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/"));
-
             clear_screen();
             println(PRAIRIE_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd("prairie");
+            read_doc("prairie.txt", player_name);
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = CASTLE;
 
             break;
 
         case CASTLE:
-            // cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/castle"));
-
             clear_screen();
             println(CASTLE_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd("castle");
+            read_doc("castle.txt", player_name);
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            save();
 
             state = GAME_OVER;
 
@@ -745,19 +743,14 @@ int main()
                 speak_character(GLINDA, "Thank you, dear, for playing this wonderful game!");
                 println("I think the world is now a better place.");
                 state = MENU;
-
-                // If exit, close offlia
             }
 
             print("\r");
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
-
+            save();
+            
             break;
         }
     }
