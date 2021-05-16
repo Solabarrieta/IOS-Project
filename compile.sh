@@ -121,7 +121,8 @@ fi
 
 if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/game.c)" ]]; then
     echo "COMPILING GAME FILE"
-    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm --debug
+    gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm
+    # gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm --debug
 fi
 
 if [[ $last_vers != $vers ]]; then

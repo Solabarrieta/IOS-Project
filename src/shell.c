@@ -115,15 +115,13 @@ int main(int argcv, char *argv[])
 
    if (argcv == 3)
    {
-      game_dir = argv[1];
       root_dir = argv[2];
+      game_dir = argv[1];
    }
    else
    {
       root_dir = getcwd((char *)NULL, 0);
-      game_dir = (char *)malloc(strlen(root_dir) + 25);
-      strcpy(game_dir, root_dir);
-      strcat(game_dir, "/config/.gamedir/village");
+      game_dir = concat(root_dir, "/config/.gamedir/village");
    }
 
    cd(game_dir);

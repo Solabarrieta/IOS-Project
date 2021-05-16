@@ -93,7 +93,7 @@
 static float loading_screen = 0.2;
 
 // The number of seconds to sleep before changing the character's line.
-static float loading_line = 0.4;
+static float loading_line = 0.8 * 1000000;
 
 // Medium saving rate...
 static float saving_time = 0.11;
@@ -205,11 +205,11 @@ int main()
     
     // Player struct, for statistics and name saving.
     player dorothy;
-    char player_name[31], read_buff, *args[10];
+    char player_name[31], read_buff, *args[200];
     
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
-    char *game_dir = concat(root_dir, "/config/.gamedir/village/");
+    char *game_dir = concat(root_dir, "/config/.gamedir/village");
     
     char election[20];
     int argc;
@@ -308,10 +308,7 @@ int main()
             read_doc("village.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
-            
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
