@@ -188,7 +188,7 @@ int main(int argcv, char *argv[])
                   }
                }
 
-               if (!strcmp(concat(current_dir, "/"), game_dir) && !strncmp(args[1], "..", 2))
+               if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
                {
                   printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
                   return 1;
