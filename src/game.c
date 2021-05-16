@@ -93,7 +93,7 @@
 static float loading_screen = 0.2;
 
 // The number of seconds to sleep before changing the character's line.
-static float loading_line = 2;
+static float loading_line = 0.4;
 
 // Medium saving rate...
 static float saving_time = 0.11;
@@ -199,14 +199,18 @@ int main()
 {
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
+    
     // State of the game
     static int state = MENU;
+    
     // Player struct, for statistics and name saving.
     player dorothy;
     char player_name[31], read_buff, *args[10];
+    
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
+    
     char election[20];
     int argc;
     int times_access;
@@ -218,29 +222,29 @@ int main()
         case RESTART:
             clear_screen();
             printerr(THE_SYSTEM, "Restarting the player... Resurrecting her.");
-            sleep(5);
+            usleep(5);
 
             printerr(THE_SYSTEM, "Poor little girl :(");
-            sleep(loading_line);
+            usleep(loading_line);
 
             println("She looks like if a trail passed over her a hundred times.");
-            sleep(loading_line);
+            usleep(loading_line);
 
             println(concat(concat("That ", OFELIA), " must be a monster..."));
-            sleep(loading_line);
+            usleep(loading_line);
 
             create_player(&dorothy);
 
             loading(256);
 
             println("\nWell, it is done!");
-            sleep(loading_line);
+            usleep(loading_line);
 
             println("You can now play again against that witch and save OS, if you want.");
-            sleep(loading_line);
+            usleep(loading_line);
 
             println("Else, you already know which are the ways to exit OS, don't you?");
-            sleep(loading_line);
+            usleep(loading_line);
 
             state = VILLAGE;
             wait_until_enter();
@@ -256,19 +260,19 @@ int main()
 
             // Then, load the game.
             println("\nGreetings PLAYER!");
-            sleep(loading_line);
+            usleep(loading_line);
             print("My name is ");
             print(GLINDA);
             println(" and I am the protector of this realm.");
-            sleep(loading_line);
+            usleep(loading_line);
             speak_character(GLINDA, "I need you help to save OS from its threats, because only the player has ability to stop the evil of my sister but, first, ");
-            sleep(loading_line);
+            usleep(loading_line);
             println("Whats you name, dear?");
             print("Please, here my sweet child >> ");
             scanf("%s", player_name);
             set_name(&dorothy, player_name);
             println(concat("Greetings, ", player_name));
-            sleep(loading_line);
+            usleep(loading_line);
 
             save();
 
@@ -304,9 +308,10 @@ int main()
             read_doc("village.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
+            
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -351,11 +356,11 @@ int main()
             }
 
             println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
-            sleep(loading_line);
+            usleep(loading_line);
             speak_character(JASMINE, concat(concat("Where do you wanna go, ", player_name), "? The HAUNTED HOUSE or The FOREST ENTRANCE (default) ?"));
-            sleep(loading_line);
+            usleep(loading_line);
             speak_character(JASMINE, "The HAUNTED HOUSE is not in the YELLOW path :)), and it is option to choose it. You can come back anytime!");
-            sleep(loading_line);
+            usleep(loading_line);
             print("Remember, you choose: ");
             fflush(stdin);
             scanf("%[^\n]%*c", election);
