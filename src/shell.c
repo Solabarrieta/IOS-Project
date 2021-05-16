@@ -157,87 +157,169 @@ int main(int argcv, char *argv[])
 
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0)
       {
-         if (argcv < 4 && !strcmp(args[0], "exit") || !strcmp(args[0], "exit") && (argcv == 4 && !strcmp(state, (char*) CASTLE)))
+         if (!strcmp(args[0], "clear"))
          {
-            switch (exit_game())
-            {
-            case 0:
-               _exit(0);
-               break;
-
-            case -1:
-               _exit(1);
-               break;
-            }
+            clear_screen();
          }
-         else if (!strcmp(args[0], "cd"))
+         else if (argcv == 4)
          {
-            if (argc == 1)
+            if (!strcmp(state, (char *)VILLAGE))
             {
-               cd(game_dir);
             }
-            else if (argc == 2)
+            else if (!strcmp(state, (char *)GROVE))
             {
-               if (!strncmp(concat(current_dir, "/"), concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/"), strlen(concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/"))))
+            }
+            else if (!strcmp(state, (char *)HAUNTED_HOUSE))
+            {
+               if (!strcmp(args[0], cd))
                {
-                  if (!strcmp(args[1], "bedroom") || !strcmp(args[1], "bedroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bedroom/")))
+                  if (argc == 2)
                   {
-                     return 213;
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+
+                     if (!strcmp(args[1], "bedroom") || !strcmp(args[1], "bedroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bedroom/")))
+                     {
+                        return 213;
+                     }
+                     else if (!strcmp(args[1], "basement") || !strcmp(args[1], "basement/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/basement/")))
+                     {
+                        return 211;
+                     }
+                     else if (!strcmp(args[1], "bathroom") || !strcmp(args[1], "bathroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bathroom/")))
+                     {
+                        return 212;
+                     }
+                     else if (!strcmp(args[1], "kitchen") || !strcmp(args[1], "kitchen/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/kitchen/")))
+                     {
+                        return 214;
+                     }
+                     else if (!strcmp(args[1], "livingroom") || !strcmp(args[1], "livingroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/livingroom/")))
+                     {
+                        return 215;
+                     }
                   }
-                  else if (!strcmp(args[1], "basement") || !strcmp(args[1], "basement/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/basement/")))
+                  else if (argc != 1)
                   {
-                     return 211;
-                  }
-                  else if (!strcmp(args[1], "bathroom") || !strcmp(args[1], "bathroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bathroom/")))
-                  {
-                     return 212;
-                  }
-                  else if (!strcmp(args[1], "kitchen") || !strcmp(args[1], "kitchen/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/kitchen/")))
-                  {
-                     return 214;
-                  }
-                  else if (!strcmp(args[1], "livingroom") || !strcmp(args[1], "livingroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/livingroom/")))
-                  {
-                     return 215;
+                     return 1;
                   }
                }
-
-               if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+            }
+            else if (!strcmp(state, (char *)BASEMENT))
+            {
+            }
+            else if (!strcmp(state, (char *)BEDROOM))
+            {
+            }
+            else if (!strcmp(state, (char *)KITCHEN))
+            {
+            }
+            else if (!strcmp(state, (char *)LIVINGROOM))
+            {
+            }
+            else if (!strcmp(state, (char *)FOREST_ENTRANCE))
+            {
+            }
+            else if (!strcmp(state, (char *)TREES_P))
+            {
+            }
+            else if (!strcmp(state, (char *)FOREST))
+            {
+            }
+            else if (!strcmp(state, (char *)EMERALD_CITY))
+            {
+            }
+            else if (!strcmp(state, (char *)PRAIRIE))
+            {
+               if (!strcmp(argv[1], "kill"))
                {
-                  printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
                   return 1;
                }
                else
                {
-                  cd(args[1]);
+                  return 0;
+               }
+            }
+            else if (!strcmp(state, (char *)CASTLE))
+            {
+               if (!strcmp(args[0], "exit"))
+               {
+                  switch (exit_game())
+                  {
+                  case 0:
+                     _exit(0);
+                     break;
+
+                  case -1:
+                     _exit(1);
+                     break;
+                  }
                }
             }
             else
             {
-               printerr(THE_SYSTEM, "That is not a valid command, player.");
                return 1;
             }
          }
-         else if (!strcmp(args[0], "clear"))
-         {
-            clear_screen();
-         }
-         else if (!strncmp(args[0], "./", 2))
-         {
-            execute(argc, args);
-         }
          else
          {
-            // Check path for the new commands.
-            for (index = 0; index < 10; index++)
+            if (!strcmp(args[0], "exit"))
             {
-               if (!strcmp(args[0], path[index]))
+               switch (exit_game())
                {
-                  args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
-                  strcpy(args[0], cmd_dir);
-                  strcat(args[0], path[index]);
-                  execute(argc, args);
+               case 0:
+                  _exit(0);
                   break;
+
+               case -1:
+                  _exit(1);
+                  break;
+               }
+            }
+            else if (!strcmp(args[0], "cd"))
+            {
+               if (argc == 1)
+               {
+                  cd(game_dir);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                  {
+                     printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                     return 1;
+                  }
+                  else
+                  {
+                     cd(args[1]);
+                  }
+               }
+               else
+               {
+                  printerr(THE_SYSTEM, "That is not a valid command, player.");
+                  return 1;
+               }
+            }
+            else if (!strncmp(args[0], "./", 2))
+            {
+               execute(argc, args);
+            }
+            else
+            {
+               // Check path for the new commands.
+               for (index = 0; index < 10; index++)
+               {
+                  if (!strcmp(args[0], path[index]))
+                  {
+                     args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
+                     strcpy(args[0], cmd_dir);
+                     strcat(args[0], path[index]);
+                     execute(argc, args);
+                     break;
+                  }
                }
             }
          }

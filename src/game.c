@@ -294,9 +294,9 @@ int main()
             // The introduction
             read_doc("village.txt");
 
+            // Terminal
             std = state + '0';
 
-            // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
@@ -322,12 +322,14 @@ int main()
             read_doc("grove.txt");
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            std = state + '0';
+
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -388,10 +390,13 @@ int main()
             times_access++;
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             // Access to other places :)
             state = execute(argc, args);
@@ -422,10 +427,13 @@ int main()
             read_doc("haunted_house_bedroom.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -449,10 +457,13 @@ int main()
             read_doc("haunted_house_kitchen.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -478,10 +489,13 @@ int main()
             read_doc("haunted_house_livingroom.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -507,10 +521,13 @@ int main()
             read_doc("haunted_house_bathroom.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -536,10 +553,13 @@ int main()
             read_doc("haunted_house_basement.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             if (execute(argc, args))
             {
@@ -562,10 +582,13 @@ int main()
             read_doc("forest_entrance.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = TREES_P;
             save();
@@ -580,10 +603,13 @@ int main()
             read_doc("tree.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = FOREST;
             save();
@@ -599,10 +625,13 @@ int main()
             read_doc("forest.txt");
 
             // Terminal
+            std = state + '0';
+
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = EMERALD_CITY;
             save();
@@ -617,10 +646,14 @@ int main()
             read_doc("emerald_city.txt");
 
             // Terminal
+            std = state + '0';
+
+            // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = PRAIRIE;
             save();
@@ -635,10 +668,14 @@ int main()
             read_doc("prairie.txt");
 
             // Terminal
+            std = state + '0';
+
+            // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            argc = 3;
+            args[3] = &std;
+            argc = 4;
 
             state = CASTLE;
             save();
@@ -652,9 +689,9 @@ int main()
             cd("castle");
             read_doc("castle.txt");
 
+            // Terminal
             std = state + '0';
 
-            // Terminal
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
