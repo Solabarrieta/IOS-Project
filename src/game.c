@@ -190,13 +190,14 @@ void save()
     println(" DONE!");
     println("Press ENTER key to continue...");
     wait_until_enter();
+    clear_screen();
 }
 
 int main()
 {
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
-    
+
     // DOROTHY
     char player_name[31];
 
@@ -233,15 +234,13 @@ int main()
 
             println("You can now play again against that witch and save OS, if you want.");
             usleep(loading_line);
-
             println("Else, you already know which are the ways to exit OS, don't you?");
             usleep(loading_line);
-
             wait_until_enter();
 
             fails = 0;
             state = VILLAGE;
-
+            save();
             break;
 
         case MENU:
@@ -286,17 +285,16 @@ int main()
             usleep(loading_line);
 
             save();
-            clear_screen();
 
             // loading(128);
             loading(32);
 
             fails = 0;
             state = VILLAGE;
+            clear_screen();
             break;
 
         case VILLAGE:
-            clear_screen();
             println(VILLAGE_TIT);
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -318,13 +316,11 @@ int main()
                 print_fails(++fails, root_dir);
             }
 
-            save();
             state = GROVE;
+            save();
             break;
 
         case GROVE:
-            // The player arrives to the GROVE
-            clear_screen();
             println(GROVE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
@@ -383,8 +379,6 @@ int main()
 
         case HAUNTED_HOUSE:
             /* OPTIONAL */
-
-            clear_screen();
             println(HAUNTED_HOUSE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
@@ -394,7 +388,6 @@ int main()
 
             if (!times_access)
             {
-                // Entering the mansion, uhhh...
                 read_doc("haunted_house_init.txt");
                 wait_until_enter();
             }
@@ -416,19 +409,20 @@ int main()
                 read_doc("haunted_house_end.txt");
 
                 times_access = 0;
-                save();
                 state = FOREST_ENTRANCE;
+                save();
+            }
+            else
+            {
+                clear_screen();
             }
 
-            /* OPTIONAL */
             break;
 
         case BEDROOM:
-            clear_screen();
             println(BEDROOM_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("bedroom/");
 
@@ -440,23 +434,22 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (!execute(argc, args))
-            {
-                state = HAUNTED_HOUSE;
-            }
-            else
+            if (execute(argc, args))
             {
                 print_fails(++fails, root_dir);
             }
+            else
+            {
+                state = HAUNTED_HOUSE;
+            }
 
+            clear_screen();
             break;
 
         case KITCHEN:
-            clear_screen();
             println(KITCHEN_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("kitchen/");
 
@@ -468,15 +461,16 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (!execute(argc, args))
-            {
-                state = HAUNTED_HOUSE;
-            }
-            else
+            if (execute(argc, args))
             {
                 print_fails(++fails, root_dir);
             }
+            else
+            {
+                state = HAUNTED_HOUSE;
+            }
 
+            clear_screen();
             break;
 
         case LIVINGROOM:
@@ -496,15 +490,16 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (!execute(argc, args))
-            {
-                state = HAUNTED_HOUSE;
-            }
-            else
+            if (execute(argc, args))
             {
                 print_fails(++fails, root_dir);
             }
+            else
+            {
+                state = HAUNTED_HOUSE;
+            }
 
+            clear_screen();
             break;
 
         case BATHROOM:
@@ -524,15 +519,16 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (!execute(argc, args))
-            {
-                state = HAUNTED_HOUSE;
-            }
-            else
+            if (execute(argc, args))
             {
                 print_fails(++fails, root_dir);
             }
+            else
+            {
+                state = HAUNTED_HOUSE;
+            }
 
+            clear_screen();
             break;
 
         case BASEMENT:
@@ -552,24 +548,22 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (!execute(argc, args))
-            {
-                state = HAUNTED_HOUSE;
-            }
-            else
+            if (execute(argc, args))
             {
                 print_fails(++fails, root_dir);
             }
+            else
+            {
+                state = HAUNTED_HOUSE;
+            }
 
+            clear_screen();
             break;
 
         case FOREST_ENTRANCE:
-            // The player follows the yellow path and arrives to the forest entrances, where the tinman is
-            clear_screen();
             println(FOREST_ENTRANCE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("forest_entrance");
             read_doc("forest_entrance.txt");
@@ -580,16 +574,14 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = TREES_P;
+            save();
             break;
 
         case TREES_P:
-            clear_screen();
             println(TREES_P_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd(".trees");
             read_doc("tree.txt");
@@ -600,16 +592,14 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = FOREST;
+            save();
             break;
 
         case FOREST:
-            clear_screen();
             println(FOREST_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("forest");
 
@@ -621,16 +611,14 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = EMERALD_CITY;
+            save();
             break;
 
         case EMERALD_CITY:
-            clear_screen();
             println(EMERALD_CITY_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("emerald_city");
             read_doc("emerald_city.txt");
@@ -641,16 +629,14 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = PRAIRIE;
+            save();
             break;
 
         case PRAIRIE:
-            clear_screen();
             println(PRAIRIE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("prairie");
             read_doc("prairie.txt");
@@ -661,16 +647,14 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = CASTLE;
+            save();
             break;
 
         case CASTLE:
-            clear_screen();
             println(CASTLE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("castle");
             read_doc("castle.txt");
@@ -681,19 +665,24 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            save();
             state = GAME_OVER;
+            save();
             break;
 
         case GAME_OVER:
-            clear_screen();
-
             println("THE END!");
 
             /* Dorothy is death iff has failes three times */
-            if (fails != 0 && fails % 3 == 0 && deaths > 0)
+            if (fails == 3)
             {
-                speak_character(GLINDA, "Oh, no... Here we go again.");
+                if (deaths == 0)
+                {
+                    speak_character(GLINDA, "Oh, no... Poor little player...");
+                }
+                else
+                {
+                    speak_character(GLINDA, "Oh, no... Here we go again.");
+                }
 
                 switch (rand() % 5)
                 {
@@ -722,6 +711,7 @@ int main()
                     break;
                 }
 
+                deaths++;
                 state = RESTART;
             }
             else
@@ -731,12 +721,7 @@ int main()
                 state = MENU;
             }
 
-            print("\r");
-            println("Press ENTER key to continue...");
-            wait_until_enter();
-
             save();
-
             break;
         }
     }
