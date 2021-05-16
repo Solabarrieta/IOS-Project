@@ -146,6 +146,10 @@ int main()
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
     char *current_dir;
 
+    int argc;
+
+    args[2] = root_dir;
+
     // Ofelia's phrases. Witch descriptor in action!
     int offlia = open(concat(root_dir, "/config/.mob/badwitch_phrases.txt"), O_RDONLY);
 
@@ -200,7 +204,7 @@ int main()
             sleep(loading_line);
             print("My name is ");
             print(GLINDA);
-            println(" and I am the protector of this realm");
+            println(" and I am the protector of this realm.");
             sleep(loading_line);
             speak_character(GLINDA, "I need you help to save OS from its threats, because only the player has ability to stop the evil of my sister but, first, ");
             sleep(loading_line);
@@ -241,8 +245,9 @@ int main()
             // and OFELIA, The Most Evil Witch Ever, will warn Dorothy about
             // introducing commands wrong.
             cd(game_dir);
-            current_dir = concat("", game_dir);
+            current_dir = game_dir;
 
+            // The first introduction!
             read_doc("village.txt", player_name);
 
             // Once the text is read, the user is encouraged to look for help
@@ -252,10 +257,9 @@ int main()
             strcat(args[0], "/gsh");
 
             args[1] = current_dir;
+            argc = 3;
 
-            cd(root_dir);
-
-            if (execute(2, args))
+            if (execute(argc, args))
             {
                 println("");
 
@@ -271,8 +275,6 @@ int main()
 
                 dorothy.fails++;
             }
-
-            cd(game_dir);
 
             print("\r");
             println("Press ENTER key to continue...");
@@ -295,14 +297,14 @@ int main()
             wait_until_enter();
 
             cd("grove/");
+
             current_dir = concat(current_dir, "grove/");
             args[1] = current_dir;
 
             // And the Scarecrow appears!
             read_doc("grove.txt", player_name);
 
-            cd(root_dir);
-            if (execute(2, args))
+            if (execute(argc, args))
             {
                 println("");
 
@@ -318,8 +320,6 @@ int main()
 
                 dorothy.fails++;
             }
-
-            cd(game_dir);
 
             print("\r");
             println("Press ENTER key to continue...");
@@ -343,8 +343,6 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
-
-            cd(game_dir);
 
             print("\r");
             println("Press ENTER key to continue...");

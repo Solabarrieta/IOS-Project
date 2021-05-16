@@ -110,7 +110,7 @@ int main(int argcv, char *argv[])
    int argc;
    char *args[MAXARGS];
 
-   char *root_dir = getcwd((char *)NULL, 0);
+   char *root_dir = argv[2];
    char *cmd_dir = concat(root_dir, "/bin/");
    char *game_dir = argv[1];
    char *current_dir;
