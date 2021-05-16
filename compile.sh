@@ -42,13 +42,6 @@ STRING="/usr/lib/libstring.so"
 sudo ldconfig $STRING
 
 ############### COMMAND COMPILATION PROCESS ###############
-echo "**PRE-COMPILATION**"
-# Precompiling characters
-if [[ $ALL == "true" || $last_vers != $vers || !(-s shell) || -n "$(git diff src/headers/characters/character.c)" || -n "$(git diff src/headers/characters/character.h)" ]]; then
-    echo "Precompiling characters..."
-    gcc -c src/headers/characters/character.c -o build/characters.o -L$STRING -lstring
-fi
-
 echo "**COMPILATION**"
 
 # Compile CAT command.
@@ -116,7 +109,7 @@ fi
 # COMPILE SHELL.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s gsh) || -n "$(git diff src/shell.c)" ]]; then
     echo "COMPILING SHELL"
-    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/executor.c src/headers/characters/character.c -o gsh -L$STRING -lstring
+    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/executor.c -o gsh -L$STRING -lstring
 fi
 
 if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/game.c)" ]]; then
@@ -124,9 +117,9 @@ if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/
     
     if [[ "$1" == "debug" ]]; then
         echo "DEBUG mode"
-        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm --debug
+        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm --debug
     else
-        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c src/headers/characters/character.c -o TWOS_Game -L$STRING -lstring -lm
+        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/menu.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm
     fi
 fi
 

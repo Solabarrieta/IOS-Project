@@ -10,7 +10,6 @@
  */
 
 #include "headers/libstring/libstring.h"
-#include "headers/characters/character.h"
 
 #include <stdlib.h>
 

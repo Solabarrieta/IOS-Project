@@ -11,7 +11,6 @@
  * 
  */
 
-#include "headers/characters/character.h"
 #include "headers/libstring/libstring.h"
 #include <stdlib.h>
 #include <sys/stat.h>

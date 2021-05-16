@@ -8,7 +8,6 @@
  *
  */
 #include "headers/libstring/libstring.h"
-#include "headers/characters/character.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>

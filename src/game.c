@@ -18,7 +18,6 @@
 // Headers for signal execution.
 #include "headers/signal_handler.h"
 #include "headers/libstring/libstring.h"
-#include "headers/characters/character.h"
 #include "headers/recognizer.h"
 #include "headers/executor.h"
 
@@ -34,12 +33,6 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <math.h>
-
-#define error(a)   \
-    {              \
-        perror(a); \
-        exit(1);   \
-    };
 
 /* STATES of the GAME */
 
@@ -98,20 +91,27 @@ static float loading_line = 0.8 * 1000000;
 // Medium saving rate...
 static float saving_time = 0.11;
 
-void print_fails(int fails, char *root_dir, char *player_name)
+/* DOROTHY */
+// Where is she?
+static int state = MENU;
+// Other statistics
+static int fails = 0;
+static int deaths = 0;
+
+void print_fails(int fails, char *root_dir)
 {
     switch (fails)
     {
     case 1:
-        read_doc(concat(root_dir, "/config/.mob/badwitch_first.txt"), player_name);
+        read_doc(concat(root_dir, "/config/.mob/badwitch_first.txt"));
         break;
 
     case 2:
-        read_doc(concat(root_dir, "/config/.mob/badwitch_second.txt"), player_name);
+        read_doc(concat(root_dir, "/config/.mob/badwitch_second.txt"));
         break;
 
     case 3:
-        read_doc(concat(root_dir, "/config/.mob/badwitch_last.txt"), player_name);
+        read_doc(concat(root_dir, "/config/.mob/badwitch_last.txt"));
         break;
 
     default:
@@ -199,21 +199,23 @@ int main()
 {
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
+
+    // DOROTHY
+    char player_name[31];
     
-    // State of the game
-    static int state = MENU;
     
-    // Player struct, for statistics and name saving.
-    player dorothy;
-    char player_name[31], read_buff, *args[200];
-    
+    // How many time has Dorothy accessed one place?
+    int times_access;
+
+    // For choosing.
+    char election[20];
+
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
+    char *args[200];
+    int argc;
+
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
-    
-    char election[20];
-    int argc;
-    int times_access;
 
     while (1)
     {
@@ -233,7 +235,7 @@ int main()
             println(concat(concat("That ", OFELIA), " must be a monster..."));
             usleep(loading_line);
 
-            create_player(&dorothy);
+            fails = 0;
 
             loading(256);
 
@@ -258,7 +260,7 @@ int main()
             print("Press ENTER to START... ");
             wait_until_enter();
 
-            // Then, load the game.
+            // Then, load the game. Do it by means of text.
             println("\nGreetings PLAYER!");
             usleep(loading_line);
             print("My name is ");
@@ -267,11 +269,14 @@ int main()
             usleep(loading_line);
             speak_character(GLINDA, "I need you help to save OS from its threats, because only the player has ability to stop the evil of my sister but, first, ");
             usleep(loading_line);
+
+            // Set the name!
             println("Whats you name, dear?");
             print("Please, here my sweet child >> ");
             scanf("%s", player_name);
-            set_name(&dorothy, player_name);
-            println(concat("Greetings, ", player_name));
+
+            // Great the player for registering.
+            println(concat("Greetings, ", concat(player_name, ".")));
             usleep(loading_line);
 
             save();
@@ -285,7 +290,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            create_player(&dorothy);
+            fails = 0;
 
             state = VILLAGE;
 
@@ -305,7 +310,7 @@ int main()
             cd(game_dir);
 
             // The first introduction!
-            read_doc("village.txt", player_name);
+            read_doc("village.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -316,7 +321,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             println("\rPress ENTER key to continue...");
@@ -336,7 +341,7 @@ int main()
             wait_until_enter();
 
             cd("grove/");
-            read_doc("grove.txt", player_name);
+            read_doc("grove.txt");
 
             // Terminal
             args[0] = (char *)malloc(strlen(root_dir) + 5);
@@ -349,7 +354,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
@@ -403,7 +408,7 @@ int main()
             if (!times_access)
             {
                 // Entering the mansion, uhhh...
-                read_doc("haunted_house_init.txt", player_name);
+                read_doc("haunted_house_init.txt");
                 wait_until_enter();
             }
 
@@ -423,7 +428,7 @@ int main()
                 // If error, out the house.
                 times_access = 0;
 
-                read_doc("haunted_house_end.txt", player_name);
+                read_doc("haunted_house_end.txt");
 
                 println("\rPress ENTER key to continue...");
                 wait_until_enter();
@@ -444,7 +449,7 @@ int main()
 
             cd("bedroom/");
 
-            read_doc("haunted_house_bedroom.txt", player_name);
+            read_doc("haunted_house_bedroom.txt");
 
             // Getpass...
             args[0] = (char *)malloc(strlen(root_dir) + strlen("/bin/getpass"));
@@ -468,7 +473,7 @@ int main()
             }
             else
             {
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -482,7 +487,7 @@ int main()
 
             cd("kitchen/");
 
-            read_doc("haunted_house_kitchen.txt", player_name);
+            read_doc("haunted_house_kitchen.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -496,7 +501,7 @@ int main()
             }
             else
             {
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -510,7 +515,7 @@ int main()
 
             cd("livingroom/");
 
-            read_doc("haunted_house_livingroom.txt", player_name);
+            read_doc("haunted_house_livingroom.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -524,7 +529,7 @@ int main()
             }
             else
             {
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -538,7 +543,7 @@ int main()
 
             cd("bathroom/");
 
-            read_doc("haunted_house_bathroom.txt", player_name);
+            read_doc("haunted_house_bathroom.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -552,7 +557,7 @@ int main()
             }
             else
             {
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -566,7 +571,7 @@ int main()
 
             cd("basement");
 
-            read_doc("haunted_house_basement.txt", player_name);
+            read_doc("haunted_house_basement.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -580,7 +585,7 @@ int main()
             }
             else
             {
-                print_fails(++dorothy.fails, root_dir, player_name);
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -594,7 +599,7 @@ int main()
             clear_screen();
 
             cd("forest_entrance");
-            read_doc("forest_entrance.txt", player_name);
+            read_doc("forest_entrance.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -619,7 +624,7 @@ int main()
             clear_screen();
 
             cd(".trees");
-            read_doc("tree.txt", player_name);
+            read_doc("tree.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -645,7 +650,7 @@ int main()
 
             cd("forest");
 
-            read_doc("forest.txt", player_name);
+            read_doc("forest.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -670,7 +675,7 @@ int main()
             clear_screen();
 
             cd("emerald_city");
-            read_doc("emerald_city.txt", player_name);
+            read_doc("emerald_city.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -695,7 +700,7 @@ int main()
             clear_screen();
 
             cd("prairie");
-            read_doc("prairie.txt", player_name);
+            read_doc("prairie.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -720,7 +725,7 @@ int main()
             clear_screen();
 
             cd("castle");
-            read_doc("castle.txt", player_name);
+            read_doc("castle.txt");
 
             // Terminal
             args[0] = concat(root_dir, "/gsh");
@@ -742,7 +747,8 @@ int main()
 
             println("THE END!");
 
-            if (dorothy.is_dead)
+            /* Dorothy is death iff has failes three times */
+            if (fails != 0 && fails % 3 == 0 && deaths > 0)
             {
                 speak_character(GLINDA, "Oh, no... Here we go again.");
 

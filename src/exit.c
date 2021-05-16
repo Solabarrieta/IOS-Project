@@ -7,8 +7,6 @@
  * 
  * @copyright Copyright (c) 2021
  */
-
-#include "headers/characters/character.h"
 #include "headers/libstring/libstring.h"
 #include "headers/exit.h"
 

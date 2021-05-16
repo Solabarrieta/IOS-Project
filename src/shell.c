@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2021
  */
 #include "headers/libstring/libstring.h"
-#include "headers/characters/character.h"
+
 #include "headers/cd.h"
 #include "headers/exit.h"
 #include "headers/clear.h"
