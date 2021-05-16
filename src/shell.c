@@ -152,6 +152,30 @@ int main(int argcv, char *argv[])
             }
             else if (argc == 2)
             {
+               if (!strncmp(concat(current_dir, "/"), concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/"), strlen(concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/"))))
+               {
+                  if (!strcmp(args[1], "bedroom") || !strcmp(args[1], "bedroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bedroom/")))
+                  {
+                     return 213;
+                  }
+                  else if (!strcmp(args[1], "basement") || !strcmp(args[1], "basement/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/basement/")))
+                  {
+                     return 211;
+                  }
+                  else if (!strcmp(args[1], "bathroom") || !strcmp(args[1], "bathroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bathroom/")))
+                  {
+                     return 212;
+                  }
+                  else if (!strcmp(args[1], "kitchen") || !strcmp(args[1], "kitchen/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/kitchen/")))
+                  {
+                     return 214;
+                  }
+                  else if (!strcmp(args[1], "livingroom") || !strcmp(args[1], "livingroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/livingroom/")))
+                  {
+                     return 215;
+                  }
+               }
+
                if (!strcmp(concat(current_dir, "/"), game_dir) && !strncmp(args[1], "..", 2))
                {
                   printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");

@@ -95,6 +95,28 @@ static float loading_screen = 0.2;
 // The number of seconds to sleep before changing the character's line.
 static float loading_line = 2;
 
+void print_fails(int fails, char *root_dir, char *player_name)
+{
+    switch (fails)
+    {
+    case 1:
+        read_doc(concat(root_dir, "/config/.mob/badwitch_first.txt"), player_name);
+        break;
+
+    case 2:
+        read_doc(concat(root_dir, "/config/.mob/badwitch_second.txt"), player_name);
+        break;
+
+    case 3:
+        read_doc(concat(root_dir, "/config/.mob/badwitch_last.txt"), player_name);
+        break;
+
+    default:
+        println("No FAILS!");
+        break;
+    }
+}
+
 void loading(int wt_val)
 {
     int perct;
@@ -149,6 +171,7 @@ int main()
     char election[20];
 
     int argc;
+    int times_access;
 
     args[2] = root_dir;
 
@@ -225,6 +248,7 @@ int main()
             wait_until_enter();
 
             create_player(&dorothy);
+
             state = VILLAGE;
 
             break;
@@ -258,8 +282,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-                read_doc(concat(root_dir, "/config/.mob/badwitch_first.txt"), player_name);
-                dorothy.fails++;
+                print_fails(++dorothy.fails, root_dir, player_name);
             }
 
             print("\r");
@@ -293,8 +316,7 @@ int main()
             if (execute(argc, args))
             {
                 println("");
-                read_doc(concat(root_dir, "/config/.mob/badwitch_second.txt"), player_name);
-                dorothy.fails++;
+                print_fails(++dorothy.fails, root_dir, player_name);
             }
 
             println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
@@ -306,14 +328,21 @@ int main()
             print("Remember, you choose: ");
             scanf("%[^\n]%*c", election);
 
-            if (!strcmp(to_lowercase(election), "haunted house") || !strcmp(to_lowercase(election), "the haunted house")) {
+            if (!strcmp(to_lowercase(election), "haunted house") || !strcmp(to_lowercase(election), "the haunted house"))
+            {
                 speak_character(JASMINE, "Here we go!! Tight your laces, darling, this is gonna be so much fun!!");
                 println("<< TELEPORTING magic sounds >>");
+
                 state = HAUNTED_HOUSE;
-            } else if (!strcmp(to_lowercase(election), "forest entrance") || !strcmp(to_lowercase(election), "the forest entrance")) {
+            }
+            else if (!strcmp(to_lowercase(election), "forest entrance") || !strcmp(to_lowercase(election), "the forest entrance"))
+            {
                 speak_character(JASMINE, "OK, I would be delighted to help you anytime you ask me :)");
+
                 state = FOREST_ENTRANCE;
             }
+
+            times_access = 0;
 
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -333,55 +362,207 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            // Entering the mansion, uhhh...
-            cd(".haunted_house/");
-            read_doc("haunted_house_init.txt", player_name);
+            current_dir = concat(current_dir, ".haunted_house/");
+            cd(current_dir);
 
-            // TODO: The game goes in between here...
+            if (!times_access)
+            {
+                // Entering the mansion, uhhh...
+                read_doc("haunted_house_init.txt", player_name);
+                wait_until_enter();
+            }
 
-            read_doc("haunted_house_end.txt", player_name);
+            times_access++;
 
-            println("\rPress ENTER key to continue...");
-            wait_until_enter();
+            // The game goes in between here...
+            state = execute(argc, args);
 
-            println("Saving, please wait... ");
-            loading(32);
-            println("\nDONE!");
-            println("Press ENTER key to continue...");
+            if (state <= 1)
+            {
+                // If error, out the house.
+                times_access = 0;
 
-            state = FOREST_ENTRANCE;
+                read_doc("haunted_house_end.txt", player_name);
+
+                println("\rPress ENTER key to continue...");
+                wait_until_enter();
+
+                println("Saving, please wait... ");
+                loading(32);
+                println("\nDONE!");
+                println("Press ENTER key to continue...");
+
+                state = FOREST_ENTRANCE;
+            }
 
             break;
 
         case BEDROOM:
-            break;
-
-        case KITCHEN:
-            break;
-
-        case LIVINGROOM:
-            break;
-        
-        case BATHROOM:
-            break;
-        
-        case BASEMENT:
-            break;
-
-        case FOREST_ENTRANCE:
-            // cd(concat(game_dir, "grove/forest_entrance/"));
-
             clear_screen();
-            println(FOREST_ENTRANCE_TIT);
-
+            println(BEDROOM_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            cd(game_dir);
+            cd("bedroom/");
 
-            print("\r");
+            read_doc("haunted_house_bedroom.txt", player_name);
+
+            // Getpass...
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/bin/getpass"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/bin/getpass");
+
+            args[1] = concat(current_dir, "bedroom/");
+            argc = 3;
+
+            execute(argc, args);
+
+            // Execute the exit.
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+
+            argc = 3;
+
+            if (!execute(argc, args))
+            {
+                state = HAUNTED_HOUSE;
+            }
+            else
+            {
+                print_fails(++dorothy.fails, root_dir, player_name);
+            }
+
+            break;
+
+        case KITCHEN:
+            clear_screen();
+            println(KITCHEN_TIT);
             println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            cd("kitchen/");
+
+            read_doc("haunted_house_kitchen.txt", player_name);
+            args[1] = concat(current_dir, "kitchen/");
+
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            argc = 3;
+
+            if (!execute(argc, args))
+            {
+                state = HAUNTED_HOUSE;
+            }
+            else
+            {
+                print_fails(++dorothy.fails, root_dir, player_name);
+            }
+
+            break;
+
+        case LIVINGROOM:
+            clear_screen();
+            println(LIVINGROOM_TIT);
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            cd("livingroom/");
+
+            read_doc("haunted_house_livingroom.txt", player_name);
+            args[1] = concat(current_dir, "livingroom/");
+
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            argc = 3;
+
+            if (!execute(argc, args))
+            {
+                state = HAUNTED_HOUSE;
+            }
+            else
+            {
+                print_fails(++dorothy.fails, root_dir, player_name);
+            }
+
+            break;
+
+        case BATHROOM:
+            clear_screen();
+            println(BATHROOM_TIT);
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            cd("bathroom/");
+
+            read_doc("haunted_house_bathroom.txt", player_name);
+            args[1] = concat(current_dir, "bathroom/");
+
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            argc = 3;
+
+            if (!execute(argc, args))
+            {
+                state = HAUNTED_HOUSE;
+            }
+            else
+            {
+                print_fails(++dorothy.fails, root_dir, player_name);
+            }
+
+            break;
+
+        case BASEMENT:
+            clear_screen();
+            println(BASEMENT_TIT);
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            cd("basement/");
+
+            read_doc("haunted_house_basement.txt", player_name);
+            args[1] = concat(current_dir, "basement/");
+
+            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            argc = 3;
+
+            if (!execute(argc, args))
+            {
+                state = HAUNTED_HOUSE;
+            }
+            else
+            {
+                print_fails(++dorothy.fails, root_dir, player_name);
+            }
+
+            break;
+
+        case FOREST_ENTRANCE:
+            // The player follows the yellow path and arrives to the forest entrances, where the tinman is
+            clear_screen();
+            println(FOREST_ENTRANCE_TIT);
+            println("Press ENTER key to continue...");
+            wait_until_enter();
+            clear_screen();
+
+            current_dir = concat(game_dir, "grove/forest_entrance/");
+            cd(current_dir);
+
+            
+            read_doc("forest_entrance.txt", player_name);
+
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
             println("Saving, please wait... ");
