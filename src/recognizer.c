@@ -60,12 +60,13 @@ int is_command(char *cmd)
 
 int read_doc(char *filename, char *player_name)
 {
-    char character, *word, *split[10000];
+    char character, *word, *split[1000];
     int i, j, main_fd = open(filename, O_RDONLY);
 
     struct stat sfile;
     stat(filename, &sfile);
-    char text[sfile.st_size];
+
+    char text[sfile.st_size + 1]; 
 
     i = 0;
     while (read(main_fd, &character, 1) == 1)
@@ -78,7 +79,7 @@ int read_doc(char *filename, char *player_name)
     text[i] = '\0';
 
     // Split all the words by spaces.
-    for (i = 0; i < sfile.st_size; i++)
+    for (i = 0; i < 1000; i++)
     {
         if (i == 0)
         {

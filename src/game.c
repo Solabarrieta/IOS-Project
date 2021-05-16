@@ -209,7 +209,7 @@ int main()
     
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
-    char *game_dir = concat(root_dir, "/config/.gamedir/village");
+    char *game_dir = concat(root_dir, "/config/.gamedir/village/");
     
     char election[20];
     int argc;
@@ -410,9 +410,7 @@ int main()
             times_access++;
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -459,9 +457,7 @@ int main()
             execute(argc, args);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -489,9 +485,7 @@ int main()
             read_doc("haunted_house_kitchen.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -519,9 +513,7 @@ int main()
             read_doc("haunted_house_livingroom.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -549,9 +541,7 @@ int main()
             read_doc("haunted_house_bathroom.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -579,9 +569,7 @@ int main()
             read_doc("haunted_house_basement.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -609,9 +597,7 @@ int main()
             read_doc("forest_entrance.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -636,9 +622,7 @@ int main()
             read_doc("tree.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -664,9 +648,7 @@ int main()
             read_doc("forest.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -691,9 +673,7 @@ int main()
             read_doc("emerald_city.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -718,9 +698,7 @@ int main()
             read_doc("prairie.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
@@ -745,9 +723,7 @@ int main()
             read_doc("castle.txt", player_name);
 
             // Terminal
-            args[0] = (char *)malloc(strlen(root_dir) + 5);
-            strcpy(args[0], root_dir);
-            strcat(args[0], "/gsh");
+            args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
             argc = 3;
