@@ -49,9 +49,6 @@ void _help()
 	// TOUCH
 	println(bold("touch :"));
 	println("\tTo craft a new item, following a recipe.");
-	// EXIT
-	println(bold("exit :"));
-	println("\tTo save your progress and exit the game.");
 }
 
 int main(int argc, const char *argv[])

@@ -26,6 +26,26 @@
 #define MAXLINE 200
 #define MAXARGS 20
 
+/* STATES of the GAME */
+#define RESTART -1
+#define MENU -2
+#define GAME_OVER -3
+#define VILLAGE 1
+#define GROVE 2
+#define HAUNTED_HOUSE 21
+#define BASEMENT 211
+#define BATHROOM 212
+#define BEDROOM 213
+#define KITCHEN 214
+#define LIVINGROOM 215
+#define FOREST_ENTRANCE 3
+#define TREES_P 31
+#define FOREST 4
+#define EMERALD_CITY 5
+#define PRAIRIE 6
+#define CASTLE 7
+/* STATES of the GAME */
+
 /**
  * @brief Read all the entries in a line of written code, for shell.
  * For reading commands.
@@ -96,34 +116,32 @@ int read_args(int *argcp, char *args[], int max, int *eofp)
 
 int main(int argcv, char *argv[])
 {
-   char *Prompt = "GlindOS";
-   char *prompt_name;
-
-   char *path[10] = {"cat", "cp", "grep", "help", "ls", "man", "mv", "pwd", "touch", "stee"};
-   int index;
-
-   int eof = 0;
-   int argc;
-   char *args[MAXARGS];
-
-   char *game_dir;
-   char *root_dir;
+   int index, argc, state, eof = 0;
+   char *game_dir, *root_dir, *cmd_dir, *current_dir, *prompt_name, *args[MAXARGS], *Prompt = "GlindOS";
+   static char *path[10] = {"cat", "cp", "grep", "help", "ls", "man", "mv", "pwd", "touch", "stee"};
 
    if (argcv == 3)
    {
       root_dir = argv[2];
       game_dir = argv[1];
+      state = 1;
+   }
+   else if (argcv == 4)
+   {
+      root_dir = argv[2];
+      game_dir = argv[1];
+      state = (int) argv[3];
    }
    else
    {
       root_dir = getcwd((char *)NULL, 0);
       game_dir = concat(root_dir, "/config/.gamedir/village");
+      state = 1;
    }
 
-   cd(game_dir);
+   cmd_dir = concat(root_dir, "/bin/");
 
-   char *cmd_dir = concat(root_dir, "/bin/");
-   char *current_dir;
+   cd(game_dir);
 
    while (1)
    {
@@ -139,7 +157,7 @@ int main(int argcv, char *argv[])
 
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0)
       {
-         if (!strcmp(args[0], "exit"))
+         if (!strcmp(args[0], "exit") && (argcv == 4 && state == CASTLE) || (argcv < 4 && state == 1))
          {
             switch (exit_game())
             {
