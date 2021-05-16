@@ -57,7 +57,7 @@ int is_command(char *cmd)
     return 0;
 }
 
-int read_doc(char *filename)
+int read_doc(char *filename, char *player_name)
 {
     char character, *word, text[10000], *split[10000];
     int i, j, main_fd = open(filename, O_RDONLY);
@@ -141,6 +141,10 @@ int read_doc(char *filename)
         else if (!strcmp(to_lowercase(word), "ghost") || !strcmp(to_lowercase(word), "casper"))
         {
             print(GHOST);
+        }
+        else if (!strcmp(to_lowercase(word), "player") || !strcmp(to_lowercase(word), "name.c"))
+        {
+            print(bold(concat(ANSI_COLOR_MAGENTA, player_name)));
         }
         else if (is_command(to_lowercase(word)))
         {
@@ -250,6 +254,11 @@ int read_doc(char *filename)
             else if (!strcmp(to_lowercase(word), "ghost") || !strcmp(to_lowercase(word), "casper"))
             {
                 print(GHOST);
+                write(1, &character, 1);
+            }
+            else if (!strcmp(to_lowercase(word), "player") || !strcmp(to_lowercase(word), "name.c"))
+            {
+                print(bold(concat(ANSI_COLOR_MAGENTA, player_name)));
                 write(1, &character, 1);
             }
             else if (is_command(to_lowercase(word)))

@@ -196,15 +196,20 @@ int main()
             wait_until_enter();
 
             // Then, load the game.
-            println("\n Greetings PLAYER!");
+            println("\nGreetings PLAYER!");
+            sleep(loading_line);
             print("My name is ");
             print(GLINDA);
             println(" and I am the protector of this realm");
-            println("I need you help to save OS from its menaces but, first, ");
-            speak_character(GLINDA, "Whats you name, dear?");
+            sleep(loading_line);
+            speak_character(GLINDA, "I need you help to save OS from its threats, because only the player has ability to stop the evil of my sister but, first, ");
+            sleep(loading_line);
+            println("Whats you name, dear?");
             print("Please, here my sweet child >> ");
             scanf("%s", player_name);
             set_name(&dorothy, player_name);
+            println(concat("Greetings, ", player_name));
+            sleep(loading_line);
             println("Saving, please wait... ");
             loading(16);
             println(" DONE!");
@@ -215,7 +220,7 @@ int main()
             println("Loading... ");
             // loading(128);
             loading(32);
-            println("\n\tDONE!");
+            println(" DONE!");
             println("Press ENTER key to continue...");
             wait_until_enter();
 
@@ -238,7 +243,7 @@ int main()
             cd(game_dir);
             current_dir = concat("", game_dir);
 
-            read_doc("village.txt");
+            read_doc("village.txt", player_name);
 
             // Once the text is read, the user is encouraged to look for help
             // in the terminal.
@@ -294,7 +299,7 @@ int main()
             args[1] = current_dir;
 
             // And the Scarecrow appears!
-            read_doc("grove.txt");
+            read_doc("grove.txt", player_name);
 
             cd(root_dir);
             if (execute(2, args))
