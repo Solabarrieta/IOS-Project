@@ -146,6 +146,8 @@ int main()
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
     char *current_dir;
 
+    char election[20];
+
     int argc;
 
     args[2] = root_dir;
@@ -295,8 +297,25 @@ int main()
                 dorothy.fails++;
             }
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
+            sleep(loading_line);
+            speak_character(JASMINE, concat(concat("Where do you wanna go, ", player_name), " ? The HAUNTED HOUSE or The FOREST ENTRANCE"));
+            sleep(loading_line);
+            speak_character(JASMINE, "The HAUNTED HOUSE is not in the YELLOW path :)), and it is option to choose it. You can come back anytime!");
+            sleep(loading_line);
+            print("Remember, you choose: ");
+            scanf("%[^\n]%*c", election);
+
+            if (!strcmp(to_lowercase(election), "haunted house") || !strcmp(to_lowercase(election), "the haunted house")) {
+                speak_character(JASMINE, "Here we go!! Tight your laces, darling, this is gonna be so much fun!!");
+                println("<< TELEPORTING magic sounds >>");
+                state = HAUNTED_HOUSE;
+            } else if (!strcmp(to_lowercase(election), "forest entrance") || !strcmp(to_lowercase(election), "the forest entrance")) {
+                speak_character(JASMINE, "OK, I would be delighted to help you anytime you ask me :)");
+                state = FOREST_ENTRANCE;
+            }
+
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
             println("Saving, please wait... ");
@@ -304,22 +323,22 @@ int main()
             println("\nDONE!");
             println("Press ENTER key to continue...");
 
-            state = HAUNTED_HOUSE;
-
             break;
 
         case HAUNTED_HOUSE:
-            // cd(concat(game_dir, "grove/.haunted_house/"));
-
+            // If the user chooses it, she can enter the haunted house...
             clear_screen();
             println(HAUNTED_HOUSE_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            // Entering the mansion, uhhh...
+            cd(".haunted_house/");
+            read_doc("haunted_house_init.txt", player_name);
+
+
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
             println("Saving, please wait... ");
