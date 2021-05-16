@@ -110,12 +110,26 @@ int main(int argcv, char *argv[])
    int argc;
    char *args[MAXARGS];
 
-   char *root_dir = argv[2];
-   char *cmd_dir = concat(root_dir, "/bin/");
-   char *game_dir = argv[1];
-   char *current_dir;
+   char *game_dir;
+   char *root_dir;
+
+   if (argcv == 3)
+   {
+      game_dir = argv[1];
+      root_dir = argv[2];
+   }
+   else
+   {
+      root_dir = getcwd((char *)NULL, 0);
+      game_dir = (char *)malloc(strlen(root_dir) + 25);
+      strcpy(game_dir, root_dir);
+      strcat(game_dir, "/config/.gamedir/village");
+   }
 
    cd(game_dir);
+
+   char *cmd_dir = concat(root_dir, "/bin/");
+   char *current_dir;
 
    while (1)
    {

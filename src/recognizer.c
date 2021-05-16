@@ -75,6 +75,8 @@ int read_doc(char *filename, char *player_name)
 
     close(main_fd);
 
+    text[i] = '\0';
+
     // Split all the words by spaces.
     for (i = 0; i < sfile.st_size; i++)
     {

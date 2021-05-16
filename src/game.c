@@ -96,7 +96,7 @@ static float loading_screen = 0.2;
 static float loading_line = 2;
 
 // Medium saving rate...
-static float saving_time = 0.6;
+static float saving_time = 0.11;
 
 void print_fails(int fails, char *root_dir, char *player_name)
 {
@@ -157,7 +157,7 @@ void loading(int wt_val)
 void save()
 {
     println("Saving, please wait... ");
-    
+
     int perct;
     int wt_val = 32;
     char snum[5];
@@ -199,25 +199,17 @@ int main()
 {
     // Random seed, for random number obtention. SET to computer time.
     srand(time(NULL));
-
     // State of the game
     static int state = MENU;
-
     // Player struct, for statistics and name saving.
     player dorothy;
-    char player_name[31], read_buff, *args[200];
-
+    char player_name[31], read_buff, *args[10];
     // '/' and gamedir defined, for the game. '/' ~ to the root of the filesystem of the game, and important reference for the game.
     char *root_dir = getcwd((char *)NULL, 0);
     char *game_dir = concat(root_dir, "/config/.gamedir/village/");
-    char *current_dir;
-
     char election[20];
-
     int argc;
     int times_access;
-
-    args[2] = root_dir;
 
     while (1)
     {
@@ -307,18 +299,16 @@ int main()
             // and OFELIA, The Most Evil Witch Ever, will warn Dorothy about
             // introducing commands wrong.
             cd(game_dir);
-            current_dir = game_dir;
 
             // The first introduction!
             read_doc("village.txt", player_name);
 
-            // Once the text is read, the user is encouraged to look for help
-            // in the terminal.
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
-
-            args[1] = current_dir;
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (execute(argc, args))
@@ -327,8 +317,7 @@ int main()
                 print_fails(++dorothy.fails, root_dir, player_name);
             }
 
-            print("\r");
-            println("Press ENTER key to continue...");
+            println("\rPress ENTER key to continue...");
             wait_until_enter();
 
             save();
@@ -345,12 +334,15 @@ int main()
             wait_until_enter();
 
             cd("grove/");
-
-            current_dir = concat(current_dir, "grove/");
-            args[1] = current_dir;
-
-            // And the Scarecrow appears!
             read_doc("grove.txt", player_name);
+
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
 
             if (execute(argc, args))
             {
@@ -360,7 +352,7 @@ int main()
 
             println(concat(concat("Hello! I am ", JASMINE), ", and I will help you to use your player-magic during the game! Ask me for HELP if you don't exactly know how to spell some spell correctly!!! Don't be shy :)"));
             sleep(loading_line);
-            speak_character(JASMINE, concat(concat("Where do you wanna go, ", player_name), " ? The HAUNTED HOUSE or The FOREST ENTRANCE"));
+            speak_character(JASMINE, concat(concat("Where do you wanna go, ", player_name), "? The HAUNTED HOUSE or The FOREST ENTRANCE (default) ?"));
             sleep(loading_line);
             speak_character(JASMINE, "The HAUNTED HOUSE is not in the YELLOW path :)), and it is option to choose it. You can come back anytime!");
             sleep(loading_line);
@@ -378,7 +370,10 @@ int main()
             else if (!strcmp(to_lowercase(election), "forest entrance") || !strcmp(to_lowercase(election), "the forest entrance"))
             {
                 speak_character(JASMINE, "OK, I would be delighted to help you anytime you ask me :)");
-
+                state = FOREST_ENTRANCE;
+            }
+            else
+            {
                 state = FOREST_ENTRANCE;
             }
 
@@ -401,8 +396,7 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            current_dir = concat(current_dir, ".haunted_house/");
-            cd(current_dir);
+            cd(".haunted_house");
 
             if (!times_access)
             {
@@ -412,6 +406,14 @@ int main()
             }
 
             times_access++;
+
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
 
             // The game goes in between here...
             state = execute(argc, args);
@@ -449,16 +451,17 @@ int main()
             strcpy(args[0], root_dir);
             strcat(args[0], "/bin/getpass");
 
-            args[1] = concat(current_dir, "bedroom/");
+            args[1] = getcwd((char *)NULL, 0);
             argc = 3;
 
             execute(argc, args);
 
-            // Execute the exit.
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
-
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (!execute(argc, args))
@@ -482,11 +485,13 @@ int main()
             cd("kitchen/");
 
             read_doc("haunted_house_kitchen.txt", player_name);
-            args[1] = concat(current_dir, "kitchen/");
 
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (!execute(argc, args))
@@ -510,11 +515,13 @@ int main()
             cd("livingroom/");
 
             read_doc("haunted_house_livingroom.txt", player_name);
-            args[1] = concat(current_dir, "livingroom/");
 
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (!execute(argc, args))
@@ -538,11 +545,13 @@ int main()
             cd("bathroom/");
 
             read_doc("haunted_house_bathroom.txt", player_name);
-            args[1] = concat(current_dir, "bathroom/");
 
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (!execute(argc, args))
@@ -563,14 +572,16 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            cd("basement/");
+            cd("basement");
 
             read_doc("haunted_house_basement.txt", player_name);
-            args[1] = concat(current_dir, "basement/");
 
-            args[0] = (char *)malloc(strlen(root_dir) + strlen("/gsh"));
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
             strcpy(args[0], root_dir);
             strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
             argc = 3;
 
             if (!execute(argc, args))
@@ -595,6 +606,17 @@ int main()
             cd("forest_entrance");
             read_doc("forest_entrance.txt", player_name);
 
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            println("\rPress ENTER key to continue...");
+            wait_until_enter();
+
             save();
 
             state = TREES_P;
@@ -604,14 +626,20 @@ int main()
         case TREES_P:
             clear_screen();
             println(TREES_P_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
 
             cd(".trees");
-
             read_doc("tree.txt", player_name);
+
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
 
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -625,7 +653,6 @@ int main()
         case FOREST:
             clear_screen();
             println(FOREST_TIT);
-
             println("Press ENTER key to continue...");
             wait_until_enter();
             clear_screen();
@@ -633,6 +660,14 @@ int main()
             cd("forest");
 
             read_doc("forest.txt", player_name);
+
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
 
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -653,6 +688,14 @@ int main()
             cd("emerald_city");
             read_doc("emerald_city.txt", player_name);
 
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
             println("\rPress ENTER key to continue...");
             wait_until_enter();
 
@@ -672,6 +715,14 @@ int main()
             cd("prairie");
             read_doc("prairie.txt", player_name);
 
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
             println("\rPress ENTER key to continue...");
             wait_until_enter();
 
@@ -690,6 +741,14 @@ int main()
 
             cd("castle");
             read_doc("castle.txt", player_name);
+
+            // Terminal
+            args[0] = (char *)malloc(strlen(root_dir) + 5);
+            strcpy(args[0], root_dir);
+            strcat(args[0], "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
 
             println("\rPress ENTER key to continue...");
             wait_until_enter();
@@ -750,7 +809,7 @@ int main()
             wait_until_enter();
 
             save();
-            
+
             break;
         }
     }
