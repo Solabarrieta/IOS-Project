@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <ctype.h>
+#include <sys/stat.h>
 
 char *to_lowercase(char *word)
 {
@@ -59,19 +60,15 @@ int is_command(char *cmd)
 
 int read_doc(char *filename, char *player_name)
 {
-    char character, *word, text[10000], *split[10000];
+    char character, *word, *split[10000];
     int i, j, main_fd = open(filename, O_RDONLY);
 
-    // Process the text and extract the speech.
-    for (i = 0; i < 9999; i++)
-    {
-        text[i] = ' ';
-    }
-
-    text[9999] = '\0';
+    struct stat sfile;
+    stat(filename, &sfile);
+    char text[sfile.st_size];
 
     i = 0;
-    while (read(main_fd, &character, 1) == 1 || character == '\n')
+    while (read(main_fd, &character, 1) == 1)
     {
         text[i++] = character;
     }
@@ -79,7 +76,7 @@ int read_doc(char *filename, char *player_name)
     close(main_fd);
 
     // Split all the words by spaces.
-    for (i = 0; i < 10000; i++)
+    for (i = 0; i < sfile.st_size; i++)
     {
         if (i == 0)
         {

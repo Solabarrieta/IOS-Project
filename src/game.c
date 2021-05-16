@@ -326,6 +326,7 @@ int main()
             speak_character(JASMINE, "The HAUNTED HOUSE is not in the YELLOW path :)), and it is option to choose it. You can come back anytime!");
             sleep(loading_line);
             print("Remember, you choose: ");
+            fflush(stdin);
             scanf("%[^\n]%*c", election);
 
             if (!strcmp(to_lowercase(election), "haunted house") || !strcmp(to_lowercase(election), "the haunted house"))
@@ -341,6 +342,8 @@ int main()
 
                 state = FOREST_ENTRANCE;
             }
+
+            fflush(stdin);
 
             times_access = 0;
 
@@ -556,8 +559,8 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            current_dir = concat(game_dir, "grove/forest_entrance/");
-            cd(current_dir);
+
+            cd("forest_entrance");
 
             
             read_doc("forest_entrance.txt", player_name);
