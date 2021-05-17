@@ -1,0 +1,26 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+
+NAME
+       kill - kill the Evil Witch of the West.
+
+SYNOPSIS
+       kill [badwitch]
+
+DESCRIPTION
+       Remove a character from the game. The Evil Witch of the West can use this spell to make your dog disappear, but you can also use her weapons against her. 
+
+	Add here how this code is related to what we have learned in class.
+       This command is only for playability purposes, so it does not have anything to do with anything we have learnt in class. It is useful when the final battle
+       arrives and the player has to defeat her before she kills her.
+
+SEE ALSO
+       touch - to create an object, make weapons and tools. Even food! This is not Harry Potter!
+REPORTING BUGS
+       No bugs reported so far.
+
+AUTHOR
+	 Written by The Wizard of OS Team - Team 2.2.
+
+
