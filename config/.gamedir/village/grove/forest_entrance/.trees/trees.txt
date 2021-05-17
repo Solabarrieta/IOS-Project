@@ -1,13 +1,13 @@
-Tree: What do you want? What did you come for? You are disturbing, please leave and let us take the sun. 
+Tree: What do you want? What did you come for? You are disturbing, please leave and let us take the sun.
 Scarecrow: We are sorry tree, we wanted some food, we are sturbing.
 Tree: As my friend said DO NOT DISTURB US! we are taking the sun please be silent.
 Scarecrow: look there something written there. We can use some command to read it.
-Tinman: I think that it’s similar to the main word but I don't remember how to spell it. It says something about kill, let's try with that! 
+Tinman: I think that it’s similar to the main word but I don't remember how to spell it. It says something about kill, let's try with that!
 Tree: shhhhh…
 Player: It's better if we stay silent, let’s look for the text you found.
 [use the man to read the manual file of a command this could help to understand how to kill the witch]
-Scarecrow: This could help us defeat The Most Evil Bad Witch. 
-Player: ok perfect but I'm starving, I wanna eat what we can do? 
-Tree: pleaseeeee stay quiet I beg you, if you want to eat just take an apple from me, just stay silent. You can use touch to eat. [use touch to eat, so create a new file with the name apple] 
-Player: Thank you mister Tree! 
-Tree: yes yes now leave! Enter the forest and never come back. 
+Scarecrow: This could help us defeat The Most Evil Bad Witch.
+Player: ok perfect but I'm starving, I wanna eat what we can do?
+Tree: pleaseeeee stay quiet I beg you, if you want to eat just take an apple from me, just stay silent. You can use touch to eat. [use touch to eat, so create a new file with the name apple]
+Player: Thank you mister Tree!
+Tree: yes yes now leave! Enter the forest and never come back.

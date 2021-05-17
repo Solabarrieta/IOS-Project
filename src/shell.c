@@ -23,28 +23,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "headers/game.h"
+
 #define MAXLINE 200
 #define MAXARGS 20
-
-/* STATES of the GAME */
-#define RESTART -1 + '0'
-#define MENU -2 + '0'
-#define GAME_OVER -3 + '0'
-#define VILLAGE 1 + '0'
-#define GROVE 2 + '0'
-#define HAUNTED_HOUSE 21 + '0'
-#define BASEMENT 211 + '0'
-#define BATHROOM 212 + '0'
-#define BEDROOM 213 + '0'
-#define KITCHEN 214 + '0'
-#define LIVINGROOM 215 + '0'
-#define FOREST_ENTRANCE 3 + '0'
-#define TREES_P 31 + '0'
-#define FOREST 4 + '0'
-#define EMERALD_CITY 5 + '0'
-#define PRAIRIE 6 + '0'
-#define CASTLE 7 + '0'
-/* STATES of the GAME */
 
 /**
  * @brief Read all the entries in a line of written code, for shell.
@@ -116,27 +98,61 @@ int read_args(int *argcp, char *args[], int max, int *eofp)
 
 int main(int argcv, char *argv[])
 {
-   int index, argc, eof = 0;
-   char *state, *game_dir, *root_dir, *cmd_dir, *current_dir, *prompt_name, *args[MAXARGS], *Prompt = "GlindOS";
+   int index, state, argc, eof = 0;
+   char *game_dir, *root_dir, *cmd_dir, *current_dir, *prompt_name, *args[MAXARGS], *Prompt = "GlindOS";
    static char *path[10] = {"cat", "cp", "grep", "help", "ls", "man", "mv", "pwd", "touch", "stee"};
 
    if (argcv == 3)
    {
       root_dir = argv[2];
       game_dir = argv[1];
-      state = "0";
-   }
-   else if (argcv == 4)
-   {
-      root_dir = argv[2];
-      game_dir = argv[1];
-      state = argv[3];
+
+      if (strstr(game_dir, "castle") != NULL)
+      {
+         state = CASTLE;
+      }
+      else if (strstr(game_dir, "prairie") != NULL)
+      {
+         state = PRAIRIE;
+      }
+      else if (strstr(game_dir, "emerald_city") != NULL)
+      {
+         state = EMERALD_CITY;
+      }
+      else if (strstr(game_dir, "forest") != NULL)
+      {
+         state = FOREST;
+      }
+      else if (strstr(game_dir, ".trees") != NULL)
+      {
+         state = TREES_P;
+      }
+      else if (strstr(game_dir, "forest_entrance") != NULL)
+      {
+         state = FOREST_ENTRANCE;
+      }
+      else if (strstr(game_dir, ".haunted_house") != NULL)
+      {
+         state = HAUNTED_HOUSE;
+      }
+      else if (strstr(game_dir, "grove") != NULL)
+      {
+         state = GROVE;
+      }
+      else if (strstr(game_dir, "village") != NULL)
+      {
+         state = VILLAGE;
+      }
+      else
+      {
+         state = MENU;
+      }
    }
    else
    {
       root_dir = getcwd((char *)NULL, 0);
-      game_dir = concat(root_dir, "/config/.gamedir/village");
-      state = "0";
+      game_dir = concat(root_dir, "/config/.gamedir/village/");
+      state = MENU;
    }
 
    cmd_dir = concat(root_dir, "/bin/");
@@ -161,17 +177,35 @@ int main(int argcv, char *argv[])
          {
             clear_screen();
          }
-         else if (argcv == 4)
+         else
          {
-            if (!strcmp(state, (char *)VILLAGE))
+            switch (state)
             {
-            }
-            else if (!strcmp(state, (char *)GROVE))
-            {
-            }
-            else if (!strcmp(state, (char *)HAUNTED_HOUSE))
-            {
-               if (!strcmp(args[0], cd))
+            case VILLAGE:
+               if (!strcmp(args[0], "pwd") || !strcmp(args[0], "help") || !strcmp(args[0], "man"))
+               {
+                  if (argc == 1)
+                  {
+                     args[0] = concat(cmd_dir, args[0]);
+                     execute(argc, args);
+                  }
+               }
+               else if (!strcmp(args[0], "quit") && argc == 1)
+               {
+                  return 0;
+               }
+               else
+               {
+                  return 1;
+               }
+
+               break;
+
+            case GROVE:
+               break;
+
+            case HAUNTED_HOUSE:
+               if (!strcmp(args[0], "cd"))
                {
                   if (argc == 2)
                   {
@@ -207,44 +241,33 @@ int main(int argcv, char *argv[])
                      return 1;
                   }
                }
-            }
-            else if (!strcmp(state, (char *)BASEMENT))
-            {
-            }
-            else if (!strcmp(state, (char *)BEDROOM))
-            {
-            }
-            else if (!strcmp(state, (char *)KITCHEN))
-            {
-            }
-            else if (!strcmp(state, (char *)LIVINGROOM))
-            {
-            }
-            else if (!strcmp(state, (char *)FOREST_ENTRANCE))
-            {
-            }
-            else if (!strcmp(state, (char *)TREES_P))
-            {
-            }
-            else if (!strcmp(state, (char *)FOREST))
-            {
-            }
-            else if (!strcmp(state, (char *)EMERALD_CITY))
-            {
-            }
-            else if (!strcmp(state, (char *)PRAIRIE))
-            {
-               if (!strcmp(argv[1], "kill"))
-               {
-                  return 1;
-               }
-               else
-               {
-                  return 0;
-               }
-            }
-            else if (!strcmp(state, (char *)CASTLE))
-            {
+               break;
+
+            case BASEMENT:
+               break;
+
+            case BEDROOM:
+               break;
+
+            case KITCHEN:
+               break;
+
+            case LIVINGROOM:
+               break;
+
+            case FOREST_ENTRANCE:
+               break;
+
+            case TREES_P:
+               break;
+
+            case FOREST:
+               break;
+
+            case EMERALD_CITY:
+               break;
+
+            case PRAIRIE:
                if (!strcmp(args[0], "exit"))
                {
                   switch (exit_game())
@@ -258,79 +281,81 @@ int main(int argcv, char *argv[])
                      break;
                   }
                }
-            }
-            else
-            {
-               return 1;
-            }
-         }
-         else
-         {
-            if (!strcmp(args[0], "exit"))
-            {
-               switch (exit_game())
-               {
-               case 0:
-                  _exit(0);
-                  break;
 
-               case -1:
-                  _exit(1);
-                  break;
-               }
-            }
-            else if (!strcmp(args[0], "cd"))
-            {
-               if (argc == 1)
+               break;
+
+            case CASTLE:
+               break;
+
+            default:
+               if (!strcmp(args[0], "exit"))
                {
-                  cd(game_dir);
-               }
-               else if (argc == 2)
-               {
-                  if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                  switch (exit_game())
                   {
-                     printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
-                     return 1;
-                  }
-                  else
-                  {
-                     cd(args[1]);
-                  }
-               }
-               else
-               {
-                  printerr(THE_SYSTEM, "That is not a valid command, player.");
-                  return 1;
-               }
-            }
-            else if (!strncmp(args[0], "./", 2))
-            {
-               execute(argc, args);
-            }
-            else
-            {
-               // Check path for the new commands.
-               for (index = 0; index < 10; index++)
-               {
-                  if (!strcmp(args[0], path[index]))
-                  {
-                     args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
-                     strcpy(args[0], cmd_dir);
-                     strcat(args[0], path[index]);
-                     execute(argc, args);
+                  case 0:
+                     _exit(0);
+                     break;
+
+                  case -1:
+                     _exit(1);
                      break;
                   }
                }
+               else if (!strcmp(args[0], "cd"))
+               {
+                  if (argc == 1)
+                  {
+                     cd(game_dir);
+                  }
+                  else if (argc == 2)
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else
+                     {
+                        cd(args[1]);
+                     }
+                  }
+                  else
+                  {
+                     printerr(THE_SYSTEM, "That is not a valid command, player.");
+                     return 1;
+                  }
+               }
+               else if (!strncmp(args[0], "./", 2))
+               {
+                  execute(argc, args);
+               }
+               else
+               {
+                  // Check path for the new commands.
+                  for (index = 0; index < 10; index++)
+                  {
+                     if (!strcmp(args[0], path[index]))
+                     {
+                        args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
+                        strcpy(args[0], cmd_dir);
+                        strcat(args[0], path[index]);
+                        execute(argc, args);
+                        break;
+                     }
+                  }
+               }
+
+               break;
             }
+
+            if (eof)
+            {
+               exit(0);
+            }
+
+            free(prompt_name);
          }
       }
-
-      if (eof)
-      {
-         exit(0);
-      }
-
-      free(prompt_name);
    }
 
    return 0;

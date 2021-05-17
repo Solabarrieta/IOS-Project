@@ -33,58 +33,20 @@
 #include <fcntl.h>
 #include <math.h>
 
-/* STATES of the GAME */
-#define RESTART -1
-#define MENU -2
-#define GAME_OVER -3
-#define VILLAGE 1
-#define GROVE 2
-#define HAUNTED_HOUSE 21
-#define BASEMENT 211
-#define BATHROOM 212
-#define BEDROOM 213
-#define KITCHEN 214
-#define LIVINGROOM 215
-#define FOREST_ENTRANCE 3
-#define TREES_P 31
-#define FOREST 4
-#define EMERALD_CITY 5
-#define PRAIRIE 6
-#define CASTLE 7
-/* STATES of the GAME */
+#include "headers/game.h"
 
-/* CHAPTERS, SECTIONS TITLE */
-#define VILLAGE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 1: <<THE VILLAGE>>"))
-#define GROVE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 2: <<THE GROVE>>"))
-#define HAUNTED_HOUSE_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 2b: <<THE HAUNTED HOUSE>>"))
-#define BASEMENT_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The basement")
-#define BATHROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The bathroom")
-#define BEDROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The bedroom")
-#define KITCHEN_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The kitchen")
-#define LIVINGROOM_TIT concat(ANSI_COLOR_CYAN, "<<THE HAUNTED HOUSE>>: The livingroom")
-#define FOREST_ENTRANCE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 3: <<THE FOREST ENTRANCE>>"))
-#define TREES_P_TIT concat(ANSI_COLOR_CYAN, bold("CHAPTER 3b: <<THE TREES>>"))
-#define FOREST_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 4: <<THE FOREST>>"))
-#define EMERALD_CITY_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 5: <<EMERALD CITY>>"))
-#define PRAIRIE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 6: <<THE PRAIRIE>>"))
-#define CASTLE_TIT concat(ANSI_COLOR_YELLOW, bold("CHAPTER 7: <<THE CASTLE>>"))
-/* CHAPTERS, SECTIONS TITLE */
+int exec_term(char *root_dir)
+{
+    char *args[200];
+    int argc;
 
-// The number of seconds to sleep on loading screens.
-static float loading_screen = 0.2;
+    args[0] = concat(root_dir, "/gsh");
+    args[1] = getcwd((char *)NULL, 0);
+    args[2] = root_dir;
+    argc = 3;
 
-// The number of seconds to sleep before changing the character's line.
-static float loading_line = 0.8 * 1000000;
-
-// Medium saving rate...
-static float saving_time = 0.11;
-
-/* DOROTHY */
-// Where is she?
-static int state = MENU;
-// Other statistics
-static int fails = 0;
-static int deaths = 0;
+    return execute(argc, args);
+}
 
 void print_fails(int fails, char *root_dir)
 {
@@ -189,6 +151,8 @@ void save()
     wait_until_enter();
     clear_screen();
 }
+
+static int state = MENU, fails = 0, deaths = 0;
 
 int main()
 {
@@ -295,13 +259,10 @@ int main()
             read_doc("village.txt");
 
             // Terminal
-            std = state + '0';
-
             args[0] = concat(root_dir, "/gsh");
             args[1] = getcwd((char *)NULL, 0);
             args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            argc = 3;
 
             if (execute(argc, args))
             {
@@ -321,17 +282,7 @@ int main()
             cd("grove/");
             read_doc("grove.txt");
 
-            // Terminal
-            std = state + '0';
-
-            // Terminal
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -389,17 +340,11 @@ int main()
 
             times_access++;
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            // Access to other places :)
-            state = execute(argc, args);
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             // Exit the mansion...
             if (state <= 1)
@@ -426,17 +371,9 @@ int main()
 
             read_doc("haunted_house_bedroom.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
+                println("");
                 print_fails(++fails, root_dir);
             }
             else
@@ -456,17 +393,9 @@ int main()
 
             read_doc("haunted_house_kitchen.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
+                println("");
                 print_fails(++fails, root_dir);
             }
             else
@@ -478,27 +407,17 @@ int main()
             break;
 
         case LIVINGROOM:
-            clear_screen();
             println(LIVINGROOM_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("livingroom/");
 
             read_doc("haunted_house_livingroom.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
+                println("");
                 print_fails(++fails, root_dir);
             }
             else
@@ -510,27 +429,17 @@ int main()
             break;
 
         case BATHROOM:
-            clear_screen();
             println(BATHROOM_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("bathroom/");
 
             read_doc("haunted_house_bathroom.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
+                println("");
                 print_fails(++fails, root_dir);
             }
             else
@@ -542,27 +451,17 @@ int main()
             break;
 
         case BASEMENT:
-            clear_screen();
             println(BASEMENT_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd("basement");
 
             read_doc("haunted_house_basement.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
-
-            if (execute(argc, args))
+            if (exec_term(root_dir))
             {
+                println("");
                 print_fails(++fails, root_dir);
             }
             else
@@ -581,14 +480,11 @@ int main()
             cd("forest_entrance");
             read_doc("forest_entrance.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             state = TREES_P;
             save();
@@ -602,14 +498,11 @@ int main()
             cd(".trees");
             read_doc("tree.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             state = FOREST;
             save();
@@ -624,14 +517,11 @@ int main()
 
             read_doc("forest.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             state = EMERALD_CITY;
             save();
@@ -645,15 +535,11 @@ int main()
             cd("emerald_city");
             read_doc("emerald_city.txt");
 
-            // Terminal
-            std = state + '0';
-
-            // Terminal
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             state = PRAIRIE;
             save();
@@ -667,15 +553,11 @@ int main()
             cd("prairie");
             read_doc("prairie.txt");
 
-            // Terminal
-            std = state + '0';
-
-            // Terminal
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            if (exec_term(root_dir))
+            {
+                println("");
+                print_fails(++fails, root_dir);
+            }
 
             state = CASTLE;
             save();
@@ -689,14 +571,7 @@ int main()
             cd("castle");
             read_doc("castle.txt");
 
-            // Terminal
-            std = state + '0';
-
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            args[3] = &std;
-            argc = 4;
+            exec_term(root_dir);
 
             state = GAME_OVER;
             save();

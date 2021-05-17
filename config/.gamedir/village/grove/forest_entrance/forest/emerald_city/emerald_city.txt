@@ -10,7 +10,5 @@ Lion: don’t you see it, that’s too high.
 Guardian: And full of weapons and traps.
 Player: OK. what we have to visit the city, we wait to see the ADMIN but inside the city. We don’t wanna be camping outside here for a year.
 Guardian: You need a password for that. A really hard password to guess. You have 3 tries, if you don’t get it you’ll have to start back again.
-[usar un stee para escribir la contraseña, la contraseña es wizardofos73]
 Guardian: (if they don’t get the password right): Maybe you didn’t do your homework well and you really need to start your ath again because you haven’t discovered some places yet.
 Guardian: Now you can start your visit to the Emerald City, I recommend you to start with the prairie.
-

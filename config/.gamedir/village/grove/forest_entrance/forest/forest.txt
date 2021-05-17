@@ -1,10 +1,10 @@
 Dog: wof wof woof wof wof wof!
-Lion: aaaaaah! There's people here. Leave, go, leave me, don't hurt me please. 
-Player: Why would we hurt you? 
-Lion:  I don't know, you look scary. 
-Scarecrow: But you are a Lion you must be the one scaring us, aren't you? 
-Lion: Of course, but I'm the Coward Lion, I would love to be braver but it doesn't matter how hard I try it's impossible for me. I'm never gonna be brave. 
-Scarecrow: you could get back your bravery with the ADMIN, but we need you, you must help us defeat The Most Evil Bad Witch!!! 
+Lion: aaaaaah! There's people here. Leave, go, leave me, don't hurt me please.
+Player: Why would we hurt you?
+Lion:  I don't know, you look scary.
+Scarecrow: But you are a Lion you must be the one scaring us, aren't you?
+Lion: Of course, but I'm the Coward Lion, I would love to be braver but it doesn't matter how hard I try it's impossible for me. I'm never gonna be brave.
+Scarecrow: you could get back your bravery with the ADMIN, but we need you, you must help us defeat The Most Evil Bad Witch!!!
 Tinman: The Lion is too cowardly, but if we try we can become brave enough to help us beat The Most Evil Bad Witch. There is a text called braver, you need to use the right command to print it.
-Lion: that's empowering, if only I could internalize that, everything could be easier and I could help you. There must be a Lion directory, maybe you need to create it, but if you figure out which command to use I may help you defeat The most evil bad witch. 
-Lion: you don't get a sense of how much that could help me. Next stop Emerald city. 
+Lion: that's empowering, if only I could internalize that, everything could be easier and I could help you. There must be a Lion directory, maybe you need to create it, but if you figure out which command to use I may help you defeat The most evil bad witch.
+Lion: you don't get a sense of how much that could help me. Next stop Emerald city.
