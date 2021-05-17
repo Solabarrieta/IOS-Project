@@ -266,7 +266,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("grove/");
+            cd(concat(game_dir, "grove/"));
             read_doc("grove.txt");
 
             // Terminal
@@ -323,7 +323,7 @@ int main()
             wait_until_enter();
             clear_screen();
 
-            cd(".haunted_house");
+            cd(concat(game_dir, "grove/.haunted_house/"));
 
             if (!times_access)
             {
@@ -366,8 +366,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("bedroom/");
-
+            cd(concat(game_dir, "grove/.haunted_house/bedroom/"));
             read_doc("haunted_house_bedroom.txt");
 
             // Terminal
@@ -394,8 +393,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("kitchen/");
-
+            cd(concat(game_dir, "grove/.haunted_house/kitchen/"));
             read_doc("haunted_house_kitchen.txt");
 
             // Terminal
@@ -422,8 +420,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("livingroom/");
-
+            cd(concat(game_dir, "grove/.haunted_house/livingroom/"));
             read_doc("haunted_house_livingroom.txt");
 
             // Terminal
@@ -450,8 +447,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("bathroom/");
-
+            cd(concat(game_dir, "grove/.haunted_house/bathroom/"));
             read_doc("haunted_house_bathroom.txt");
 
             // Terminal
@@ -478,8 +474,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("basement");
-
+            cd(concat(game_dir, "grove/.haunted_house/basement/"));
             read_doc("haunted_house_basement.txt");
 
             // Terminal
@@ -506,7 +501,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("forest_entrance");
+            cd(concat(game_dir, "grove/forest_entrance/"));
             read_doc("forest_entrance.txt");
 
             // Terminal
@@ -520,7 +515,7 @@ int main()
                 println("");
                 print_fails(++fails, root_dir);
             }
-            
+
             state = TREES_P;
             save();
             break;
@@ -530,7 +525,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd(".trees");
+            cd(concat(game_dir, "grove/forest_entrance/.trees/"));
             read_doc("tree.txt");
 
             // Terminal
@@ -554,8 +549,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("forest");
-
+            cd(concat(game_dir, "grove/forest_entrance/forest/"));
             read_doc("forest.txt");
 
             // Terminal
@@ -579,7 +573,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("emerald_city");
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/"));
             read_doc("emerald_city.txt");
 
             // Terminal
@@ -603,7 +597,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("prairie");
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/"));
             read_doc("prairie.txt");
 
             // Terminal
@@ -627,7 +621,7 @@ int main()
             println("Press ENTER key to continue...");
             wait_until_enter();
 
-            cd("castle");
+            cd(concat(game_dir, "grove/forest_entrance/forest/emerald_city/prairie/castle/"));
             read_doc("castle.txt");
 
             // Terminal
