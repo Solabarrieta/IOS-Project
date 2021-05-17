@@ -35,19 +35,6 @@
 
 #include "headers/game.h"
 
-int exec_term(char *root_dir)
-{
-    char *args[200];
-    int argc;
-
-    args[0] = concat(root_dir, "/gsh");
-    args[1] = getcwd((char *)NULL, 0);
-    args[2] = root_dir;
-    argc = 3;
-
-    return execute(argc, args);
-}
-
 void print_fails(int fails, char *root_dir)
 {
     switch (fails)
@@ -282,7 +269,13 @@ int main()
             cd("grove/");
             read_doc("grove.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -340,7 +333,13 @@ int main()
 
             times_access++;
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -371,7 +370,13 @@ int main()
 
             read_doc("haunted_house_bedroom.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -393,7 +398,13 @@ int main()
 
             read_doc("haunted_house_kitchen.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -415,7 +426,13 @@ int main()
 
             read_doc("haunted_house_livingroom.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -437,7 +454,13 @@ int main()
 
             read_doc("haunted_house_bathroom.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -459,7 +482,13 @@ int main()
 
             read_doc("haunted_house_basement.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -480,12 +509,18 @@ int main()
             cd("forest_entrance");
             read_doc("forest_entrance.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
             }
-
+            
             state = TREES_P;
             save();
             break;
@@ -498,7 +533,13 @@ int main()
             cd(".trees");
             read_doc("tree.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -517,7 +558,13 @@ int main()
 
             read_doc("forest.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -535,7 +582,13 @@ int main()
             cd("emerald_city");
             read_doc("emerald_city.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -553,7 +606,13 @@ int main()
             cd("prairie");
             read_doc("prairie.txt");
 
-            if (exec_term(root_dir))
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+
+            if (execute(argc, args))
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -571,7 +630,12 @@ int main()
             cd("castle");
             read_doc("castle.txt");
 
-            exec_term(root_dir);
+            // Terminal
+            args[0] = concat(root_dir, "/gsh");
+            args[1] = getcwd((char *)NULL, 0);
+            args[2] = root_dir;
+            argc = 3;
+            execute(argc, args);
 
             state = GAME_OVER;
             save();
