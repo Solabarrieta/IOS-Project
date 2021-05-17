@@ -1,0 +1,33 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+
+NAME
+       ls – show the elements in the current directory.
+
+SYNOPSIS
+       ls [OPTION]...
+
+DESCRIPTION
+	List  information  about  the FILES and DIRECTORIES in the current directory.
+
+	Flags of execution:
+       -a
+              do not ignore entries starting with .
+	 -l
+		  list all the entries of the directory, and their properties: 
+			name
+			size
+			UID
+			permissions
+
+	This command works using opendir(), readdir(), write() and stat() system calls.
+
+	Since directories are no more than files that contain pairs of i-nodes and names in order to identify all the files and directories inside them, ls makes use of opendir() to open a certain directory, in a DIR struct. Then, 	readdir() reads the contents in the directory, line by line, like a char 	array and, making use of write() system call, the programs writes 	those elements in stdout. The stat() system call is used to obtain certain information about the file, in the option -l. This extra info is written in the stdout using the printf() library function.
+	
+SEE ALSO
+	In order to simplify the functioning of this command, printf() is used for formatted printing of the elements of stat file.
+
+AUTHOR
+	The Wizard of OS team members.
+

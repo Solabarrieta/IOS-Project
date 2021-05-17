@@ -1,0 +1,23 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+
+NAME
+       grep – show the occurrences of a string in lines and the number of them.
+
+SYNOPSIS
+       grep [STRING]... [FILE]...
+
+DESCRIPTION
+	Displays the entire lines where the given string occurs as well as the number of occurrences.
+
+	This command works using open(), read(), write() and close() system calls.
+
+	The grep command goes through each line of the file, analyzing all the containing characters, in order to find if there is a match between an array of characters found and the one given as argument. As the entire file has to be read, a do while loop is executed for the task, inside containing another one for storing the entire line in an array. Then a nested loop is used to find any matching between the two char arrays for then, printing the entire file that has the matching string as well as the number of occurrences. 
+	
+SEE ALSO
+	In order to simplify the functioning of this command, printf() is used for formatted printing of the number of occurrences.
+
+AUTHOR
+	The Wizard of OS team members.
+

@@ -101,7 +101,7 @@ fi
 # Compile MAN command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/man) || -n "$(git diff src/man.c)" ]]; then
     echo "Compile man."
-    gcc src/man.c build/characters.o -o bin/man -L$STRING -lstring
+    gcc src/man.c build/characters.o -o bin/man -L$STRING -lstring -lm
 fi
 
 ############### COMMAND COMPILATION PROCESS ###############

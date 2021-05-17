@@ -543,7 +543,7 @@ int main()
             if (std == '1')
             {
                 read_doc(concat(root_dir, "/config/.mob/tinman_a.txt"));
-                
+
                 // Terminal
                 args[0] = concat(root_dir, "/gsh");
                 args[1] = getcwd((char *)NULL, 0);
@@ -612,6 +612,20 @@ int main()
             {
                 println("");
                 print_fails(++fails, root_dir);
+            }
+            else
+            {
+                read_doc("tree2.txt");
+
+                if (execute(argc, args))
+                {
+                    println("");
+                    print_fails(++fails, root_dir);
+                }
+                else
+                {
+                    read_doc(concat(root_dir, "/config/.player/touch_achieved.txt"));
+                }
             }
 
             state = FOREST;

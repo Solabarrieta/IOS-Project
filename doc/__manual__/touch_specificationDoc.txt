@@ -1,0 +1,27 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+
+NAME
+       touch - create a new file
+
+SYNOPSIS
+       touch [new_file_name]
+
+DESCRIPTION
+       Create a new file by writing the new file name as argument.
+
+	Add here how this code is related to what we have learned in class
+
+
+SEE ALSO
+       open - A system call that creates a new open file description, an entry in the system table of open files. This entry records the file offset and the file status flags. A file  descriptor  is  a  reference to one of these entries; this reference is unaffected if pathname is subsequently removed or modified to refer to a different file.  The new open  file  description  is  initially  not shared with any other process, but sharing may arise via fork(2).
+
+REPORTING BUGS
+       write down here error that you have detected in your program and you can not correct. For example if you can not guarantee the answer when the argument is a number. Do not report errors that have been considered in error control.
+
+No error detected so far.
+
+AUTHOR
+	  Written by Mikel Aristu.
+

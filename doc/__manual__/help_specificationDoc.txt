@@ -1,0 +1,22 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+NAME
+       help – display brief description about all available commands.
+
+SYNOPSIS
+       help 
+
+DESCRIPTION
+	Displays all of the available commands in the shell and gives a brief description about each of them.
+
+	This command works using write() system call.
+
+	The help command basically, after checking that the argument number is correct, uses the write() system call to display all the commands and information about them. 
+	
+SEE ALSO
+	The command man has a similar, but more detailed output for each of the commands.
+
+AUTHOR
+	The Wizard of OS team members.
+

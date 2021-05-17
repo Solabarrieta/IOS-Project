@@ -1,0 +1,26 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+NAME
+       cd - to move around nearby directories
+
+SYNOPSIS
+       cd [DIRECTORY NAME]
+
+DESCRIPTION
+       This command allows the user to move around directories by typing “cd DIRECTORY,” where DIRECTORY is a place adjacent to the user’s current directory.
+The command “cd DIRECTORY” in a terminal changes the user’s working directory
+to DIRECTORY. It can also be used to go to the previous directory by typing “..” as the second argument, “cd ..” and to print the current directory by typing “.”, “cd .” .
+Add here how this code is related to what we have learned in class.
+This command must be implemented in the shell and not executed as an external command because else, the chdir system call affects only to the child process and not to the parent shell, so since we want to execute in our shell, we will need to implement it there.
+	
+SEE ALSO
+pwd() - The command implemented by the team. It will be used in order to write the current directory, as we have said above, by typing “cd .” .
+chdir(path) - A system call used to change the current working directory of the calling process to the directory specified in path.
+
+REPORTING BUGS
+       No bugs reported so far.
+
+AUTHOR
+	  Written by Mikel Aristu.
+

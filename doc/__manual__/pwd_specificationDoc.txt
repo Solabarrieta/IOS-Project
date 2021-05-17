@@ -1,0 +1,26 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+
+NAME
+       pwd – shows information about the environment of the player.
+
+SYNOPSIS
+       pwd 
+
+DESCRIPTION
+       If there is some entity around, or something the player can interact 		 with, returns information about the environment.
+
+	 Shows information about the environment of the player: directory (as a 	 place where the player is, i. e., 
+
+	 This command makes use of stdout, stderr and write() syscall. It also 	 makes use of 
+
+SEE ALSO
+       write down here other related commands or system calls
+
+REPORTING BUGS
+       write down here error that you have detected in your program and you can not correct. For example if you can not guarantee the answer when the argumen is a number. Do not report errors that have been considered in error control.
+
+AUTHOR
+	  Written by Richard M. Stallman and David MacKenzie.
+

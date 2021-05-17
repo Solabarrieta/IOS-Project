@@ -550,6 +550,25 @@ int main(int argcv, char *argv[])
                break;
 
             case TREES_P:
+               if (argc == 2)
+               {
+                  if (!strcmp(args[0], "man") || !strcmp(args[0], "touch"))
+                  {
+                     if (!strcmp(args[0], "man"))
+                     {
+                        args[2] = concat(root_dir, "/doc/__manual__/");
+                        argc++;
+                     }
+
+                     args[0] = concat(cmd_dir, args[0]);
+                     return !execute(argc, args) ? 0 : 1;
+                  }
+               }
+               else
+               {
+                  return 1;
+               }
+
                break;
 
             case FOREST:

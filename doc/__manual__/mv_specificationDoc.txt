@@ -1,0 +1,27 @@
+﻿man(IOS)                    Specification Document                      man(SEO)
+
+
+NAME
+       mv - move a selected file to a selected location.
+
+SYNOPSIS
+       mv [file_name] [new_location]
+
+DESCRIPTION
+       Move an existing file to a new location by typing the file and the location as arguments.
+
+	Add here how this code is related to what we have learned in class.
+We have learned the pointers to different files and how they are located in the current working directories.
+
+SEE ALSO
+       opendir(dir_name) - This function opens a directory stream corresponding to the directory name, and returns a pointer to the directory stream. The stream is positioned at the first entry in the directory.
+       closedir(dirp) - This function  closes  the directory stream associated with dirp.  A successful call to closedir()  also closes the underlying file descriptor associated with dirp.  The directory stream descriptor dirp is  not available after this call.
+
+REPORTING BUGS
+       No bugs reported so far.
+
+AUTHOR
+	  Written by Mikel Aristu.
+
+
+
