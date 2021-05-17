@@ -147,7 +147,7 @@ int main()
     srand(time(NULL));
 
     // How many time has Dorothy accessed one place?
-    int times_access, argc;
+    int times_access, descriptor, argc;
 
     // For choosing.
     char std, election[20], player_name[31], *args[200];
@@ -497,15 +497,96 @@ int main()
             cd(concat(game_dir, "grove/forest_entrance/"));
             read_doc("forest_entrance.txt");
 
-            // Terminal
-            args[0] = concat(root_dir, "/gsh");
-            args[1] = getcwd((char *)NULL, 0);
-            args[2] = root_dir;
-            argc = 3;
+            speak_character(JASMINE, "Oh my godness, what a marvelous oportunity to talk! I love it! Let this council begin!!!");
+            usleep(loading_line);
+            println("This time, you will have to choose an option to try to convince our belloved TINMAN to come with us.");
+            usleep(loading_line);
+            println("In any case, if you fail, my sister will come. What a shame...");
+            usleep(loading_line);
 
-            if (execute(argc, args))
+            // Batalla campal!
+            println("1st Option:");
+            descriptor = open(concat(root_dir, "/config/.mob/tinman_a.txt"), O_RDONLY);
+
+            while (read(descriptor, &std, 1) == 1 && std != '\n')
             {
-                println("");
+                write(1, &std, 1);
+            }
+
+            close(descriptor);
+
+            wait_until_enter();
+
+            println("2nd Option:");
+            descriptor = open(concat(root_dir, "/config/.mob/tinman_b.txt"), O_RDONLY);
+
+            while (read(descriptor, &std, 1) == 1 && std != '\n')
+            {
+                write(1, &std, 1);
+            }
+
+            close(descriptor);
+
+            println("3rd Option:");
+            descriptor = open(concat(root_dir, "/config/.mob/tinman_c.txt"), O_RDONLY);
+
+            while (read(descriptor, &std, 1) == 1 && std != '\n')
+            {
+                write(1, &std, 1);
+            }
+
+            close(descriptor);
+
+            speak_character(JASMINE, "Well, which option do you choose? 1, 2 or 3?");
+            scanf("%c", &std);
+
+            if (std == '1')
+            {
+                read_doc(concat(root_dir, "/config/.mob/tinman_a.txt"));
+                
+                // Terminal
+                args[0] = concat(root_dir, "/gsh");
+                args[1] = getcwd((char *)NULL, 0);
+                args[2] = root_dir;
+                argc = 3;
+
+                if (execute(argc, args))
+                {
+                    println("");
+                    print_fails(++fails, root_dir);
+                }
+                else
+                {
+                    read_doc(concat(root_dir, "/config/.mob/tinman_moves.txt"));
+                }
+            }
+            else if (std == '2')
+            {
+                read_doc(concat(root_dir, "/config/.mob/tinman_b.txt"));
+                print_fails(++fails, root_dir);
+            }
+            else if (std == '3')
+            {
+                read_doc(concat(root_dir, "/config/.mob/tinman_c.txt"));
+
+                // Terminal
+                args[0] = concat(root_dir, "/gsh");
+                args[1] = getcwd((char *)NULL, 0);
+                args[2] = root_dir;
+                argc = 3;
+
+                if (execute(argc, args) != -1)
+                {
+                    println("");
+                    print_fails(++fails, root_dir);
+                }
+                else
+                {
+                    read_doc(concat(root_dir, "/config/.mob/tinman_happy.txt"));
+                }
+            }
+            else
+            {
                 print_fails(++fails, root_dir);
             }
 

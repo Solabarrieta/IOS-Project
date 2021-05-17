@@ -1,8 +1,11 @@
-Scarecrow: What the hell is that!
-Tinman: I am TinMan, I was created by some people that used me as an experiment. actually, in their words, i'm a piece of tin that has no use and no importance.
-Scarecrow: oh that must have hurt.
-Tinman: not really, nothing can hurt me, i'm made of tin and i have no heart, so some people say i'm indestructible.
-Dog: <<Tries to bit he Tinman>>.
+scarecrow: What the hell is that!
+Tinman: I am tinman, I was created by some people that used me as an experiment. Actually, in their words, I'm a piece of tin that has no use and no importance.
+scarecrow: oh that must have hurt. 
+Tinman: Not really, nothing can hurt me, i'm made of tin and i have no heart, so some people say i'm indestructible. 
+dog: <tries to bit he Tinman>.
 Tinman: Hey buddy, you can hurt me but that’s not gentle.
-Player: We are trying to get to the Admin to ask our desires, you could come with us to get your heart.
-Tinman: Is it that even possible?... I have calculated the percentage of possibilities of achieving that aim and its less than 0.0001%. The Most Evil Bad Witch will find us before getting that. I think that having a heart will just make me weaker and easier to beat. I told you I'm almost indestructible like this.
+Name.c: We are trying to get to the Admin to ask our desires, you could come with us to get your heart.
+Tinman: Is that even possible?... I have calculated the probability of achieving that aim and its less than 0.0001%. badwitch will find us before getting that. I think that having a heart will just make me weaker and easier to beat. I told you I'm almost indestructible like this.
+goodwitch: << Your mission now is to convince TINMAN to stay with you, honey >>.
+goodwitch: << Do your best convincing him, he's a hard rival >>.
+goodwitch: << da'da >>.

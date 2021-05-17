@@ -527,6 +527,26 @@ int main(int argcv, char *argv[])
                break;
 
             case FOREST_ENTRANCE:
+               if (argc == 1)
+               {
+                  if (!strcmp(args[0], "oil"))
+                  {
+                     return 0;
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "quit"))
+                  {
+                     return 1;
+                  }
+               }
+               else if (argc == 2 && !strcmp(args[0], "grep"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  return execute(argc, args) ? -1 : 0;
+               }
+               else
+               {
+                  return 1;
+               }
                break;
 
             case TREES_P:
