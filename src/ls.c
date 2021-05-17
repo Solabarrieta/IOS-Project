@@ -82,6 +82,10 @@ void _ls(const char *dir, int op_a, int op_l)
 				// If we are in Emerald City, print in Green color and bold (Emerald City)
 				println(bold(concat(ANSI_COLOR_GREEN, d->d_name)));
 			}
+			else if (strstr(getcwd((char *)NULL, 0), "basement") != NULL && !strcmp(d->d_name, "message.txt"))
+			{
+				println(bold(concat(ANSI_COLOR_GREEN, d->d_name)));
+			}
 			else
 			{
 				// For the main path, simply print it on screen.
@@ -94,7 +98,7 @@ void _ls(const char *dir, int op_a, int op_l)
 		{
 			// Stat syscall, in order to get additional info about a file.
 			stat(d->d_name, &sfile);
-			
+
 			// Accessing st_mode --> Permissions.
 			println("User file permissions: ");
 			println((sfile.st_mode & S_IRUSR) ? "You can see whats appening there!" : "Get out of there!!!");

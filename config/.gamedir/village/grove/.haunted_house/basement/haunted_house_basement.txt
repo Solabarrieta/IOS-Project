@@ -1,8 +1,9 @@
-Dog: wof, wof.
-Player: this place it’d really dark, I can’t see anything.
-Scarecrow: Here’s the interruptor for the light.
-Player: So what are you waiting for to switch on the lights.
-Player: Now it’s better.
-Scarecrow: Look there’s something there.
-Player: True, we can use ls to look at what it is.
-
+dog: wof, wof.
+Name.c: this place it’d really dark, I can’t see anything.
+scarecrow: Here’s the interruptor for the light.
+Name.c: So what are you waiting for to switch on the lights.
+Name.c: Now it’s better.
+scarecrow: Look there’s something there.
+Name.c: True, we can use ls to look at what it is.
+goodwitch: <<Look there! Use cat to read something, dear player. Chao!>>
+goodwitch: <<PD: I can be anywhere in OS, like God in your World :)>>

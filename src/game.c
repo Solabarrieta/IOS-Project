@@ -321,7 +321,6 @@ int main()
             println(HAUNTED_HOUSE_TIT);
             println("Press ENTER key to continue...");
             wait_until_enter();
-            clear_screen();
 
             cd(concat(game_dir, "grove/.haunted_house/"));
 
@@ -339,24 +338,18 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
-            {
-                println("");
-                print_fails(++fails, root_dir);
-            }
+            state = execute(argc, args);
 
             // Exit the mansion...
-            if (state <= 1)
+            if (state == FOREST_ENTRANCE)
             {
                 read_doc("haunted_house_end.txt");
-
                 times_access = 0;
-                state = FOREST_ENTRANCE;
                 save();
             }
             else
             {
-                clear_screen();
+                print_fails(++fails, root_dir);
             }
 
             break;
@@ -375,7 +368,7 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
+            if (execute(argc, args) == 1)
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -402,7 +395,7 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
+            if (execute(argc, args) == 1)
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -429,7 +422,7 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
+            if (execute(argc, args) == 1)
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -456,7 +449,7 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
+            if (execute(argc, args) == 1)
             {
                 println("");
                 print_fails(++fails, root_dir);
@@ -483,7 +476,7 @@ int main()
             args[2] = root_dir;
             argc = 3;
 
-            if (execute(argc, args))
+            if (execute(argc, args) == 1)
             {
                 println("");
                 print_fails(++fails, root_dir);

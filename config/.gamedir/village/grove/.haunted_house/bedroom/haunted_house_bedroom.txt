@@ -1,3 +1,7 @@
-Scarecrow: this seems like a quite big bed let's take a nap!
-Dog: wof wof woof wof wof wof!
-Scarecrow: No don’t fall in temptations, we must continue with our journey. 
+scarecrow: this seems like a quite big bed, let's take a nap!
+dog: wof wof woof wof wof wof!
+scarecrow: No don’t fall into temptations, we must continue with our journey. Wait! What is this?
+Name.c: It seems like something suspicious, let's get a look.
+scarecrow: We don’t want badwitch to appear, so be careful please.
+Name.c: this message is encrypted so we must use something to see this text. uhm…
+Name.c: What is this?

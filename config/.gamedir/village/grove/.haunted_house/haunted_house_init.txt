@@ -1,3 +1,4 @@
-Scarecrow: This place doesn’t seem really friendly, it’s quite scary.
-Dog: wof wof wof wof wofff wof wof wof wooooof wof wof!
-Scarecrow: Yes let’s take a look, we can use commands known before to get it. [use ls and cd to enter in rooms]
+scarecrow: This place doesn’t seem really friendly, it’s quite scary.
+dog: wof wof wof wof wofff wof wof wof wooooof wof wof!
+scarecrow: Yes let’s take a look, we can use commands known before to get it.
+USE ls AND cd TO ENTER IN THE ROOMS.

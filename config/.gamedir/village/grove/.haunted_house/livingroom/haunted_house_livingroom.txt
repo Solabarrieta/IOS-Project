@@ -1,2 +1,2 @@
-Scarecrow: Look at a Dog leash we can use to tie it! In that way, we don’t need the move command anymore! The owner of the house before must’ve been a lover of animals.
-Dog: woof! [use link to tie the Dog]
+Scarecrow: Look at a Dog leash we could use, if dog wasn't so small! The owner of the house before must’ve been an animal lover.
+Dog: woof!

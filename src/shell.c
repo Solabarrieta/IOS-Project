@@ -171,6 +171,8 @@ int main(int argcv, char *argv[])
 
       write(0, prompt_name, strlen(prompt_name));
 
+      argc = 0;
+
       if (read_args(&argc, args, MAXARGS, &eof) && argc > 0)
       {
          if (!strcmp(args[0], "clear"))
@@ -182,17 +184,53 @@ int main(int argcv, char *argv[])
             switch (state)
             {
             case VILLAGE:
-               if (!strcmp(args[0], "pwd") || !strcmp(args[0], "help") || !strcmp(args[0], "man"))
+               if (argc < 3 && !strcmp(args[0], "ls"))
                {
-                  if (argc == 1)
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 1 && !strcmp(args[0], "cd"))
+               {
+                  cd(".");
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "pwd") || !strcmp(args[0], "help") || !strcmp(args[0], "man"))
                   {
-                     args[0] = concat(cmd_dir, args[0]);
-                     execute(argc, args);
+                     if (argc == 1)
+                     {
+                        args[0] = concat(cmd_dir, args[0]);
+                        execute(argc, args);
+                     }
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+                  else
+                  {
+                     return 1;
                   }
                }
-               else if (!strcmp(args[0], "quit") && argc == 1)
+               else if (argc == 2)
                {
-                  return 0;
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+
+                     if (!strcmp(args[1], "grove") || !strcmp(args[1], "grove/") || !strcmp(args[1], concat(game_dir, "grove/")))
+                     {
+                        cd(args[1]);
+                     }
+                     else
+                     {
+                        return 1;
+                     }
+                  }
                }
                else
                {
@@ -202,12 +240,33 @@ int main(int argcv, char *argv[])
                break;
 
             case GROVE:
+               if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+               {
+                  return 0;
+               }
+
+               if (!strcmp(args[0], "pwd"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc > 1)
+               {
+                  printerr(THE_SYSTEM, "Your only available command is PWD. Remember it, player.");
+                  return 1;
+               }
+
                break;
 
             case HAUNTED_HOUSE:
-               if (!strcmp(args[0], "cd"))
+               if (!strcmp(args[0], "ls"))
                {
-                  if (argc == 2)
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(args[0], "cd"))
                   {
                      if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
                      {
@@ -215,44 +274,256 @@ int main(int argcv, char *argv[])
                         return 1;
                      }
 
-                     if (!strcmp(args[1], "bedroom") || !strcmp(args[1], "bedroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bedroom/")))
+                     if (!strcmp(args[1], "basement") || !strcmp(args[1], "basement/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/basement/")))
                      {
-                        return 213;
-                     }
-                     else if (!strcmp(args[1], "basement") || !strcmp(args[1], "basement/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/basement/")))
-                     {
-                        return 211;
+                        return BASEMENT;
                      }
                      else if (!strcmp(args[1], "bathroom") || !strcmp(args[1], "bathroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bathroom/")))
                      {
-                        return 212;
+                        return BATHROOM;
+                     }
+                     else if (!strcmp(args[1], "bedroom") || !strcmp(args[1], "bedroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/bedroom/")))
+                     {
+                        return BEDROOM;
                      }
                      else if (!strcmp(args[1], "kitchen") || !strcmp(args[1], "kitchen/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/kitchen/")))
                      {
-                        return 214;
+                        return KITCHEN;
                      }
                      else if (!strcmp(args[1], "livingroom") || !strcmp(args[1], "livingroom/") || !strcmp(args[1], concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/livingroom/")))
                      {
-                        return 215;
+                        return LIVINGROOM;
                      }
                   }
-                  else if (argc != 1)
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
                   {
-                     return 1;
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
                   }
                }
+               else
+               {
+                  return 1;
+               }
+
                break;
 
             case BASEMENT:
+               game_dir = concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/");
+
+               if (!strcmp(args[0], "ls"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(argv[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else if (!strcmp(args[1], ".."))
+                     {
+                        return HAUNTED_HOUSE;
+                     }
+                  }
+                  else if (!strcmp(args[1], "cat"))
+                  {
+                     args[0] = concat(cmd_dir, args[0]);
+                     if (!execute(argc, args))
+                     {
+                        return FOREST_ENTRANCE;
+                     }
+                  }
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+               }
+               else
+               {
+                  return 1;
+               }
+
+               break;
+
+            case BATHROOM:
+               game_dir = concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/");
+
+               if (!strcmp(args[0], "ls"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(argv[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else if (!strcmp(args[1], ".."))
+                     {
+                        return HAUNTED_HOUSE;
+                     }
+                  }
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+               }
+               else
+               {
+                  return 1;
+               }
                break;
 
             case BEDROOM:
+               game_dir = concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/");
+
+               if (!strcmp(args[0], "ls"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else if (!strcmp(args[1], ".."))
+                     {
+                        return HAUNTED_HOUSE;
+                     }
+                  }
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+               }
+               else
+               {
+                  //TODO:IMPLEMENT getpass
+                  return 1;
+               }
+
                break;
 
             case KITCHEN:
+               game_dir = concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/");
+
+               if (!strcmp(args[0], "ls"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(argv[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else if (!strcmp(args[1], ".."))
+                     {
+                        return HAUNTED_HOUSE;
+                     }
+                  }
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+               }
+               else
+               {
+                  return 1;
+               }
+
                break;
 
             case LIVINGROOM:
+               game_dir = concat(root_dir, "/config/.gamedir/village/grove/.haunted_house/");
+
+               if (!strcmp(args[0], "ls"))
+               {
+                  args[0] = concat(cmd_dir, args[0]);
+                  execute(argc, args);
+               }
+               else if (argc == 2)
+               {
+                  if (!strcmp(argv[0], "cd"))
+                  {
+                     if (!strcmp(current_dir, game_dir) && !strncmp(args[1], "..", 2))
+                     {
+                        printerr(THE_SYSTEM, "<<The night is dark and full of terrors>>, or that's what The Admin once said.");
+                        return 1;
+                     }
+                     else if (!strcmp(args[1], ".."))
+                     {
+                        return HAUNTED_HOUSE;
+                     }
+                  }
+               }
+               else if (argc == 1)
+               {
+                  if (!strcmp(args[0], "cd"))
+                  {
+                     cd(".");
+                  }
+                  else if (!strcmp(args[0], "quit") || !strcmp(args[0], "exit"))
+                  {
+                     return 0;
+                  }
+               }
+               else
+               {
+                  return 1;
+               }
                break;
 
             case FOREST_ENTRANCE:

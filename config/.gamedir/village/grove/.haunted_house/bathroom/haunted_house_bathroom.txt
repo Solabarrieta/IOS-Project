@@ -1,11 +1,10 @@
 Casper: BOO!
-Scarecrow: AAAAAAAAAHHHHHHHHH! It's a ghost!
-Casper: AAAAAAAAHHHHHH! It's a Scarecrow!
-Scarecrow: ok that was scary, and it's supposed that i’m the one who has to scare.
+scarecrow: AAAAAAAAAHHHHHHHHH! It's a ghost!
+Casper: AAAAAAAAHHHHHH! It's a scarecrow!
+scarecrow: ok that was scary, and it's supposed that i’m the one who has to scare.
 Casper: Yes, but you are supposed to scare crows no ghosts duh.
-Player: Who are you? What are you doing here?
-Casper: I’m the real and original owner of this beautiful house.
-Scarecrow:quite destroyed right now.
-Casper: True, Oh what a cute puppy, I love Dogs, maybe you can find something really useful in the living room. 
-Scarecrow: Thank you!
-
+Name.c: Who are you? What are you doing here?
+Caster: I’m the real and original owner of this beautiful house.
+scarecrow:quite destroyed right now.
+Casper: True, Oh what a cute puppy, I love dogs, maybe you can find something really useful in the living room. 
+scarecrow: Thank you!
