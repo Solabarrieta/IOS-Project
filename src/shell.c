@@ -648,14 +648,20 @@ int main(int argcv, char *argv[])
                      {
                         if (!strcmp(args[0], "man"))
                         {
-                           args[2] = concat(root_dir, "/doc/__manual__/");
-                           argc++;
+                           cd(root_dir);
+                           args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
+                           strcpy(args[0], cmd_dir);
+                           strcat(args[0], path[index]);
+                           execute(argc, args);
+                           cd(game_dir);
                         }
-
-                        args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
-                        strcpy(args[0], cmd_dir);
-                        strcat(args[0], path[index]);
-                        execute(argc, args);
+                        else
+                        {
+                           args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
+                           strcpy(args[0], cmd_dir);
+                           strcat(args[0], path[index]);
+                           execute(argc, args);
+                        }
                         break;
                      }
                   }

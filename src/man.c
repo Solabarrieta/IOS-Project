@@ -16,13 +16,11 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include <sys/stat.h>
 #include <unistd.h>
-#include <math.h>
 
 int main(int argc, char *argv[])
 {
-    if (argc != 3)
+    if (argc != 2)
     {
         printerr(THE_SYSTEM, "Don't you dare disturb me while I'm reading, ape!");
         println("It costs me a lot...");
@@ -30,7 +28,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    DIR *directory = opendir(argv[2]);
+    int fd;
+    char buffer;
+    char *root = "doc/__manual__/";
+    struct dirent *d;
+    DIR *directory = opendir(root);
 
     if (directory == NULL)
     {
@@ -38,29 +40,18 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    int fd, perc = 0;
-    char *buffer, interior[17];
-    struct dirent *d;
-    struct stat file;
-
     do
     {
         d = readdir(directory);
 
         if (!strcmp(concat(argv[1], "_specificationDoc.txt"), d->d_name))
         {
-            stat(d->d_name, &file);
+            chdir(root);
             fd = open(d->d_name, O_RDONLY);
 
-            read(fd, &buffer, file.st_size);
-
-            for (int i = 0; i < (int)ceil((float)file.st_size / 100); i++)
+            while (read(fd, &buffer, 1) == 1)
             {
-                perc += (int)ceil((float)write(1, &buffer, file.st_size) * 100 / file.st_size);
-                println("");
-                sprintf(interior, "   Read: %d%%", perc);
-                println(interior);
-                wait_until_enter();
+                write(1, &buffer, 1);
             }
 
             close(fd);
@@ -68,6 +59,8 @@ int main(int argc, char *argv[])
         }
 
     } while (d != NULL);
+
+    closedir(directory);
 
     return 0;
 }
