@@ -538,7 +538,7 @@ int main(int argcv, char *argv[])
                      return 1;
                   }
                }
-               else if (argc == 2 && !strcmp(args[0], "grep"))
+               else if (!strcmp(args[0], "grep"))
                {
                   args[0] = concat(cmd_dir, args[0]);
                   return execute(argc, args) ? -1 : 0;
@@ -646,6 +646,12 @@ int main(int argcv, char *argv[])
                   {
                      if (!strcmp(args[0], path[index]))
                      {
+                        if (!strcmp(args[0], "man"))
+                        {
+                           args[2] = concat(root_dir, "/doc/__manual__/");
+                           argc++;
+                        }
+
                         args[0] = (char *)malloc(strlen(cmd_dir) + strlen(path[index]));
                         strcpy(args[0], cmd_dir);
                         strcat(args[0], path[index]);

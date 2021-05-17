@@ -47,7 +47,7 @@ echo "**COMPILATION**"
 # Compile CAT command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/cat) || -n "$(git diff src/cat.c)" ]]; then
     echo "Compile cat."
-    gcc src/cat.c build/characters.o -o bin/cat -L$STRING -lstring
+    gcc src/cat.c -o bin/cat -L$STRING -lstring
 fi
 
 # Compile CP command.
@@ -65,43 +65,43 @@ fi
 # Compile HELP command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/help) || -n "$(git diff src/help.c)" ]]; then
     echo "Compile help."
-    gcc src/help.c build/characters.o -o bin/help -L$STRING -lstring
+    gcc src/help.c -o bin/help -L$STRING -lstring
 fi
 
 # Compile LS command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/ls) || -n "$(git diff src/ls.c)" ]]; then
     echo "Compile ls."
-    gcc src/ls.c build/characters.o -o bin/ls -L$STRING -lstring
+    gcc src/ls.c -o bin/ls -L$STRING -lstring
 fi
 
 # Compile MV command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/mv) || -n "$(git diff src/mv.c)" ]]; then
     echo "Compile mv."
-    gcc src/mv.c build/characters.o -o bin/mv -L$STRING -lstring
+    gcc src/mv.c -o bin/mv -L$STRING -lstring
 fi
 
 # Compile PWD command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/pwd) || -n "$(git diff src/pwd.c)" ]]; then
     echo "Compile pwd."
-    gcc src/pwd.c build/characters.o -o bin/pwd -L$STRING -lstring
+    gcc src/pwd.c -o bin/pwd -L$STRING -lstring
 fi
 
 # Compile STEE command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/stee) || -n "$(git diff src/stee.c)" ]]; then
     echo "Compile stee."
-    gcc src/stee.c build/characters.o -o bin/stee -L$STRING -lstring
+    gcc src/stee.c -o bin/stee -L$STRING -lstring
 fi
 
 # Compile TOUCH command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/touch) || -n "$(git diff src/touch.c)" ]]; then
     echo "Compile touch."
-    gcc src/touch.c build/characters.o -o bin/touch -L$STRING -lstring
+    gcc src/touch.c -o bin/touch -L$STRING -lstring
 fi
 
 # Compile MAN command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/man) || -n "$(git diff src/man.c)" ]]; then
     echo "Compile man."
-    gcc src/man.c build/characters.o -o bin/man -L$STRING -lstring -lm
+    gcc src/man.c src/recognizer.c -o bin/man -L$STRING -lstring -lm
 fi
 
 ############### COMMAND COMPILATION PROCESS ###############
