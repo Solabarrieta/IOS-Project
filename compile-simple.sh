@@ -33,13 +33,13 @@ fi
 # Compile libstring
 if [[ $ALL == "true" || $last_vers != $vers || -n "$(git diff src/headers/libstring/libstring.c)" || -n "$(git diff src/headers/libstring/libstring.h)" ]]; then
     echo "Compile libstring."
-    gcc -c -fPIC src/headers/libstring/libstring.c -o build/libstring.o
-    gcc -shared build/libstring.so build/libstring.o
+    gcc -c -fpic src/headers/libstring/libstring.c -o build/libstring.o
+    gcc -shared -o build/libstring.so build/libstring.o
 fi
 
 # Add the library to the path
-export LD_LIBRARY_PATH="build/libstring.so":$LD_LIBRARY_PATH
-STRING="build/"
+export LD_LIBRARY_PATH="$(pwd)/build":$LD_LIBRARY_PATH
+STRING="$(pwd)/build"
 
 ############### COMMAND COMPILATION PROCESS ###############
 echo "**COMPILATION**"
@@ -101,7 +101,7 @@ fi
 # Compile MAN command.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s bin/man) || -n "$(git diff src/man.c)" ]]; then
     echo "Compile man."
-    gcc src/man.c src/recognizer.c -L$STRING -lstring -lm -o bin/man
+    gcc src/man.c src/recognizer.c -L$STRING -lstring -lm -std=c99 -o bin/man
 fi
 
 ############### COMMAND COMPILATION PROCESS ###############
@@ -109,7 +109,7 @@ fi
 # COMPILE SHELL.
 if [[ $ALL == "true" || $last_vers != $vers || !(-s gsh) || -n "$(git diff src/shell.c)" ]]; then
     echo "COMPILING SHELL"
-    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/executor.c -o gsh -L$STRING -lstring
+    gcc src/shell.c src/cd.c src/exit.c src/signal_handler.c src/clear.c src/executor.c -o gsh -L$STRING -lstring -std=c99
 fi
 
 if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/game.c)" ]]; then
@@ -117,9 +117,9 @@ if [[ $ALL == "true" || $last_vers != $vers || !(-s game) || -n "$(git diff src/
     
     if [[ "$1" == "debug" ]]; then
         echo "DEBUG mode"
-        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm --debug
+        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm -std=c99 -D _BSD_SOURCE --debug
     else
-        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm
+        gcc src/game.c src/exit.c src/signal_handler.c src/clear.c src/recognizer.c src/executor.c src/cd.c -o TWOS_Game -L$STRING -lstring -lm -std=c99 -D _BSD_SOURCE
     fi
 fi
 
