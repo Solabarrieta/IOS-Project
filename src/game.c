@@ -267,6 +267,13 @@ int main()
             wait_until_enter();
 
             cd(concat(game_dir, "grove/"));
+            
+           //scarecrow's text!
+            println("Scarecrow: Hi! Who are you?");
+            println("<< Some squashy player sounds >>.");
+            print("Scarecrow: Hello, ");
+            print(player_name);
+            print(", I'm scarecrow. ");
             read_doc("grove.txt");
 
             // Terminal
