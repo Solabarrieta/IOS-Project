@@ -1,6 +1,4 @@
-scarecrow: Hi! Who are you? 
-<< Some squashy player sounds >>.
-scarecrow: Hello name.c, I’m scarecrow. I suppose that you are trying to get to the ADMIN as you are in the YELLOW path. My dream is to get a brain, I know that ADMIN could get me one, so I will help you. But first we will have to know where we are. I don’t have any idea, because of my little problem called “no brain”, could you help me? The goodwitch one day told me something about pwd I'm not sure what it is about.
+I suppose that you are trying to get to the ADMIN as you are in the YELLOW path. My dream is to get a brain, I know that ADMIN could get me one, so I will help you. But first we will have to know where we are. I don’t have any idea, because of my little problem called “no brain”, could you help me? The goodwitch one day told me something about pwd I'm not sure what it is about.
 scarecrow: Where are we now? 
 scarecrow: If we are in the grove now, the next place to go could be the haunted house or the Forest entrance.
 YOU CAN CHECK IT USING PWD.
